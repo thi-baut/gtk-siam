@@ -20,14 +20,33 @@ struct _MainWindow
 	GtkWidget *pMenu;
 	GtkWidget *pMenuItem;
 	GtkWidget *pTable;
-	GtkWidget *pBoardButton[25];
 	GtkWidget *pLabel;
 	GtkWidget *pStatusBar;
 	GtkWidget *pVBox;
 	GtkWidget *pToolbar;
 };
-
 typedef struct _MainWindow MainWindow;
+
+
+struct _InGame
+{
+	GtkWidget *pHBoxMain;
+	GtkWidget *pPixBackground; //le fond principal du plateau
+};
+typedef struct _InGame InGame;
+
+
+struct _GameButton
+{
+	GtkWidget *pLabel;
+	GtkWidget *pPixButton;
+	gint posx;
+	gint posy;
+	gint onBoard; // 1 = on the board, 0 = off the board
+	gint resistance;
+	gchar direction; //up down right left	
+};
+typedef struct _GameButton GameButton;
 
 
 /* PROTOTYPES */
