@@ -7,7 +7,6 @@
  *
  */
 
-#include "init.h"
 #include "library.h"
 
 void CreateGameWindow(MainWindow *pGame){
@@ -18,7 +17,7 @@ void CreateGameWindow(MainWindow *pGame){
 	gtk_window_set_title(GTK_WINDOW(pGame->pWindow), "GTK Siam - Plateau");
 	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindow), 800, 600);
 	//gtk_window_set_resizable(GTK_WINDOW(pGame->pWindow), FALSE);
-	g_signal_connect(pGame->pWindow, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+	g_signal_connect(pGame->pWindow, "destroy", G_CALLBACK (OnQuitBtn), NULL);
 	
 	// Labels
 	pGame->pLabel = gtk_label_new("Nom du joueur"); // à coder, doit prendre une chaîne qui a été récupérée auparavant dans la fenêtre NewGame
@@ -31,7 +30,7 @@ void CreateGameWindow(MainWindow *pGame){
 	gtk_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_NEW, "Nouveau", NULL, G_CALLBACK(OnNewGame), NULL, -1);
 	gtk_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_OPEN,"Ouvrir", NULL, G_CALLBACK(OnButtonOpenGame), NULL,-1);
 	gtk_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregistrer", NULL, G_CALLBACK(OnButtonSaveGame), NULL, -1);
-	gtk_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_QUIT, "Quitter", NULL, G_CALLBACK(gtk_main_quit), NULL, -1);
+	gtk_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_QUIT, "Quitter", NULL, G_CALLBACK(OnQuitBtn), NULL, -1);
 	
 	/* Insertion d'un espace */
 	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
@@ -56,13 +55,15 @@ void CreateGameWindow(MainWindow *pGame){
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
 	
     pGame->pMenuItem = gtk_menu_item_new_with_label("Charger une partie");
+	g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonOpenGame), (MainWindow*) pGame);
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
 	
     pGame->pMenuItem = gtk_menu_item_new_with_label("Enregistrer la partie");
+	g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonSaveGame), (MainWindow*) pGame);
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
 	
     pGame->pMenuItem = gtk_menu_item_new_with_label("Quitter");
-    g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(gtk_main_quit), (MainWindow*) pGame);
+    g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnQuitBtn), (GtkWidget *) pGame->pWindow);
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
     /* ETAPE 4 */
     pGame->pMenuItem = gtk_menu_item_new_with_label("Partie");

@@ -36,3 +36,4 @@ void OnAbout(GtkWidget *pMenuItem, MainWindow *pGame);
 gboolean OnNewGame(GtkWidget *pMenUItem, MainWindow *pGame);
 void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame);
+void OnQuitBtn(GtkWidget* widget, gpointer data);
