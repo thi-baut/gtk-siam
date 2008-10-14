@@ -9,6 +9,148 @@
 
 #include "library.h"
 
+gboolean OnNewGame(GtkWidget *pMenUItem, MainWindow *pGame) {
+
+	GtkWidget *pWindow;
+	GtkWidget *pLabel[4];
+	GtkWidget *pButton[2];
+	GtkWidget *pRadioButton[7];
+	GtkWidget *pEntry;
+	GtkWidget *pVBox;
+	GtkWidget *pHBox[5];
+	
+	pWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	//gtk_window_set_position(GTK_WINDOW(pWindow), GTK_WIN_POS_CENTER);
+	gtk_window_set_title(GTK_WINDOW(pWindow), "GTKSiam - Nouvelle partie");
+	gtk_window_set_default_size(GTK_WINDOW(pWindow), 400, 200);
+	g_signal_connect(pWindow, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+	
+	// Labels
+	pLabel[0] = gtk_label_new("Niveau :");
+	pLabel[1] = gtk_label_new("Temps limité :");
+	pLabel[2] = gtk_label_new("Partie :");
+	pLabel[3] = gtk_label_new("Nom du joueur :");
+	
+	// Zone de saisie
+	pEntry = gtk_entry_new_with_max_length(30);
+	
+	// Boutons
+	pRadioButton[0] = gtk_radio_button_new_with_label(NULL, "Facile");
+	pRadioButton[1] = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(pRadioButton[0]), "Moyen");
+	pRadioButton[2] = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(pRadioButton[0]), "Difficile");
+	pRadioButton[4] = gtk_radio_button_new_with_label(NULL, "désactivé");
+	pRadioButton[3] = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(pRadioButton[4]), "activé");
+	pRadioButton[5] = gtk_radio_button_new_with_label(NULL, "Deux joueurs");
+	pRadioButton[6] = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(pRadioButton[5]), "Contre l'ordinateur");
+	pButton[0] = gtk_button_new_with_label("Nouvelle partie");
+	pButton[1] = gtk_button_new_with_label("Annuler");
+	
+	// VBox
+	pVBox = gtk_vbox_new(TRUE, 10);
+	
+	// HBox
+	pHBox[0] = gtk_hbox_new(FALSE, 10);
+	pHBox[1] = gtk_hbox_new(FALSE, 10);
+	pHBox[2] = gtk_hbox_new(FALSE, 10);
+	pHBox[3] = gtk_hbox_new(FALSE, 10);
+	pHBox[4] = gtk_hbox_new(FALSE, 10);
+	
+	
+	/* Ajouter les éléments à la fenêtre */
+	
+	// HBoxs
+	gtk_box_pack_start(GTK_BOX(pHBox[0]), pLabel[0], FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pHBox[0]), pRadioButton[0], TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(pHBox[0]), pRadioButton[1], TRUE, TRUE, 10);
+	gtk_box_pack_end(GTK_BOX(pHBox[0]), pRadioButton[2], TRUE, TRUE, 10);
+	
+	gtk_box_pack_start(GTK_BOX(pHBox[1]), pLabel[1], FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pHBox[1]), pRadioButton[3], TRUE, TRUE, 10);
+	gtk_box_pack_end(GTK_BOX(pHBox[1]), pRadioButton[4], TRUE, TRUE, 10);
+	
+	gtk_box_pack_start(GTK_BOX(pHBox[2]), pLabel[2], FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pHBox[2]), pRadioButton[5], FALSE, FALSE, 10);
+	gtk_box_pack_end(GTK_BOX(pHBox[2]), pRadioButton[6], FALSE, FALSE, 10);
+	
+	gtk_box_pack_start(GTK_BOX(pHBox[3]), pLabel[3], FALSE, FALSE, 10);
+	gtk_box_pack_end(GTK_BOX(pHBox[3]), pEntry, TRUE, TRUE, 10);
+	
+	gtk_box_pack_start(GTK_BOX(pHBox[4]), pButton[0], TRUE, TRUE, 10);
+	gtk_box_pack_end(GTK_BOX(pHBox[4]), pButton[1], TRUE, TRUE, 10);
+	
+	// VBox
+	gtk_box_pack_start(GTK_BOX(pVBox), pHBox[0], TRUE, TRUE, 2);
+	gtk_box_pack_start(GTK_BOX(pVBox), pHBox[1], TRUE, TRUE, 2);
+	gtk_box_pack_start(GTK_BOX(pVBox), pHBox[2], TRUE, TRUE, 2);
+	gtk_box_pack_start(GTK_BOX(pVBox), pHBox[3], TRUE, TRUE, 2);
+	gtk_box_pack_end(GTK_BOX(pVBox), pHBox[4], TRUE, TRUE, 2);
+	
+	// Accrochage de la VBox dans la fenêtre
+	gtk_container_add(GTK_CONTAINER(pWindow), pVBox);
+	
+	/* Connexion des signaux */
+	g_signal_connect_swapped(G_OBJECT(pButton[0]), "clicked", G_CALLBACK(gtk_widget_hide_all), pWindow);
+	g_signal_connect_swapped(G_OBJECT(pButton[1]), "clicked", G_CALLBACK(gtk_widget_hide_all), pWindow);
+	
+	gtk_widget_show_all(pWindow);
+	
+	return 0;
+}
+
+void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
+	GtkWidget *pFileSelection;
+	GtkWidget *pParent;
+	gchar *sChemin;
+	
+	pParent = GTK_WIDGET(pGame);
+	
+	/* Creation de la fenetre de selection */
+	pFileSelection = gtk_file_chooser_dialog_new("Ouvrir une partie existante...", GTK_WINDOW(pParent), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+    /* On limite les actions a cette fenetre */
+    gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
+	
+    /* Affichage fenetre */
+    switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
+    {
+		case GTK_RESPONSE_OK:
+			/* Recuperation du chemin */
+			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
+			g_free(sChemin);
+			break;
+			
+		default:
+			break;
+    }
+    gtk_widget_destroy(pFileSelection);
+}
+
+void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
+	GtkWidget *pFileSelection;
+	GtkWidget *pParent;
+	gchar *sChemin;
+	
+	pParent = GTK_WIDGET(pGame);
+	
+	/* Creation de la fenetre de selection */
+	pFileSelection = gtk_file_chooser_dialog_new("Choisir un endroit où sauver la partie...", GTK_WINDOW(pParent), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+    /* On limite les actions a cette fenetre */
+    gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
+	
+    /* Affichage fenetre */
+    switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
+    {
+		case GTK_RESPONSE_OK:
+			/* Recuperation du chemin */
+			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
+			g_free(sChemin);
+			break;
+			
+		default:
+			break;
+    }
+    gtk_widget_destroy(pFileSelection);
+}
+
 void OnGameRules(GtkWidget *pMenuItem, MainWindow *pGame) {
 	GtkWidget *pWindowAbout;
 	GtkWidget *pScrollbar;

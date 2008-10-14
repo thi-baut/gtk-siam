@@ -8,8 +8,3 @@
  */
 
 #include "library.h"
-
-void OnButtonNewGame (GtkWidget *pButtonNewGame, App *pApp) {
-	gtk_widget_hide_all(GTK_WIDGET(pApp->pNewGame->pWindow));
-	gtk_widget_show_all(GTK_WIDGET(pApp->pGame->pWindow));
-}

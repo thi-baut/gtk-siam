@@ -24,32 +24,15 @@ struct _MainWindow
 	GtkWidget *pLabel;
 	GtkWidget *pStatusBar;
 	GtkWidget *pVBox;
-};
-
-struct _NewGameWindow
-{
-	GtkWidget *pWindow;
-	GtkWidget *pLabel[4];
-	GtkWidget *pButton[2];
-	GtkWidget *pRadioButton[7];
-	GtkWidget *pEntry;
-	GtkWidget *pVBox;
-	GtkWidget *pHBox[5];
+	GtkWidget *pToolbar;
 };
 
 typedef struct _MainWindow MainWindow;
-typedef struct _NewGameWindow NewGameWindow;
-
-struct _App
-{
-	MainWindow *pGame;
-	NewGameWindow *pNewGame;
-};
-
-typedef struct _App App;
 
 
 /* PROTOTYPES */
-void OnButtonNewGame (GtkWidget *pButtonNewGame, App *pApp);
 void OnGameRules(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnAbout(GtkWidget *pMenuItem, MainWindow *pGame);
+gboolean OnNewGame(GtkWidget *pMenUItem, MainWindow *pGame);
+void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame);
+void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame);
