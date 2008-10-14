@@ -193,8 +193,8 @@ void OnQuitBtn(GtkWidget* widget, gpointer data){
     /* Creation de la boite de message */
     /* Type : Question -> GTK_MESSAGE_QUESTION */
     /* Boutons : 1 OUI, 1 NON -> GTK_BUTTONS_YES_NO */
-    pQuestion = gtk_message_dialog_new (GTK_WINDOW(data), GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_YES_NO, "Voulez vous vraiment quitter le jeu ?");
-	
+    pQuestion = gtk_message_dialog_new (GTK_WINDOW(data), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_YES_NO, "Voulez vous vraiment quitter le jeu ?");
+	gtk_window_set_position(GTK_WINDOW(pQuestion), GTK_WIN_POS_MOUSE);
     /* Affichage et attente d une reponse */
     switch(gtk_dialog_run(GTK_DIALOG(pQuestion)))
     {
