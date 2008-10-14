@@ -23,7 +23,7 @@ gboolean OnNewGame(GtkWidget *pMenUItem, MainWindow *pGame) {
 	//gtk_window_set_position(GTK_WINDOW(pWindow), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(pWindow), "GTKSiam - Nouvelle partie");
 	gtk_window_set_default_size(GTK_WINDOW(pWindow), 400, 200);
-	g_signal_connect(pWindow, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+	g_signal_connect(pWindow, "destroy", G_CALLBACK (OnQuitBtn), NULL);
 	
 	// Labels
 	pLabel[0] = gtk_label_new("Niveau :");
@@ -184,4 +184,30 @@ void OnAbout(GtkWidget *pMenuItem, MainWindow *pGame) {
 	gtk_dialog_run(GTK_DIALOG(pDialog));
 	gtk_widget_destroy(pDialog);
 	
+}
+
+void OnQuitBtn(GtkWidget* widget, gpointer data){
+	
+    GtkWidget *pQuestion;
+	
+    /* Creation de la boite de message */
+    /* Type : Question -> GTK_MESSAGE_QUESTION */
+    /* Boutons : 1 OUI, 1 NON -> GTK_BUTTONS_YES_NO */
+    pQuestion = gtk_message_dialog_new (GTK_WINDOW(data), GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_YES_NO, "Voulez vous vraiment quitter le jeu ?");
+	
+    /* Affichage et attente d une reponse */
+    switch(gtk_dialog_run(GTK_DIALOG(pQuestion)))
+    {
+        case GTK_RESPONSE_YES:
+            /* OUI -> on quitte l application */
+            gtk_widget_destroy(pQuestion);
+			gtk_main_quit();
+            break;
+        case GTK_RESPONSE_NO:
+            /* NON -> on detruit la boite de message */
+            gtk_widget_destroy(pQuestion);
+            break;
+		default:
+			break;
+    }
 }
