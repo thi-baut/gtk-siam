@@ -20,6 +20,7 @@ struct _MainWindow
 	GtkWidget *pMenu;
 	GtkWidget *pMenuItem;
 	GtkWidget *pTable;
+	GtkWidget *pBoardButton[25];
 	GtkWidget *pLabel;
 	GtkWidget *pStatusBar;
 	GtkWidget *pVBox;
