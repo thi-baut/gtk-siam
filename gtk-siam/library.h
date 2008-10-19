@@ -28,27 +28,6 @@ struct _MainWindow
 typedef struct _MainWindow MainWindow;
 
 
-struct _InGame
-{
-	GtkWidget *pHBoxMain;
-	GtkWidget *pPixBackground; //le fond principal du plateau
-};
-typedef struct _InGame InGame;
-
-
-struct _GameButton
-{
-	GtkWidget *pLabel;
-	GtkWidget *pPixButton;
-	gint posx;
-	gint posy;
-	gint onBoard; // 1 = on the board, 0 = off the board
-	gint resistance;
-	gchar direction; //up down right left	
-};
-typedef struct _GameButton GameButton;
-
-
 /* PROTOTYPES */
 void OnGameRules(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnAbout(GtkWidget *pMenuItem, MainWindow *pGame);

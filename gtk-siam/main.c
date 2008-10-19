@@ -36,9 +36,6 @@ int main (int argc, char **argv)
 
 	/* Boucle principale. */
 	gtk_main();
-
-	/* Destruction de la fenêtre */
-	gtk_widget_destroy(pGame->pWindow);
 	
 	return 0;
 }
