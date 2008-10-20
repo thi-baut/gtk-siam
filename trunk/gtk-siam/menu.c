@@ -9,90 +9,134 @@
 
 #include "library.h"
 
-gboolean OnNewGame(GtkWidget *pMenUItem, MainWindow *pGame) {
+gboolean timeout(MainWindow *pGame)
+{
+	gchar *temp;
+	gchar *temp2;
+	temp = (gchar *) malloc(25*sizeof(gchar));
+	temp2 = (gchar *) malloc(5*sizeof(gchar));
+	strcpy(temp,"Chronomètre : ");
+	sprintf(temp2, "%02d:%02d", pGame->chrono/60, pGame->chrono);
+	strcat(temp, temp2);
+    gtk_label_set_text(GTK_LABEL(pGame->pTimerLabel), temp);
+    pGame->chrono++;
+	printf("%d\n", pGame->chrono);
+	
+    return TRUE;
+}
 
-	GtkWidget *pWindow;
-	GtkWidget *pLabel[4];
-	GtkWidget *pButton[2];
-	GtkWidget *pRadioButton[7];
-	GtkWidget *pEntry;
-	GtkWidget *pVBox;
-	GtkWidget *pHBox[5];
+void InitGame(GtkWidget *pButton, MainWindow *pGame) {
+
+	gchar *temp;
 	
-	pWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	//gtk_window_set_position(GTK_WINDOW(pWindow), GTK_WIN_POS_CENTER);
-	gtk_window_set_title(GTK_WINDOW(pWindow), "GTKSiam - Nouvelle partie");
-	gtk_window_set_default_size(GTK_WINDOW(pWindow), 400, 200);
-	g_signal_connect(pWindow, "destroy", G_CALLBACK (OnQuitBtn), NULL);
+	// On enregistre le niveau de la partie
+	pGame->level = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxLevel));
 	
+	// On enregistre les paramètres du chrono
+	pGame->timer = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxTimer));
+	
+	// On enregistre le type de partie (J vs. CPU ou J vs. J)
+	pGame->vs_cpu = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxCPU));
+	
+	// On enregistre le nom du joueur
+	pGame->player_name = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry));
+	if(pGame->player_name[0] != '\0') {
+		temp = (gchar *) malloc(strlen(pGame->player_name)*sizeof(gchar) + 16);
+		strcpy(temp, "Nom du joueur : ");
+		strcat(temp, pGame->player_name);
+		gtk_label_set_text(GTK_LABEL(pGame->pLabel), temp); /* BUGUE JE NE SAIS PAS POURQUOI : RELOU ! */
+	}
+	
+	// On (re)démarre le timer ;)
+	if(pGame->timer == TRUE) {
+		pGame->chrono = 0;
+		g_timeout_add_seconds(1, (gpointer)timeout, (MainWindow *)pGame);
+	}
+	
+	gtk_widget_destroy(pGame->pNewGameWindow);
+			
+}
+
+gboolean OnNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
+	
+	pGame->pNewGameWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	//gtk_window_set_position(GTK_WINDOW(pNewGameWindow), GTK_WIN_POS_CENTER);
+	gtk_window_set_title(GTK_WINDOW(pGame->pNewGameWindow), "GTKSiam - Nouvelle partie");
+	gtk_window_set_default_size(GTK_WINDOW(pGame->pNewGameWindow), 400, 200);
+
 	// Labels
-	pLabel[0] = gtk_label_new("Niveau :");
-	pLabel[1] = gtk_label_new("Temps limité :");
-	pLabel[2] = gtk_label_new("Partie :");
-	pLabel[3] = gtk_label_new("Nom du joueur :");
+	pGame->pNewGameLabel[0] = gtk_label_new("Niveau :");
+	pGame->pNewGameLabel[1] = gtk_label_new("Temps limité :");
+	pGame->pNewGameLabel[2] = gtk_label_new("Partie :");
+	pGame->pNewGameLabel[3] = gtk_label_new("Nom du joueur :");
 	
 	// Zone de saisie
-	pEntry = gtk_entry_new_with_max_length(30);
+	pGame->pNewGameEntry = gtk_entry_new_with_max_length(30);
 	
 	// Boutons
-	pRadioButton[0] = gtk_radio_button_new_with_label(NULL, "Facile");
-	pRadioButton[1] = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(pRadioButton[0]), "Moyen");
-	pRadioButton[2] = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(pRadioButton[0]), "Difficile");
-	pRadioButton[4] = gtk_radio_button_new_with_label(NULL, "désactivé");
-	pRadioButton[3] = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(pRadioButton[4]), "activé");
-	pRadioButton[5] = gtk_radio_button_new_with_label(NULL, "Deux joueurs");
-	pRadioButton[6] = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(pRadioButton[5]), "Contre l'ordinateur");
-	pButton[0] = gtk_button_new_with_label("Nouvelle partie");
-	pButton[1] = gtk_button_new_with_label("Annuler");
+	pGame->pComboBoxLevel = gtk_combo_box_new_text();
+	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxLevel), "Facile");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxLevel), "Moyen");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxLevel), "Difficile");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxLevel), 0);
+
+	pGame->pComboBoxTimer = gtk_combo_box_new_text();
+	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxTimer), "Désactivé");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxTimer), "Activé");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxTimer), 0);
+	   
+	pGame->pComboBoxCPU = gtk_combo_box_new_text();
+	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Un joueur (Humain vs. CPU)");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Deux joueurs (Humain vs. Humain");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxCPU), 0);
+	
+	pGame->pNewGameButton[0] = gtk_button_new_with_label("Nouvelle partie");
+	pGame->pNewGameButton[1] = gtk_button_new_with_label("Annuler");
 	
 	// VBox
-	pVBox = gtk_vbox_new(TRUE, 10);
+	pGame->pNewGameVBox = gtk_vbox_new(TRUE, 10);
 	
 	// HBox
-	pHBox[0] = gtk_hbox_new(FALSE, 10);
-	pHBox[1] = gtk_hbox_new(FALSE, 10);
-	pHBox[2] = gtk_hbox_new(FALSE, 10);
-	pHBox[3] = gtk_hbox_new(FALSE, 10);
-	pHBox[4] = gtk_hbox_new(FALSE, 10);
+	pGame->pNewGameHBox[0] = gtk_hbox_new(FALSE, 10);
+	pGame->pNewGameHBox[1] = gtk_hbox_new(FALSE, 10);
+	pGame->pNewGameHBox[2] = gtk_hbox_new(FALSE, 10);
+	pGame->pNewGameHBox[3] = gtk_hbox_new(FALSE, 10);
+	pGame->pNewGameHBox[4] = gtk_hbox_new(FALSE, 10);
 	
 	
 	/* Ajouter les éléments à la fenêtre */
 	
 	// HBoxs
-	gtk_box_pack_start(GTK_BOX(pHBox[0]), pLabel[0], FALSE, FALSE, 10);
-	gtk_box_pack_start(GTK_BOX(pHBox[0]), pRadioButton[0], TRUE, TRUE, 10);
-	gtk_box_pack_start(GTK_BOX(pHBox[0]), pRadioButton[1], TRUE, TRUE, 10);
-	gtk_box_pack_end(GTK_BOX(pHBox[0]), pRadioButton[2], TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[0]), pGame->pNewGameLabel[0], FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[0]), pGame->pComboBoxLevel, TRUE, TRUE, 10);
 	
-	gtk_box_pack_start(GTK_BOX(pHBox[1]), pLabel[1], FALSE, FALSE, 10);
-	gtk_box_pack_start(GTK_BOX(pHBox[1]), pRadioButton[3], TRUE, TRUE, 10);
-	gtk_box_pack_end(GTK_BOX(pHBox[1]), pRadioButton[4], TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[1]), pGame->pNewGameLabel[1], FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[1]), pGame->pComboBoxTimer, TRUE, TRUE, 10);
 	
-	gtk_box_pack_start(GTK_BOX(pHBox[2]), pLabel[2], FALSE, FALSE, 10);
-	gtk_box_pack_start(GTK_BOX(pHBox[2]), pRadioButton[5], FALSE, FALSE, 10);
-	gtk_box_pack_end(GTK_BOX(pHBox[2]), pRadioButton[6], FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[2]), pGame->pNewGameLabel[2], FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[2]), pGame->pComboBoxCPU, TRUE, TRUE, 10);
 	
-	gtk_box_pack_start(GTK_BOX(pHBox[3]), pLabel[3], FALSE, FALSE, 10);
-	gtk_box_pack_end(GTK_BOX(pHBox[3]), pEntry, TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[3]), pGame->pNewGameLabel[3], FALSE, FALSE, 10);
+	gtk_box_pack_end(GTK_BOX(pGame->pNewGameHBox[3]), pGame->pNewGameEntry, TRUE, TRUE, 10);
 	
-	gtk_box_pack_start(GTK_BOX(pHBox[4]), pButton[0], TRUE, TRUE, 10);
-	gtk_box_pack_end(GTK_BOX(pHBox[4]), pButton[1], TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[4]), pGame->pNewGameButton[0], TRUE, TRUE, 10);
+	gtk_box_pack_end(GTK_BOX(pGame->pNewGameHBox[4]), pGame->pNewGameButton[1], TRUE, TRUE, 10);
 	
 	// VBox
-	gtk_box_pack_start(GTK_BOX(pVBox), pHBox[0], TRUE, TRUE, 2);
-	gtk_box_pack_start(GTK_BOX(pVBox), pHBox[1], TRUE, TRUE, 2);
-	gtk_box_pack_start(GTK_BOX(pVBox), pHBox[2], TRUE, TRUE, 2);
-	gtk_box_pack_start(GTK_BOX(pVBox), pHBox[3], TRUE, TRUE, 2);
-	gtk_box_pack_end(GTK_BOX(pVBox), pHBox[4], TRUE, TRUE, 2);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[0], TRUE, TRUE, 2);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[1], TRUE, TRUE, 2);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[2], TRUE, TRUE, 2);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[3], TRUE, TRUE, 2);
+	gtk_box_pack_end(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[4], TRUE, TRUE, 2);
 	
 	// Accrochage de la VBox dans la fenêtre
-	gtk_container_add(GTK_CONTAINER(pWindow), pVBox);
+	gtk_container_add(GTK_CONTAINER(pGame->pNewGameWindow), pGame->pNewGameVBox);
 	
 	/* Connexion des signaux */
-	g_signal_connect_swapped(G_OBJECT(pButton[0]), "clicked", G_CALLBACK(gtk_widget_hide_all), pWindow);
-	g_signal_connect_swapped(G_OBJECT(pButton[1]), "clicked", G_CALLBACK(gtk_widget_hide_all), pWindow);
+	g_signal_connect(G_OBJECT(pGame->pNewGameButton[0]), "clicked", G_CALLBACK(InitGame), pGame);
+	g_signal_connect_swapped(G_OBJECT(pGame->pNewGameButton[1]), "clicked", G_CALLBACK(gtk_widget_hide_all), pGame->pNewGameWindow);
 	
-	gtk_widget_show_all(pWindow);
+	gtk_widget_show_all(pGame->pNewGameWindow);
 	
 	return 0;
 }

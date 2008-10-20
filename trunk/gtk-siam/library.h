@@ -9,6 +9,7 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
+#include <string.h>
 
 /* STRUCTURES */
 
@@ -22,9 +23,35 @@ struct _MainWindow
 	GtkWidget *pTable;
 	GtkWidget *pBoardButton[25];
 	GtkWidget *pLabel;
+	GtkWidget *pLabel2;
 	GtkWidget *pStatusBar;
 	GtkWidget *pVBox;
 	GtkWidget *pToolbar;
+	GtkWidget *pImage;
+	GtkWidget *pButton;
+	GtkWidget *pEventBoxes[25];
+	GtkWidget *pBoard_Black;
+	GtkWidget *pBoard_White;
+	GtkWidget *pTimerLabel;
+	gint chrono;
+	
+	// New Game Window
+	GtkWidget *pNewGameWindow;
+	GtkWidget *pNewGameLabel[4];
+	GtkWidget *pNewGameButton[2];
+	GtkWidget *pComboBoxLevel;
+	GtkWidget *pComboBoxTimer;
+	GtkWidget *pComboBoxCPU;
+	GtkWidget *pNewGameEntry;
+	GtkWidget *pNewGameVBox;
+	GtkWidget *pNewGameHBox[5];
+	
+	// Game config
+	gint level;
+	gboolean timer;
+	gboolean vs_cpu;
+	const gchar* player_name;	
+
 };
 typedef struct _MainWindow MainWindow;
 
@@ -32,7 +59,7 @@ typedef struct _MainWindow MainWindow;
 /* PROTOTYPES */
 void OnGameRules(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnAbout(GtkWidget *pMenuItem, MainWindow *pGame);
-gboolean OnNewGame(GtkWidget *pMenUItem, MainWindow *pGame);
+gboolean OnNewGame(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnQuitBtn(GtkWidget* widget, gpointer data);

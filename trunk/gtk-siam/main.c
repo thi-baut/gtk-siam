@@ -12,15 +12,13 @@
 
 int main (int argc, char **argv)
 {
-	
 	// Initialisation de GTK+
 	gtk_init(&argc, &argv);
-	
+
 	/* Structures */
 	
 	// Déclaration des structures
 	MainWindow *pGame;
-	
 	// Allocation dynamique des structures
 	pGame = (MainWindow *) malloc(sizeof(MainWindow));
 
@@ -28,7 +26,6 @@ int main (int argc, char **argv)
 	
 	// Fenêtre principale
 	CreateGameWindow(pGame);
-	
 	
 	/* Affichage de la fenêtre */
 	//gtk_widget_show_all(pNewGame->pWindow);
