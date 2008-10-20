@@ -34,6 +34,9 @@ struct _MainWindow
 
 	GtkWidget *pVBox;
 	
+	GtkWidget *pImageRhino;
+	GtkWidget *pImageElephant;
+	
 	
 	/* Fenêtre "Nouvelle partie" */
 	GtkWidget *pNewGameWindow;
@@ -82,3 +85,6 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame);
 
 // time.c
 gboolean timeout(MainWindow *pGame);
+
+// init.c
+void CreateGameWindow(MainWindow *pGame);

@@ -29,6 +29,10 @@ void CreateGameWindow(MainWindow *pGame){
 	// Labels
 	pGame->pLabel[0] = gtk_label_new("Nom du joueur : non renseigné");
 	pGame->pLabel[1] = gtk_label_new("Chronomètre : désactivé");
+	
+	// Images
+	pGame->pImageRhino = gtk_image_new_from_file("./Resources/rhino.png");
+	pGame->pImageElephant = gtk_image_new_from_file("./Resources/elephant.png");
 
 	// Table de jeu
 	for (i=0; i<25; i++){
@@ -36,13 +40,6 @@ void CreateGameWindow(MainWindow *pGame){
 	}
 
 	pGame->pTable = gtk_table_new(5, 5, TRUE);
-	
-	GtkBorder* border;
-	border = (GtkBorder *) malloc(sizeof(GtkBorder));
-	border->left = 0;
-	border->top = 0;
-	border->right = 0;
-	border->bottom = 0;
 
 	gdk_color_parse("black", &black);
 	gdk_color_parse("white", &white);
@@ -51,7 +48,6 @@ void CreateGameWindow(MainWindow *pGame){
 
 	//g_object_set_data(G_OBJECT(pGame->pTable);
 	for( i= 0; i< 25; i++) {
-		
 		switch(i%2) {
 			case 0:
 				gtk_widget_modify_bg (pGame->pBoardButton[i], GTK_STATE_NORMAL, &black);
@@ -64,10 +60,9 @@ void CreateGameWindow(MainWindow *pGame){
 				gtk_widget_modify_bg (pGame->pBoardButton[i], GTK_STATE_ACTIVE, &white_clicked);
 				break;
 		}
-		
-		//gtk_button_set_relief(GTK_BUTTON(pGame->pBoardButton[i]), GTK_RELIEF_NONE);
 		gtk_button_set_focus_on_click(GTK_BUTTON(pGame->pBoardButton[i]), FALSE);
 	}
+	
 	for (i=0; i<5; i++){
         for (j=0; j<5; j++){
         gtk_table_attach(GTK_TABLE(pGame->pTable), pGame->pBoardButton[c++],j, j+1, i, i+1, GTK_EXPAND  | GTK_FILL , GTK_FILL | GTK_EXPAND, 0, 0);

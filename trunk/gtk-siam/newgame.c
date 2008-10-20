@@ -13,6 +13,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	
 	// Variables
 	gchar *temp;
+	gint i;
 	
 	// On enregistre le niveau de la partie
 	pGame->level = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxLevel));
@@ -44,6 +45,10 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	
 	// On modifie le message de la barre d'outils
 	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, "La partie a débutée, c'est à vous de jouer");
+	
+	// On modifie le plateau pour afficher les images
+	for(i = 0; i < 5; i++)
+	gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]), pGame->pImageRhino);
 	
 	/* Détruit la fenêtre (elle reçoit donc un signal "destroy") 
 	C'est pourquoi on ne doit pas connecter le signal "destroy" de la fenêtre 
