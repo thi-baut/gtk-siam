@@ -12,23 +12,20 @@
 
 int main (int argc, char **argv)
 {
-	// Initialisation de GTK+
+	/* Paramètre la langue et les signes utilisés par GTK+ (meilleur pour le multi-plateforme) */
+	gtk_set_locale();
+	
+	/* Initialisation de GTK+ */
 	gtk_init(&argc, &argv);
 
-	/* Structures */
-	
-	// Déclaration des structures
+	/* Déclaration et allocation de la structure principale */
 	MainWindow *pGame;
-	// Allocation dynamique des structures
 	pGame = (MainWindow *) malloc(sizeof(MainWindow));
 
 	/* Création et paramétrage des fenêtres */
-	
-	// Fenêtre principale
 	CreateGameWindow(pGame);
 	
 	/* Affichage de la fenêtre */
-	//gtk_widget_show_all(pNewGame->pWindow);
 	gtk_widget_show_all(pGame->pWindow);
 
 	/* Boucle principale. */
