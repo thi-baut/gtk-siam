@@ -27,15 +27,21 @@ struct _MainWindow
 
 	GtkWidget *pTable;
 	GtkWidget *pBoardButton[25];
+	
+	GtkWidget *pOutButton[10];
 
 	GtkWidget *pLabel[2];
 	
 	GtkWidget *pStatusBar;
 
-	GtkWidget *pVBox;
+	GtkWidget *pVBox, *pVBox1, *pVBox2;
+	
+	GtkWidget *pHBox;
 	
 	GtkWidget *pImageRhino;
 	GtkWidget *pImageElephant;
+	
+	GtkWidget *pSeparator[2];
 	
 	
 	/* Fenêtre "Nouvelle partie" */
