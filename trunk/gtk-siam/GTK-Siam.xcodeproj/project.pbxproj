@@ -10,6 +10,8 @@
 		15409F750DCB9D6C00BC6E83 /* GLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15409F740DCB9D6C00BC6E83 /* GLib.framework */; };
 		15409F790DCB9D7A00BC6E83 /* Gtk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15409F780DCB9D7A00BC6E83 /* Gtk.framework */; };
 		15409F7D0DCB9D8800BC6E83 /* Cairo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15409F7C0DCB9D8800BC6E83 /* Cairo.framework */; };
+		53030B900EA519800076D477 /* init.c in Sources */ = {isa = PBXBuildFile; fileRef = 53030B8F0EA519800076D477 /* init.c */; };
+		53F35A350EAE1BB60066F650 /* timer.c in Sources */ = {isa = PBXBuildFile; fileRef = 53F35A340EAE1BB60066F650 /* timer.c */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.c */; settings = {ATTRIBUTES = (); }; };
 		C0196E570EA3985D007A6E23 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C0196E560EA3985D007A6E23 /* icon.icns */; };
@@ -23,6 +25,8 @@
 		15409F780DCB9D7A00BC6E83 /* Gtk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gtk.framework; path = /Library/Frameworks/Gtk.framework; sourceTree = "<absolute>"; };
 		15409F7C0DCB9D8800BC6E83 /* Cairo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cairo.framework; path = /Library/Frameworks/Cairo.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		53030B8F0EA519800076D477 /* init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = init.c; sourceTree = "<group>"; };
+		53F35A340EAE1BB60066F650 /* timer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = timer.c; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* GTK-Siam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GTK-Siam.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0196E560EA3985D007A6E23 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
@@ -92,6 +96,8 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				53030B8F0EA519800076D477 /* init.c */,
+				53F35A340EAE1BB60066F650 /* timer.c */,
 				29B97316FDCFA39411CA2CEA /* main.c */,
 				C0196E830EA3A2FE007A6E23 /* newgame.c */,
 				C0196E600EA398AC007A6E23 /* library.h */,
@@ -177,6 +183,8 @@
 				8D11072D0486CEB800E47090 /* main.c in Sources */,
 				C0196E840EA3A2FE007A6E23 /* newgame.c in Sources */,
 				C0196E950EA3A613007A6E23 /* menu.c in Sources */,
+				53030B900EA519800076D477 /* init.c in Sources */,
+				53F35A350EAE1BB60066F650 /* timer.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

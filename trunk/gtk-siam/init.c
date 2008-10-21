@@ -45,7 +45,19 @@ void CreateGameWindow(MainWindow *pGame){
 	gdk_color_parse("white", &white);
 	gdk_color_parse("#2E2E2E", &black_clicked);
 	gdk_color_parse("#E8E8E8", &white_clicked);
-
+	
+	// Création des boutons en dehors du plateau
+	
+	for(i=0;i<10;i++){
+		pGame->pOutButton[i]=gtk_button_new();
+	}
+	
+	//Création des separator
+	
+	for(i=0;i<2;i++){
+		pGame->pSeparator[i] = gtk_vseparator_new();
+	}
+	
 	//g_object_set_data(G_OBJECT(pGame->pTable);
 	for( i= 0; i< 25; i++) {
 		switch(i%2) {
@@ -153,6 +165,15 @@ void CreateGameWindow(MainWindow *pGame){
 	
 	// VBox
 	pGame->pVBox = gtk_vbox_new(FALSE, 0);
+	
+	//Vboxes 1 et 2
+	
+	pGame->pVBox1 = gtk_vbox_new(FALSE, 0);
+	pGame->pVBox2 = gtk_vbox_new(FALSE, 0);
+	
+	// Hbox qui contient la totalité des boxes
+	
+	pGame->pHBox = gtk_hbox_new(FALSE, 0);
 
 	// Barre d'état
 	pGame->pStatusBar = gtk_statusbar_new();
@@ -161,11 +182,36 @@ void CreateGameWindow(MainWindow *pGame){
 	/* Ajouter les éléments aux fenêtres */
 
 	// Fenêtre pGame
+	
 	// VBox
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pMenuBar, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pToolbar, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pTable, TRUE, TRUE, 0);
-	gtk_box_pack_end(GTK_BOX(pGame->pVBox), pGame->pStatusBar, FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pHBox, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pStatusBar, FALSE, TRUE, 0);
+	
+	//5 boutons dans VBox1 et 5 boutons dans VBox 2 (de part et d'autre de la table)
+	
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[0], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[1], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[2], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[3], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[4], TRUE, TRUE, 0);
+	
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[5], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[6], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[7], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[8], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[9], TRUE, TRUE, 0);
+	
+	
+	//Hbox
+	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pVBox1, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pSeparator[0], FALSE, FALSE, 15);
+	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pTable, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pSeparator[1], FALSE, FALSE, 15);
+	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pVBox2, FALSE, FALSE, 0);
+
+	
 
 	// Accrochage de la VBox dans la fenêtre
 	gtk_container_add(GTK_CONTAINER(pGame->pWindow), pGame->pVBox);
