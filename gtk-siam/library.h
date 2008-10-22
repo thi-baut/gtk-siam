@@ -13,6 +13,24 @@
 
 /* STRUCTURES */
 
+struct _Button{
+
+GtkWidget *button; // Contient le bouton GTK+
+GtkWidget *image; // Image du pion
+gint color;
+gint x; // Coordonnées en x
+gint y; // Coordonnées en y
+gint force; // Force - poids
+gfloat r_left; // r = Resistance
+gfloat r_right;
+gfloat r_top;
+gfloat r_bottom;
+gchar piece; // Pion
+gchar direction; // Direction (regarde de l'animal)
+
+};
+typedef struct _Button Button;
+
 // Structure principale contenant toutes les variables d'interface
 struct _MainWindow
 {
@@ -26,9 +44,8 @@ struct _MainWindow
 	GtkWidget *pToolbar;
 
 	GtkWidget *pTable;
-	GtkWidget *pBoardButton[25];
-	
-	GtkWidget *pOutButton[10];
+	Button *pBoardButton[25];
+	Button *pOutButton[10];
 
 	GtkWidget *pLabel[2];
 	
@@ -75,7 +92,6 @@ struct _MainWindow
 };
 typedef struct _MainWindow MainWindow;
 
-
 /* PROTOTYPES */
 
 // menu.c
@@ -88,6 +104,7 @@ void OnQuitBtn(GtkWidget* widget, MainWindow *pGame);
 
 // newgame.c
 void InitGame(GtkWidget *pButton, MainWindow *pGame);
+void LoadBoard(MainWindow *pGame);
 
 // time.c
 gboolean timeout(MainWindow *pGame);

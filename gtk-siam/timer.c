@@ -10,18 +10,17 @@
 #include "library.h"
 
 gboolean timeout(MainWindow *pGame)
-{	
+{
 	// On incrémente le chrono
 	pGame->chrono++;
 
 	// Deux chaînes temporaires qui sont réallouées à chaque fois (ça trace, on s'en fous)
 	gchar *temp;
 	gchar *temp2;
-	temp = (gchar *) malloc(25*sizeof(gchar));
-	temp2 = (gchar *) malloc(5*sizeof(gchar));
+	temp = (gchar *) malloc(25*sizeof(gchar));	temp2 = (gchar *) malloc(5*sizeof(gchar));
 	
 	strcpy(temp,"Chronomètre : ");
-	sprintf(temp2, "%02d:%02d", pGame->chrono/60, pGame->chrono);
+	sprintf(temp2, "%02d:%02d", pGame->chrono/60, pGame->chrono%61);
 	strcat(temp, temp2);
     
 	// On modifie le label
