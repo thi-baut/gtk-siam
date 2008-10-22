@@ -15,15 +15,31 @@ void CreateGameWindow(MainWindow *pGame){
 	int c = 0;
 	GdkColor black;
 	GdkColor white;
+	GdkColor brown;
 	GdkColor black_clicked;
 	GdkColor white_clicked;
+	gchar *temp;
+	temp = (gchar *) malloc(3*sizeof(gchar));
+	
+	// On initialise le chrono à 0
+	pGame->chrono = -1;
+	
+	// Allocation de la mémoire pour les boutons
+	for(i = 0; i < 25; i++) {
+		pGame->pBoardButton[i] = (Button *) malloc(sizeof(Button));
+	}
+	// Allocation de la mémoire pour les boutons des pions hors-jeu
+	for(i = 0; i < 10; i++) {
+		pGame->pOutButton[i] = (Button *) malloc(sizeof(Button));
+	}
 	
 	// Création de la fenêtre
 	pGame->pWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(pGame->pWindow), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(pGame->pWindow), "GTK Siam - Plateau");
-	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindow), 800, 800);
+	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindow), 1000, 800);
 	//gtk_window_set_resizable(GTK_WINDOW(pGame->pWindow), FALSE);
+	
 	g_signal_connect(pGame->pWindow, "destroy", G_CALLBACK (OnQuitBtn), pGame);
 
 	// Labels
@@ -31,25 +47,26 @@ void CreateGameWindow(MainWindow *pGame){
 	pGame->pLabel[1] = gtk_label_new("Chronomètre : désactivé");
 	
 	// Images
-	pGame->pImageRhino = gtk_image_new_from_file("./Resources/rhino.png");
-	pGame->pImageElephant = gtk_image_new_from_file("./Resources/elephant.png");
+	pGame->pImageRhino = gtk_image_new_from_file("/rhino.png");
+	pGame->pImageElephant = gtk_image_new_from_file("/elephant.png");
 
 	// Table de jeu
 	for (i=0; i<25; i++){
-	pGame->pBoardButton[i]=gtk_button_new();
+	pGame->pBoardButton[i]->button=gtk_button_new();
 	}
 
 	pGame->pTable = gtk_table_new(5, 5, TRUE);
 
 	gdk_color_parse("black", &black);
 	gdk_color_parse("white", &white);
+	gdk_color_parse("#392B20", &brown);
 	gdk_color_parse("#2E2E2E", &black_clicked);
 	gdk_color_parse("#E8E8E8", &white_clicked);
 	
 	// Création des boutons en dehors du plateau
 	
 	for(i=0;i<10;i++){
-		pGame->pOutButton[i]=gtk_button_new();
+		pGame->pOutButton[i]->button=gtk_button_new();
 	}
 	
 	//Création des separator
@@ -59,28 +76,45 @@ void CreateGameWindow(MainWindow *pGame){
 	}
 	
 	//g_object_set_data(G_OBJECT(pGame->pTable);
+
+
 	for( i= 0; i< 25; i++) {
+		// Couleurs des boutons
 		switch(i%2) {
 			case 0:
-				gtk_widget_modify_bg (pGame->pBoardButton[i], GTK_STATE_NORMAL, &black);
-				gtk_widget_modify_bg (pGame->pBoardButton[i], GTK_STATE_PRELIGHT, &black);
-				gtk_widget_modify_bg (pGame->pBoardButton[i], GTK_STATE_ACTIVE, &black_clicked);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &black);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &black);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &black_clicked);
+				g_object_set_data(G_OBJECT(pGame->pBoardButton[i]->button), "case-color", "black");
 				break;
 			case 1:
-				gtk_widget_modify_bg (pGame->pBoardButton[i], GTK_STATE_NORMAL, &white);
-				gtk_widget_modify_bg (pGame->pBoardButton[i], GTK_STATE_PRELIGHT, &white);
-				gtk_widget_modify_bg (pGame->pBoardButton[i], GTK_STATE_ACTIVE, &white_clicked);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &white);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &white);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &white_clicked);
+				g_object_set_data(G_OBJECT(pGame->pBoardButton[i]->button), "case-color", "white");
 				break;
 		}
-		gtk_button_set_focus_on_click(GTK_BUTTON(pGame->pBoardButton[i]), FALSE);
+		gtk_button_set_focus_on_click(GTK_BUTTON(pGame->pBoardButton[i]->button), FALSE);
 	}
 	
-	for (i=0; i<5; i++){
-        for (j=0; j<5; j++){
-        gtk_table_attach(GTK_TABLE(pGame->pTable), pGame->pBoardButton[c++],j, j+1, i, i+1, GTK_EXPAND  | GTK_FILL , GTK_FILL | GTK_EXPAND, 0, 0);
-        }
+	// Couleurs des boutons out
+	for(i = 0; i < 10; i++) {
+		gtk_widget_modify_bg (pGame->pOutButton[i]->button, GTK_STATE_NORMAL, &brown);
+		gtk_widget_modify_bg (pGame->pOutButton[i]->button, GTK_STATE_PRELIGHT, &brown);
+		gtk_widget_modify_bg (pGame->pOutButton[i]->button, GTK_STATE_ACTIVE, &brown);
 	}
-
+	
+	for (i=0; i<5; i++)
+		for (j=0; j<5; j++) {
+			// On enregistre les coordonnées
+			pGame->pBoardButton[i]->x = j;
+			pGame->pBoardButton[i]->y = j;
+			gtk_table_attach(GTK_TABLE(pGame->pTable), pGame->pBoardButton[c++]->button,j, j+1, i, i+1, GTK_EXPAND  | GTK_FILL , GTK_FILL | GTK_EXPAND, 0, 0);
+		}
+	// Chargement des pions du plateau
+			
+	LoadBoard(pGame);
+	
 	// Barre d'outils
 	pGame->pToolbar = gtk_toolbar_new();
 	gtk_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_NEW, "Nouveau", NULL, G_CALLBACK(OnButtonNewGame), pGame, -1);
@@ -191,17 +225,17 @@ void CreateGameWindow(MainWindow *pGame){
 	
 	//5 boutons dans VBox1 et 5 boutons dans VBox 2 (de part et d'autre de la table)
 	
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[0], TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[1], TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[2], TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[3], TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[4], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[0]->button, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[1]->button, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[2]->button, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[3]->button, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pOutButton[4]->button, TRUE, TRUE, 0);
 	
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[5], TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[6], TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[7], TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[8], TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[9], TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[5]->button, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[6]->button, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[7]->button, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[8]->button, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pOutButton[9]->button, TRUE, TRUE, 0);
 	
 	
 	//Hbox

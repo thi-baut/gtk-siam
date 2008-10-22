@@ -9,6 +9,47 @@
 
 #include "library.h"
 
+void LoadBoard(MainWindow *pGame){
+	
+	gint i;
+		
+	// On s'occupe des montagnes
+	for(i = 11; i <= 13; i++) {
+		pGame->pBoardButton[i]->r_left = 0.9;
+		pGame->pBoardButton[i]->r_right = 0.9;
+		pGame->pBoardButton[i]->r_top = 0.9;
+		pGame->pBoardButton[i]->r_bottom = 0.9;
+	}
+	
+	// On enregistre les paramètres des pions hors-jeu
+	// Éléphants
+	for(i = 0; i < 5; i++) {
+		pGame->pOutButton[i]->image = gtk_image_new_from_file("/elephant.png");
+		pGame->pOutButton[i]->piece = 'e';
+		pGame->pOutButton[i]->r_left = 0;
+		pGame->pOutButton[i]->r_right = 0;
+		pGame->pOutButton[i]->r_top = 0;
+		pGame->pOutButton[i]->r_bottom = 0;
+		pGame->pOutButton[i]->force = 1;
+		pGame->pOutButton[i]->direction = 'r';
+		gtk_button_set_image(GTK_BUTTON(pGame->pOutButton[i]->button), pGame->pOutButton[i]->image);
+	}
+	
+	// Rhinocéros
+	for(i = 5; i < 10; i++) {
+		pGame->pOutButton[i]->image = gtk_image_new_from_file("/rhino.png");
+		pGame->pOutButton[i]->piece = 'r';
+		pGame->pOutButton[i]->r_left = 0;
+		pGame->pOutButton[i]->r_right = 0;
+		pGame->pOutButton[i]->r_top = 0;
+		pGame->pOutButton[i]->r_bottom = 0;
+		pGame->pOutButton[i]->force = 1;
+		pGame->pOutButton[i]->direction = 'l';
+		gtk_button_set_image(GTK_BUTTON(pGame->pOutButton[i]->button), pGame->pOutButton[i]->image);
+	}
+	
+}
+
 void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	
 	// Variables
@@ -37,14 +78,17 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	}
 	
 	// On (re)démarre le timer
-	if(pGame->timer == TRUE) {
-		// On arrête le chrono (voir la procédure adéquate, vous comprendrez !) 
+	if(pGame->timer == TRUE && pGame->chrono != -1) {
 		pGame->chrono = 0;
+		timeout(pGame);
+	}
+	else if(pGame->timer == TRUE && pGame->chrono == -1) {
+		timeout(pGame);
 		g_timeout_add_seconds(1, (gpointer)timeout, (MainWindow *)pGame);
 	}
 	
 	// On modifie le message de la barre d'outils
-	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, "La partie a débutée, c'est à vous de jouer");
+	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, "La partie a débuté, c'est à vous de jouer");
 	
 	// On modifie le plateau pour afficher les images
 	for(i = 0; i < 5; i++)
@@ -54,5 +98,4 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	C'est pourquoi on ne doit pas connecter le signal "destroy" de la fenêtre 
 	( = plantage car essaierai de destroy un GtkWidget déjà détruit) */
 	gtk_widget_destroy(pGame->pNewGameWindow);
-	
 }
