@@ -44,8 +44,7 @@ struct _MainWindow
 	GtkWidget *pToolbar;
 
 	GtkWidget *pTable;
-	Button *pBoardButton[25];
-	Button *pOutButton[10];
+	Button *pBoardButton[35];
 
 	GtkWidget *pLabel[2];
 	
@@ -54,9 +53,6 @@ struct _MainWindow
 	GtkWidget *pVBox, *pVBox1, *pVBox2;
 	
 	GtkWidget *pHBox;
-	
-	GtkWidget *pImageRhino;
-	GtkWidget *pImageElephant;
 	
 	GtkWidget *pSeparator[2];
 	
@@ -88,6 +84,14 @@ struct _MainWindow
 	const gchar* player_name; // Nom du joueur
 	gint chrono; // Valeur du chronomètre
 	gboolean pion; // TRUE pour Elephant (blancs donc la partie commence par eux) ou FALSE pour les hippos
+	gint round;
+	gint x;
+	gint y;
+	GdkColor black;
+	GdkColor white;
+	GdkColor brown;
+	GdkColor black_clicked;
+	GdkColor white_clicked;
 
 };
 typedef struct _MainWindow MainWindow;
@@ -111,3 +115,6 @@ gboolean timeout(MainWindow *pGame);
 
 // init.c
 void CreateGameWindow(MainWindow *pGame);
+
+// game.c
+void ActionInGame(GtkWidget *pButton, MainWindow *pGame);
