@@ -12,9 +12,14 @@
 void LoadBoard(MainWindow *pGame){
 	
 	gint i;
-		
+	// On s'occupe de tous les pions
+	for(i = 0; i < 35; i++) {
+		pGame->pBoardButton[i]->piece = 'n';
+	}
+	
 	// On s'occupe des montagnes
 	for(i = 11; i <= 13; i++) {
+		pGame->pBoardButton[i]->piece = 'm';
 		pGame->pBoardButton[i]->r_left = 0.9;
 		pGame->pBoardButton[i]->r_right = 0.9;
 		pGame->pBoardButton[i]->r_top = 0.9;
@@ -23,33 +28,38 @@ void LoadBoard(MainWindow *pGame){
 	
 	// On enregistre les paramètres des pions hors-jeu
 	// Éléphants
-	for(i = 0; i < 5; i++) {
-		pGame->pOutButton[i]->image = gtk_image_new_from_file("/elephant.png");
-		pGame->pOutButton[i]->piece = 'e';
-		pGame->pOutButton[i]->r_left = 0;
-		pGame->pOutButton[i]->r_right = 0;
-		pGame->pOutButton[i]->r_top = 0;
-		pGame->pOutButton[i]->r_bottom = 0;
-		pGame->pOutButton[i]->force = 1;
-		pGame->pOutButton[i]->direction = 'r';
-		gtk_button_set_image(GTK_BUTTON(pGame->pOutButton[i]->button), pGame->pOutButton[i]->image);
+	for(i = 25; i < 30; i++) {
+		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/elephant.png");
+		pGame->pBoardButton[i]->piece = 'e';
+		pGame->pBoardButton[i]->r_left = 0;
+		pGame->pBoardButton[i]->r_right = 0;
+		pGame->pBoardButton[i]->r_top = 0;
+		pGame->pBoardButton[i]->r_bottom = 0;
+		pGame->pBoardButton[i]->force = 1;
+		pGame->pBoardButton[i]->direction = 'r';
+		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
+		pGame->pBoardButton[i]->x = -1; // Signifie que le pion est hors plateau
+		pGame->pBoardButton[i]->y = -1;
+		pGame->pBoardButton[i]->color = -1;
 	}
 	
 	// Rhinocéros
-	for(i = 5; i < 10; i++) {
-		pGame->pOutButton[i]->image = gtk_image_new_from_file("/rhino.png");
-		pGame->pOutButton[i]->piece = 'r';
-		pGame->pOutButton[i]->r_left = 0;
-		pGame->pOutButton[i]->r_right = 0;
-		pGame->pOutButton[i]->r_top = 0;
-		pGame->pOutButton[i]->r_bottom = 0;
-		pGame->pOutButton[i]->force = 1;
-		pGame->pOutButton[i]->direction = 'l';
-		gtk_button_set_image(GTK_BUTTON(pGame->pOutButton[i]->button), pGame->pOutButton[i]->image);
+	for(i = 30; i < 35; i++) {
+		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/rhino.png");
+		pGame->pBoardButton[i]->piece = 'r';
+		pGame->pBoardButton[i]->r_left = 0;
+		pGame->pBoardButton[i]->r_right = 0;
+		pGame->pBoardButton[i]->r_top = 0;
+		pGame->pBoardButton[i]->r_bottom = 0;
+		pGame->pBoardButton[i]->force = 1;
+		pGame->pBoardButton[i]->direction = 'l';
+		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
+		pGame->pBoardButton[i]->y = -1; // Signifie que le pion est hors plateau
+		pGame->pBoardButton[i]->x = -1;
+		pGame->pBoardButton[i]->color = -1;
 	}
 	
 }
-
 void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	
 	// Variables
@@ -90,9 +100,10 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	// On modifie le message de la barre d'outils
 	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, "La partie a débuté, c'est à vous de jouer");
 	
-	// On modifie le plateau pour afficher les images
-	for(i = 0; i < 5; i++)
-	gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]), pGame->pImageRhino);
+	// On applique les callbacks pour tous les boutons
+	for(i = 0; i < 35; i++) {
+		g_signal_connect(G_OBJECT(pGame->pBoardButton[i]->button), "clicked", G_CALLBACK(ActionInGame), pGame);
+	}
 	
 	/* Détruit la fenêtre (elle reçoit donc un signal "destroy") 
 	C'est pourquoi on ne doit pas connecter le signal "destroy" de la fenêtre 

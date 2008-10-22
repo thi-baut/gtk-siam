@@ -7,8 +7,6 @@
  */
 
 #include "library.h"
-#include "menu.h"
-#include "newgame.h"
 
 int main (int argc, char **argv)
 {
