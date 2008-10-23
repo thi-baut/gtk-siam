@@ -15,6 +15,7 @@ void CreateGameWindow(MainWindow *pGame){
 	int c = -1;
 	gchar *temp;
 	temp = (gchar *) malloc(3*sizeof(gchar));
+	pGame->pTempButton = (Button *) malloc(sizeof(Button));
 	
 	// On initialise le chrono à 0
 	pGame->chrono = -1;
@@ -74,13 +75,11 @@ void CreateGameWindow(MainWindow *pGame){
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->black);
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->black);
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->black_clicked);
-				pGame->pBoardButton[i]->color = 0;
 				break;
 			case 1:
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->white);
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->white);
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->white_clicked);
-				pGame->pBoardButton[i]->color = 1;
 				break;
 		}
 	}
