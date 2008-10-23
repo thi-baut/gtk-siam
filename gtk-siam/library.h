@@ -17,7 +17,6 @@ struct _Button{
 
 GtkWidget *button; // Contient le bouton GTK+
 GtkWidget *image; // Image du pion
-gint color;
 gint x; // Coordonnées en x
 gint y; // Coordonnées en y
 gint force; // Force - poids
@@ -45,6 +44,7 @@ struct _MainWindow
 
 	GtkWidget *pTable;
 	Button *pBoardButton[35];
+	Button *pTempButton;
 
 	GtkWidget *pLabel[2];
 	

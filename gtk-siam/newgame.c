@@ -40,7 +40,6 @@ void LoadBoard(MainWindow *pGame){
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
 		pGame->pBoardButton[i]->x = -1; // Signifie que le pion est hors plateau
 		pGame->pBoardButton[i]->y = -1;
-		pGame->pBoardButton[i]->color = -1;
 	}
 	
 	// Rhinocéros
@@ -56,7 +55,6 @@ void LoadBoard(MainWindow *pGame){
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
 		pGame->pBoardButton[i]->y = -1; // Signifie que le pion est hors plateau
 		pGame->pBoardButton[i]->x = -1;
-		pGame->pBoardButton[i]->color = -1;
 	}
 	
 }
