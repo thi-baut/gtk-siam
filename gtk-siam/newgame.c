@@ -49,7 +49,7 @@ void LoadBoard(MainWindow *pGame){
 	
 	// Rhinocéros
 	for(i = 30; i < 35; i++) {
-		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/rhino-r.png");
+		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/rhino-l.png");
 		pGame->pBoardButton[i]->piece = 'r';
 		pGame->pBoardButton[i]->r_left = 0;
 		pGame->pBoardButton[i]->r_right = 0;

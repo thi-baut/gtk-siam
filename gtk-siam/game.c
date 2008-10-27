@@ -126,26 +126,42 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 			}
 			
 			else {
-			pGame->pBoardButton[number]->piece = pGame->pBoardButton[number2]->piece;
-			pGame->pBoardButton[number]->r_left = pGame->pBoardButton[number2]->r_left;
-			pGame->pBoardButton[number]->r_right = pGame->pBoardButton[number2]->r_right;
-			pGame->pBoardButton[number]->r_top = pGame->pBoardButton[number2]->r_top;
-			pGame->pBoardButton[number]->r_bottom = pGame->pBoardButton[number2]->r_bottom;
-			pGame->pBoardButton[number]->force = pGame->pBoardButton[number2]->force;
-			pGame->pBoardButton[number]->direction = pGame->pBoardButton[number2]->direction;
+				
+			// C'est ici que l'on vérifie que le sens du pion est correctement enregistré pour permettre le déplacement
+				if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x < 0) && (pGame->pBoardButton[number]->direction == 'l'))
+				   gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
+				   
+				else if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x > 0) && (pGame->pBoardButton[number]->direction == 'r'))
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
+						
+				else if((pGame->pBoardButton[number]->y - pGame->pBoardButton[number2]->y < 0) && (pGame->pBoardButton[number]->direction == 't'))
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
+								
+				else if((pGame->pBoardButton[number]->y - pGame->pBoardButton[number2]->y > 0) && (pGame->pBoardButton[number]->direction == 'b'))
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
+				
+				else {
+					pGame->pBoardButton[number]->piece = pGame->pBoardButton[number2]->piece;
+					pGame->pBoardButton[number]->r_left = pGame->pBoardButton[number2]->r_left;
+					pGame->pBoardButton[number]->r_right = pGame->pBoardButton[number2]->r_right;
+					pGame->pBoardButton[number]->r_top = pGame->pBoardButton[number2]->r_top;
+					pGame->pBoardButton[number]->r_bottom = pGame->pBoardButton[number2]->r_bottom;
+					pGame->pBoardButton[number]->force = pGame->pBoardButton[number2]->force;
+					pGame->pBoardButton[number]->direction = pGame->pBoardButton[number2]->direction;
 			
-			pGame->pBoardButton[number2]->piece = pGame->pTempButton->piece;
-			pGame->pBoardButton[number2]->r_left = pGame->pTempButton->r_left;
-			pGame->pBoardButton[number2]->r_right = pGame->pTempButton->r_right;
-			pGame->pBoardButton[number2]->r_top = pGame->pTempButton->r_top;
-			pGame->pBoardButton[number2]->r_bottom = pGame->pTempButton->r_bottom;
-			pGame->pBoardButton[number2]->force = pGame->pTempButton->force;
-			pGame->pBoardButton[number2]->direction = pGame->pTempButton->direction;
-				
-				
-			// Si l'échange a été effectué, message dans la statusbar
-			sprintf(temp, "Nouvelles coordonnées : x = %d et y = %d. C'est un pion %c orienté en %c", pGame->pBoardButton[number2]->x, pGame->pBoardButton[number2]->y, pGame->pBoardButton[number2]->piece, pGame->pBoardButton[number2]->direction);
-			gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, temp);
+					pGame->pBoardButton[number2]->piece = pGame->pTempButton->piece;
+					pGame->pBoardButton[number2]->r_left = pGame->pTempButton->r_left;
+					pGame->pBoardButton[number2]->r_right = pGame->pTempButton->r_right;
+					pGame->pBoardButton[number2]->r_top = pGame->pTempButton->r_top;
+					pGame->pBoardButton[number2]->r_bottom = pGame->pTempButton->r_bottom;
+					pGame->pBoardButton[number2]->force = pGame->pTempButton->force;
+					pGame->pBoardButton[number2]->direction = pGame->pTempButton->direction;
+					
+					// Si l'échange a été effectué, message dans la statusbar
+					sprintf(temp, "Nouvelles coordonnées : x = %d et y = %d. C'est un pion %c orienté en %c", pGame->pBoardButton[number2]->x, pGame->pBoardButton[number2]->y, pGame->pBoardButton[number2]->piece, pGame->pBoardButton[number2]->direction);
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, temp);
+				}
+
 				
 			}
 			
