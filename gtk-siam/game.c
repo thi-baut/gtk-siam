@@ -14,6 +14,8 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 	// Numéro de la case. Récupérée dans le champ adéquat dans le GObject pButton passé en argument du Callback
 	static int number, number2;
 	static gchar temp[150];
+	int i;
+	
 	
 	switch(pGame->round) {
 		case 0:
@@ -25,7 +27,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 			if(pGame->pBoardButton[number]->piece == 'n')
 				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous avez cliqué sur une case vide !");
 			
-			if(pGame->pBoardButton[number]->piece != 'n' && (number != number2)) {
+			if(pGame->pBoardButton[number]->piece != 'n') {
 			/* PREPARATION DE L'ECHANGE */
 			
 			// On récupère le pion actuellement sur la case
@@ -42,12 +44,10 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 
 			sprintf(temp,"Coordonnées : x = %d et y = %d. C'est un pion %c.", pGame->pTempButton->x, pGame->pTempButton->y, pGame->pTempButton->piece);
 			gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, temp);
-			}
-			
-			if(pGame->pBoardButton[number]->piece != 'n') {
-				// Enfin on met la valeur round à 1 pour activer le mode case d'arrivée
-				pGame->round = 1;
-				// On active quand même ce mode dans le cas où on clique deux fois sur la même case. Mais on n'a pas copié toutes les variables pour rien !
+				
+			// Enfin on met la valeur round à 1 pour activer le mode case d'arrivée
+			pGame->round = 1;
+			// On active quand même ce mode dans le cas où on clique deux fois sur la même case. Mais on n'a pas copié toutes les variables pour rien !
 			}
 		break;
 			
@@ -58,7 +58,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 			if(number == number2) {
 				switch(pGame->pBoardButton[number]->direction) {
 					case 't':
-						// On le tourne de 90° sans non trigo
+						// On le tourne de 90¬∞ sans non trigo
 						pGame->pBoardButton[number]->direction = 'r';
 						// On modifie son image
 						switch(pGame->pBoardButton[number]->piece) {
@@ -71,7 +71,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-r.png");
 								break;
 						}
-						// On rafraîchit l'image
+						// On rafra√Æchit l'image
 						gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[number]->button), pGame->pBoardButton[number]->image);
 						break;
 					case 'b':
@@ -87,7 +87,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-l.png");
 								break;
 						}
-						// On rafraîchit l'image
+						// On rafra√Æchit l'image
 						gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[number]->button), pGame->pBoardButton[number]->image);
 						break;
 					case 'l':
@@ -103,7 +103,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino.png");
 								break;
 						}
-						// On rafraîchit l'image
+						// On rafra√Æchit l'image
 						gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[number]->button), pGame->pBoardButton[number]->image);
 						break;
 					case 'r':
@@ -111,7 +111,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 						// On modifie son image
 						switch(pGame->pBoardButton[number]->piece) {
 							case 'e':
-								gtk_image_clear(GTK_IMAGE(pGame->pBoardButton[number]->image)); // Libère la mémoire sinon ça chie :)
+								gtk_image_clear(GTK_IMAGE(pGame->pBoardButton[number]->image)); // Lib√®re la m√©moire sinon √ßa chie :)
 								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant-b.png");
 								break;
 							case 'r':
@@ -119,14 +119,68 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-b.png");
 								break;
 						}
-						// On rafraîchit l'image
+						// On rafra√Æchit l'image
 						gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[number]->button), pGame->pBoardButton[number]->image);
 						break;
 				}
 			}
 			
+			
+			if((pGame->pBoardButton[number]->piece == 'e') && (number2>=30) && (number2<35))	{
+			   
+				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas aller dans le camp adverse !");
+			   
+			   }
+			
+			else if((pGame->pBoardButton[number]->piece == 'r') && (number2>=25) && (number2<30))	{
+				
+				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas aller dans le camp adverse !");
+				
+			}
+			
+			else if(((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))>1)) || (((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))<-1)) {
+				
+				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez vous déplacer que d'une case par tour !");
+				
+			}
+			
+			else if(((((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))>1)) || (((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))<-1)) {
+				
+				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez vous déplacer que d'une case par tour !");
+				
+			}
+			
+			else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) && ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==1){
+				
+				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !");	
+				
+			}
+			
+			else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) && ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1){
+				
+				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !");	
+				
+			}
+			
+			else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==-1) && ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==1){
+				
+				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !");	
+				
+			}
+			
+			else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==-1) && ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1){
+				
+				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !");	
+				
+			}
+			
+			else if((((number>=30) && (number<35)) || ((number>=25) && (number<30)))  && ((pGame->pBoardButton[number2]->piece!='n'))){
+				
+				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Rentrée sur le plateau impossible");
+				
+			}
+			
 			else {
-			// Echange des boutons !! BENTROC C'EST LÀ QUE TU RENTRES EN SCENE ;)
 			pGame->pBoardButton[number]->piece = pGame->pBoardButton[number2]->piece;
 			pGame->pBoardButton[number]->r_left = pGame->pBoardButton[number2]->r_left;
 			pGame->pBoardButton[number]->r_right = pGame->pBoardButton[number2]->r_right;
@@ -134,6 +188,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pBoardButton[number]->r_bottom = pGame->pBoardButton[number2]->r_bottom;
 			pGame->pBoardButton[number]->force = pGame->pBoardButton[number2]->force;
 			pGame->pBoardButton[number]->direction = pGame->pBoardButton[number2]->direction;
+		
 
 			switch(pGame->pBoardButton[number]->piece) {
 				case 'e':
@@ -151,8 +206,6 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
 					break;
 			}
-
-			printf("x : %d & y : %d\n", pGame->pBoardButton[number2]->x, pGame->pBoardButton[number2]->y);
 			
 			pGame->pBoardButton[number2]->piece = pGame->pTempButton->piece;
 			
