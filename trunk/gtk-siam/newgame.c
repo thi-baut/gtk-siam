@@ -44,7 +44,9 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->direction = 'r';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
 		pGame->pBoardButton[i]->x = -1; // Signifie que le pion est hors plateau
+
 		pGame->pBoardButton[i]->y = i-25;
+
 	}
 	
 	// Rhinocéros
@@ -58,8 +60,10 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->force = 1;
 		pGame->pBoardButton[i]->direction = 'l';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
+
 		pGame->pBoardButton[i]->y = i-30; // Signifie que le pion est hors plateau
 		pGame->pBoardButton[i]->x = 5;
+
 	}
 	
 }
@@ -76,7 +80,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	pGame->timer = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxTimer));
 	
 	// On enregistre le type de partie (J vs. CPU ou J vs. J)
-	pGame->vs_cpu = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxCPU));
+	pGame->vs_human = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxCPU));
 	
 	// On enregistre le choix du joueur concernant les pions
 	pGame->pion = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxAnimal));
@@ -89,6 +93,18 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		strcat(temp, pGame->player_name);
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[0]), temp); /* BUGUE JE NE SAIS PAS POURQUOI : RELOU ! */
 	}
+	
+	if(pGame->vs_human == FALSE) {
+		
+		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. CPU");
+		
+	}
+	
+	else if(pGame->vs_human == TRUE) {
+		
+		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. Humain");
+	
+	}	
 	
 	// On (re)démarre le timer
 	if(pGame->timer == TRUE && pGame->chrono != -1) {

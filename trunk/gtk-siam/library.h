@@ -46,7 +46,7 @@ struct _MainWindow
 	Button *pBoardButton[35];
 	Button *pTempButton;
 
-	GtkWidget *pLabel[2];
+	GtkWidget *pLabel[3];
 	
 	GtkWidget *pStatusBar;
 
@@ -80,11 +80,12 @@ struct _MainWindow
 	/* Variables générales */
 	gint level; // Niveau du jeu
 	gboolean timer; // Timer activé ou non
-	gboolean vs_cpu; // J. vs. J. (= FALSE) ou J. vs. CPU (= TRUE)
+	gboolean vs_human; // J. vs. J. (= FALSE) ou J. vs. CPU (= TRUE)
 	const gchar* player_name; // Nom du joueur
 	gint chrono; // Valeur du chronomètre
 	gboolean pion; // TRUE pour Elephant (blancs donc la partie commence par eux) ou FALSE pour les hippos
 	gint round;
+	gint turn;
 	gint x;
 	gint y;
 	GdkColor black;
