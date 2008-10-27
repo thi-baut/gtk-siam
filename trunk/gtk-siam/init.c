@@ -17,18 +17,16 @@ void CreateGameWindow(MainWindow *pGame){
 	temp = (gchar *) malloc(3*sizeof(gchar));
 	pGame->pTempButton = (Button *) malloc(sizeof(Button));
 	
+	// Allocation de la mémoire pour les boutons
+	for(i=0 ; i < 36; i++) {
+		pGame->pBoardButton[i] = (Button *) malloc(sizeof(Button));
+	}
+	
 	// On initialise le chrono à 0
 	pGame->chrono = -1;
 	
 	// On intialise l'entier qui servira de round;
 	pGame->round = 0;
-	pGame->x = -1;
-	pGame->y = -1;
-	
-	// Allocation de la mémoire pour les boutons
-	for(i = 0; i < 35; i++) {
-		pGame->pBoardButton[i] = (Button *) malloc(sizeof(Button));
-	}
 	
 	// Création de la fenêtre
 	pGame->pWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -46,7 +44,7 @@ void CreateGameWindow(MainWindow *pGame){
 	// Images
 
 	// Table de jeu
-	for (i=0; i<25; i++){
+	for (i=0; i<35; i++){
 	pGame->pBoardButton[i]->button=gtk_button_new();
 	}
 
@@ -57,11 +55,6 @@ void CreateGameWindow(MainWindow *pGame){
 	gdk_color_parse("#392B20", &pGame->brown);
 	gdk_color_parse("#2E2E2E", &pGame->black_clicked);
 	gdk_color_parse("#E8E8E8", &pGame->white_clicked);
-	
-	// Création des boutons en dehors du plateau
-	for(i = 25;i < 35; i++){
-		pGame->pBoardButton[i]->button=gtk_button_new();
-	}
 	
 	// Création des separator
 	for(i=0;i<2;i++){

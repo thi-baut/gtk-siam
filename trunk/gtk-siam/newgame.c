@@ -15,6 +15,7 @@ void LoadBoard(MainWindow *pGame){
 	// On s'occupe de tous les pions
 	for(i = 0; i < 35; i++) {
 		pGame->pBoardButton[i]->piece = 'n';
+		pGame->pBoardButton[i]->image = gtk_image_new();
 	}
 	
 	// On s'occupe des montagnes
@@ -24,12 +25,16 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->r_right = 0.9;
 		pGame->pBoardButton[i]->r_top = 0.9;
 		pGame->pBoardButton[i]->r_bottom = 0.9;
+		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/mountain.png");
+		pGame->pBoardButton[i]->force = 0;
+		pGame->pBoardButton[i]->direction = 'n';
+		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
 	}
 	
 	// On enregistre les paramètres des pions hors-jeu
 	// Éléphants
 	for(i = 25; i < 30; i++) {
-		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/elephant.png");
+		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/elephant-r.png");
 		pGame->pBoardButton[i]->piece = 'e';
 		pGame->pBoardButton[i]->r_left = 0;
 		pGame->pBoardButton[i]->r_right = 0;
@@ -39,12 +44,12 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->direction = 'r';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
 		pGame->pBoardButton[i]->x = -1; // Signifie que le pion est hors plateau
-		pGame->pBoardButton[i]->y = -1;
+		pGame->pBoardButton[i]->y = i-25;
 	}
 	
 	// Rhinocéros
 	for(i = 30; i < 35; i++) {
-		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/rhino.png");
+		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/rhino-r.png");
 		pGame->pBoardButton[i]->piece = 'r';
 		pGame->pBoardButton[i]->r_left = 0;
 		pGame->pBoardButton[i]->r_right = 0;
@@ -53,8 +58,8 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->force = 1;
 		pGame->pBoardButton[i]->direction = 'l';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
-		pGame->pBoardButton[i]->y = -1; // Signifie que le pion est hors plateau
-		pGame->pBoardButton[i]->x = -1;
+		pGame->pBoardButton[i]->y = i-30; // Signifie que le pion est hors plateau
+		pGame->pBoardButton[i]->x = 5;
 	}
 	
 }
@@ -74,7 +79,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	pGame->vs_cpu = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxCPU));
 	
 	// On enregistre le choix du joueur concernant les pions
-	pGame->pion = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pion));
+	pGame->pion = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxAnimal));
 	
 	// On enregistre le nom du joueur
 	pGame->player_name = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry));
