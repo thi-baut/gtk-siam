@@ -12,11 +12,9 @@ int main (int argc, char **argv)
 {
 	/* Constants pour les deux systèmes (juste au cas-où on en ai besoin ;) */
 #ifdef __APPLE__
-	printf("Mac OS rocks !");
 #endif
 	
 #ifdef WIN32
-	printf("Windows sucks !");
 #endif
 	
 	/* Paramètre la langue et les signes utilisés par GTK+ (meilleur pour le multi-plateforme) */
