@@ -14,6 +14,8 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 	// Numéro de la case. Récupérée dans le champ adéquat dans le GObject pButton passé en argument du Callback
 	static int number, number2;
 	static gchar temp[150];
+	gint i = 0;
+	gint resistance;
 	
 	if(pGame->vs_human == TRUE) {
 	
@@ -41,7 +43,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pTempButton->force = pGame->pBoardButton[number]->force;
 			pGame->pTempButton->direction = pGame->pBoardButton[number]->direction;
 
-			sprintf(temp,"Coordonnées du pion sélectionné : x = %d et y = %d. C'est un pion %c orienté en %c.", pGame->pTempButton->x, pGame->pTempButton->y, pGame->pTempButton->piece, pGame->pTempButton->direction);
+			sprintf(temp,"Coordonnées du pion sélectionné : x = %d et y = %d. C'est un pion %c orienté en %c.", pGame->pBoardButton[number]->x, pGame->pBoardButton[number]->y, pGame->pTempButton->piece, pGame->pTempButton->direction);
 			gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, temp);
 				
 			// Enfin on met la valeur round à 1 pour activer le mode case d'arrivée
@@ -125,20 +127,21 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Rentrée sur le plateau impossible");
 				
 			}
-			
-			else {
+
+			// Cas de l'échange, c'est à dire qu'on inverse deux pièces. Simple déplacement des pions en fait !
+			else if(pGame->pBoardButton[number2]->piece == 'n'){
 				
 			// C'est ici que l'on vérifie que le sens du pion est correctement enregistré pour permettre le déplacement
-				if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x < 0) && (pGame->pBoardButton[number]->direction == 'l'))
+				if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x > 0) && (pGame->pBoardButton[number]->direction != 'l'))
 				   gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
 				   
-				else if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x > 0) && (pGame->pBoardButton[number]->direction == 'r'))
+				else if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x < 0) && (pGame->pBoardButton[number]->direction != 'r'))
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
 						
-				else if((pGame->pBoardButton[number]->y - pGame->pBoardButton[number2]->y < 0) && (pGame->pBoardButton[number]->direction == 't'))
+				else if((pGame->pBoardButton[number]->y - pGame->pBoardButton[number2]->y > 0) && (pGame->pBoardButton[number]->direction != 't'))
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
 								
-				else if((pGame->pBoardButton[number]->y - pGame->pBoardButton[number2]->y > 0) && (pGame->pBoardButton[number]->direction == 'b'))
+				else if((pGame->pBoardButton[number]->y - pGame->pBoardButton[number2]->y < 0) && (pGame->pBoardButton[number]->direction != 'b'))
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
 				
 				else {
@@ -162,8 +165,78 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					sprintf(temp, "Nouvelles coordonnées : x = %d et y = %d. C'est un pion %c orienté en %c", pGame->pBoardButton[number2]->x, pGame->pBoardButton[number2]->y, pGame->pBoardButton[number2]->piece, pGame->pBoardButton[number2]->direction);
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, temp);
 				}
+			}
+			
+			// Cas de la poussée : et là, c'est le drame.
+			else {
+				if(pGame->pBoardButton[number]->piece == 'e')
+				switch(pGame->pBoardButton[number]->direction) {
+					case 't':
+						i = number;
+						resistance = pGame->pBoardButton[number]->force;
+						while(pGame->pBoardButton[i]->piece != 'n') {
+							printf("Pion %d\n", i);
+							printf("La force restante est de %d", resistance);
+							if(pGame->pBoardButton[i]->y <= 0) break;
+							i = i-5;
+							// On soustrait les résistances
+								switch(pGame->pBoardButton[i]->direction) {
+									case 'r':
+										if(pGame->pBoardButton[i]->piece == 'r' || pGame->pBoardButton[i]->piece == 'm')
+											resistance = resistance - pGame->pBoardButton[i]->r_right;
+										else if(pGame->pBoardButton[i]->piece == 'e')
+											resistance = resistance + pGame->pBoardButton[i]->force;
+										break;
+									case 'l':
+										if(pGame->pBoardButton[i]->piece == 'r' || pGame->pBoardButton[i]->piece == 'm')
+											resistance = resistance - pGame->pBoardButton[i]->r_left;
+										else if(pGame->pBoardButton[i]->piece == 'e')
+											resistance = resistance + pGame->pBoardButton[i]->force;
+										break;
+									case 't':
+										if(pGame->pBoardButton[i]->piece == 'r' || pGame->pBoardButton[i]->piece == 'm')
+											resistance = resistance - pGame->pBoardButton[i]->r_top;
+										else if(pGame->pBoardButton[i]->piece == 'e')
+											resistance = resistance + pGame->pBoardButton[i]->force;
+										break;
+									case 'b':
+										if(pGame->pBoardButton[i]->piece == 'r' || pGame->pBoardButton[i]->piece == 'm')
+											resistance = resistance - pGame->pBoardButton[i]->r_bottom;
+										else if(pGame->pBoardButton[i]->piece == 'e')
+											resistance = resistance + pGame->pBoardButton[i]->force;
+										break;
+								}
+						}
+						break;
+					case 'b':
+						i = number;
+						resistance = pGame->pBoardButton[number]->r_bottom;
+						while(pGame->pBoardButton[i]->piece != 'n') {
+							printf("Pion %d\n", i);
+							if(pGame->pBoardButton[i]->y > 4) break;
+							i = i+5;
+						}
+						break;
+					case 'l':
+						i = number;
+						resistance = pGame->pBoardButton[number]->r_left;
+						while(pGame->pBoardButton[i]->piece != 'n') {
+							printf("Pion %d\n", i);
+							if(pGame->pBoardButton[i]->x < 0) break;
+							i = i-1;
 
-				
+						}
+						break;
+					case 'r':
+						i = number;
+						resistance = pGame->pBoardButton[number]->r_right;
+						while(pGame->pBoardButton[i]->piece != 'n') {
+							if(pGame->pBoardButton[i]->x > 4) break;
+							printf("Pion %d\n", i);
+							i = i+1;
+						}
+						break;
+				}
 			}
 			
 			// On rafraîchit l'image :
