@@ -11,6 +11,7 @@
 		15409F790DCB9D7A00BC6E83 /* Gtk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15409F780DCB9D7A00BC6E83 /* Gtk.framework */; };
 		15409F7D0DCB9D8800BC6E83 /* Cairo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15409F7C0DCB9D8800BC6E83 /* Cairo.framework */; };
 		53030B900EA519800076D477 /* init.c in Sources */ = {isa = PBXBuildFile; fileRef = 53030B8F0EA519800076D477 /* init.c */; };
+		5374A5C90EAF903F00B698B5 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 5374A5C80EAF903F00B698B5 /* game.c */; };
 		53F35A350EAE1BB60066F650 /* timer.c in Sources */ = {isa = PBXBuildFile; fileRef = 53F35A340EAE1BB60066F650 /* timer.c */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.c */; settings = {ATTRIBUTES = (); }; };
@@ -26,7 +27,23 @@
 		15409F7C0DCB9D8800BC6E83 /* Cairo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cairo.framework; path = /Library/Frameworks/Cairo.framework; sourceTree = "<absolute>"; };
 		29B97316FDCFA39411CA2CEA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		53030B8F0EA519800076D477 /* init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = init.c; sourceTree = "<group>"; };
+		5374A5C80EAF903F00B698B5 /* game.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
+		5374A5D50EAF906700B698B5 /* menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu.h; sourceTree = "<group>"; };
+		5374A5D60EAF906700B698B5 /* newgame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = newgame.h; sourceTree = "<group>"; };
+		5374A5D70EAF906700B698B5 /* test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = test.png; sourceTree = "<group>"; };
 		53F35A340EAE1BB60066F650 /* timer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = timer.c; sourceTree = "<group>"; };
+		53F6FE100EB0C608007ACF2C /* elephant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = elephant.png; path = /elephant.png; sourceTree = "<absolute>"; };
+		53F6FE110EB0C608007ACF2C /* empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = empty.png; path = /empty.png; sourceTree = "<absolute>"; };
+		53F6FE120EB0C608007ACF2C /* rhino.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rhino.png; path = /rhino.png; sourceTree = "<absolute>"; };
+		53F6FE420EB0C768007ACF2C /* elephant-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-b.png"; sourceTree = "<group>"; };
+		53F6FE430EB0C768007ACF2C /* elephant-l.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-l.png"; sourceTree = "<group>"; };
+		53F6FE440EB0C768007ACF2C /* elephant-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "elephant-r.png"; sourceTree = "<group>"; };
+		53F6FE450EB0C768007ACF2C /* elephant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = elephant.png; sourceTree = "<group>"; };
+		53F6FE460EB0C768007ACF2C /* empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty.png; sourceTree = "<group>"; };
+		53F6FE470EB0C768007ACF2C /* rhino-b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rhino-b.png"; sourceTree = "<group>"; };
+		53F6FE480EB0C768007ACF2C /* rhino-l.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rhino-l.png"; sourceTree = "<group>"; };
+		53F6FE490EB0C768007ACF2C /* rhino-r.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rhino-r.png"; sourceTree = "<group>"; };
+		53F6FE4A0EB0C768007ACF2C /* rhino.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rhino.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* GTK-Siam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GTK-Siam.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0196E560EA3985D007A6E23 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
@@ -102,6 +119,9 @@
 				C0196E830EA3A2FE007A6E23 /* newgame.c */,
 				C0196E600EA398AC007A6E23 /* library.h */,
 				C0196E940EA3A613007A6E23 /* menu.c */,
+				5374A5D50EAF906700B698B5 /* menu.h */,
+				5374A5D60EAF906700B698B5 /* newgame.h */,
+				5374A5C80EAF903F00B698B5 /* game.c */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -109,6 +129,19 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5374A5D70EAF906700B698B5 /* test.png */,
+				53F6FE120EB0C608007ACF2C /* rhino.png */,
+				53F6FE420EB0C768007ACF2C /* elephant-b.png */,
+				53F6FE430EB0C768007ACF2C /* elephant-l.png */,
+				53F6FE440EB0C768007ACF2C /* elephant-r.png */,
+				53F6FE450EB0C768007ACF2C /* elephant.png */,
+				53F6FE460EB0C768007ACF2C /* empty.png */,
+				53F6FE470EB0C768007ACF2C /* rhino-b.png */,
+				53F6FE480EB0C768007ACF2C /* rhino-l.png */,
+				53F6FE490EB0C768007ACF2C /* rhino-r.png */,
+				53F6FE4A0EB0C768007ACF2C /* rhino.png */,
+				53F6FE100EB0C608007ACF2C /* elephant.png */,
+				53F6FE110EB0C608007ACF2C /* empty.png */,
 				C0196E560EA3985D007A6E23 /* icon.icns */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -185,6 +218,7 @@
 				C0196E950EA3A613007A6E23 /* menu.c in Sources */,
 				53030B900EA519800076D477 /* init.c in Sources */,
 				53F35A350EAE1BB60066F650 /* timer.c in Sources */,
+				5374A5C90EAF903F00B698B5 /* game.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

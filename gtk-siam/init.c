@@ -40,6 +40,7 @@ void CreateGameWindow(MainWindow *pGame){
 	// Labels
 	pGame->pLabel[0] = gtk_label_new("Nom du joueur : non renseigné");
 	pGame->pLabel[1] = gtk_label_new("Chronomètre : désactivé");
+	pGame->pLabel[2] = gtk_label_new("Mode : non renseigné");
 	
 	// Images
 
@@ -147,6 +148,8 @@ void CreateGameWindow(MainWindow *pGame){
 	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[0], "Nom du joueur", "Nom du joueur", -1);
 	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
 	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[1], "Chronomètre", "Chronomètre", -1);
+	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
+	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode 1 vs 1", "Mode 1 vs 1", -1);
 	
 	/* Modification de la taille des icones */
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(pGame->pToolbar), GTK_ICON_SIZE_BUTTON);
@@ -237,6 +240,7 @@ void CreateGameWindow(MainWindow *pGame){
 	// Fenêtre pGame
 	
 	// VBox
+	
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pMenuBar, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pToolbar, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pHBox, TRUE, TRUE, 0);
@@ -258,6 +262,7 @@ void CreateGameWindow(MainWindow *pGame){
 	
 	
 	//Hbox
+	
 	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pVBox1, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pSeparator[0], FALSE, FALSE, 15);
 	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pTable, TRUE, TRUE, 0);
