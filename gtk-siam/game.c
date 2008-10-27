@@ -71,7 +71,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 			}
 			
 			
-			if((pGame->pBoardButton[number]->piece == 'e') && (number2>=30) && (number2<35))	{
+			else if((pGame->pBoardButton[number]->piece == 'e') && (number2>=30) && (number2<35))	{
 			   
 				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas aller dans le camp adverse !");
 			   
@@ -119,14 +119,13 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				
 			}
 			
-			else if((((number>=30) && (number<35)) || ((number>=25) && (number<30)))  && ((pGame->pBoardButton[number2]->piece!='n'))){
+			else if((((number>=30) && (number<35)) || ((number>=25) && (number<30)))  && ((pGame->pBoardButton[number2]->piece !='n'))){
 				
 				gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Rentrée sur le plateau impossible");
 				
 			}
 			
 			else {
-				
 			pGame->pBoardButton[number]->piece = pGame->pBoardButton[number2]->piece;
 			pGame->pBoardButton[number]->r_left = pGame->pBoardButton[number2]->r_left;
 			pGame->pBoardButton[number]->r_right = pGame->pBoardButton[number2]->r_right;
@@ -147,7 +146,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 			// Si l'échange a été effectué, message dans la statusbar
 			sprintf(temp, "Nouvelles coordonnées : x = %d et y = %d. C'est un pion %c orienté en %c", pGame->pBoardButton[number2]->x, pGame->pBoardButton[number2]->y, pGame->pBoardButton[number2]->piece, pGame->pBoardButton[number2]->direction);
 			gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, temp);
-			
+				
 			}
 			
 			// On rafraîchit l'image :
