@@ -46,7 +46,7 @@ struct _MainWindow
 	Button *pBoardButton[35];
 	Button *pTempButton;
 
-	GtkWidget *pLabel[3];
+	GtkWidget *pLabel[4];
 	
 	GtkWidget *pStatusBar;
 
