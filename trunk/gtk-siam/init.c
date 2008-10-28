@@ -40,7 +40,7 @@ void CreateGameWindow(MainWindow *pGame){
 	// Labels
 	pGame->pLabel[0] = gtk_label_new("Nom du joueur : non renseigné");
 	pGame->pLabel[1] = gtk_label_new("Chronomètre : désactivé");
-	pGame->pLabel[2] = gtk_label_new("Mode : non renseigné");
+	pGame->pLabel[2] = gtk_label_new("Mode : non renseign�	pGame->pLabel[3] = gtk_label_new("Tour de jeu : Pas de jeu en coursigné");
 	
 	// Images
 
@@ -51,7 +51,7 @@ void CreateGameWindow(MainWindow *pGame){
 
 	pGame->pTable = gtk_table_new(5, 5, TRUE);
 
-	gdk_color_parse("black", &pGame->black);
+	gdk_colo_parse("black", &pGame->black);
 	gdk_color_parse("white", &pGame->white);
 	gdk_color_parse("#392B20", &pGame->brown);
 	gdk_color_parse("#2E2E2E", &pGame->black_clicked);
@@ -74,7 +74,7 @@ void CreateGameWindow(MainWindow *pGame){
 
     GdkColor white_clicked = {0, 65535, 0, 0};
     gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &white_clicked);
-ation des separator
+ation des separator
 	for(i=0;i<2;i++){
 		pGame->pSeparator[i] = gtk_vseparator_new();
 	}
@@ -166,8 +166,8 @@ void CreateGameWindow(MainWindow *pGame){
 	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
 	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[1], "Chronomètre", "Chronomètre", -1);
 	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
-	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode 1 vs 1", "Mode 1 vs 1", -1);
-	
+	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode 1 vs 1",", "Mod	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
+	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode3], "Tour", "Tour
 	/* Modification de la taille des icones */
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(pGame->pToolbar), GTK_ICON_SIZE_BUTTON);
 	/* Affichage uniquement des icones */
