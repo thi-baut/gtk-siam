@@ -101,6 +101,7 @@ typedef struct _MainWindow MainWindow;
 
 // menu.c
 void OnGameRules(GtkWidget *pMenuItem, MainWindow *pGame);
+void OnButtonWithDrawal(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnAbout(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame);

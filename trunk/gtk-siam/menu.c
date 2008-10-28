@@ -168,6 +168,47 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
     gtk_widget_destroy(pFileSelection);
 }
 
+void OnButtonWithDrawal(GtkWidget *pMenuItem, MainWindow *pGame) {
+	
+	/* Fenêtre popup forfait */
+	
+	GtkWidget *pWithDrawalWindow;
+	GtkWidget *pWithDrawalButton[2];
+	GtkWidget *pWithDrawalLabel;
+	GtkWidget *pWithDrawalVBox;
+	GtkWidget *pWithDrawalHBox;
+	
+	pWithDrawalWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_default_size(GTK_WINDOW(pWithDrawalWindow), 400, 200);
+	gtk_window_set_title(GTK_WINDOW(pWithDrawalWindow), "Déclarer forfait ?");
+	gtk_window_set_position(GTK_WINDOW(pWithDrawalWindow), GTK_WIN_POS_CENTER);
+	g_signal_connect(G_OBJECT(pWithDrawalWindow),"destroy",G_CALLBACK(gtk_widget_hide_all),NULL);
+	
+	pWithDrawalVBox = gtk_vbox_new(TRUE, 10);
+	pWithDrawalHBox = gtk_hbox_new(TRUE, 10);
+	
+	pWithDrawalLabel = gtk_label_new("Qu'est-ce que vous êtes ?");
+	gtk_box_pack_start(GTK_BOX(pWithDrawalVBox), pWithDrawalLabel, TRUE, TRUE, 10);
+	
+	pWithDrawalButton[0] = gtk_button_new_with_label("Un loser...");
+	gtk_box_pack_start(GTK_BOX(pWithDrawalHBox), pWithDrawalButton[0], TRUE, TRUE, 10);
+	
+	pWithDrawalButton[1] = gtk_button_new_with_label("Un gagnant !");
+	gtk_box_pack_start(GTK_BOX(pWithDrawalHBox), pWithDrawalButton[1], TRUE, TRUE, 10);
+	
+	gtk_box_pack_start(GTK_BOX(pWithDrawalVBox), pWithDrawalHBox, TRUE, TRUE, 10);
+	
+	gtk_container_add(GTK_CONTAINER(pWithDrawalWindow), pWithDrawalVBox);
+	
+	g_signal_connect(G_OBJECT(pWithDrawalButton[0]),"clicked",G_CALLBACK(gtk_main_quit),NULL);
+	
+	//g_signal_connect(G_OBJECT(pWithDrawalButton[1]),"clicked",G_CALLBACK(gtk_widget_hide_all),NULL);
+	//Je ne sais pas comment cacher juste la fenêtre WithDrawal (et uniquement celle là) quand je clique sur le bouton :(
+	
+	gtk_widget_show_all(pWithDrawalWindow);
+	
+}
+
 /* PROCÉDURE À MODIFIER POUR PLUS DE STYLE */
 void OnGameRules(GtkWidget *pMenuItem, MainWindow *pGame) {
 	
