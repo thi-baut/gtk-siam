@@ -57,8 +57,7 @@ void CreateGameWindow(MainWindow *pGame){
 	gdk_color_parse("#2E2E2E", &pGame->black_clicked);
 	gdk_color_parse("#E8E8E8", &pGame->white_clicked);
 	
-	// Créa<<<<<<< .mine
-#endif
+	// Créa#endif
 
 #ifdef WIN32
     GdkColor black = {0, 0, 0, 0};
