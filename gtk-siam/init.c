@@ -208,9 +208,7 @@ ation des separator
 	// g_signal_connect à rajouter
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
     pGame->pMenuItem = gtk_menu_item_new_with_label("Déclarer forfait");
-    // g_signal_connect à rajouter
-	
-    gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
+    // gg_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonWithDrawal), (MainWindow*) pGame);   gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
     
 	pGame->pMenuItem = gtk_menu_item_new_with_label("Action");
 	
