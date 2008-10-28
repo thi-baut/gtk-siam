@@ -57,7 +57,24 @@ void CreateGameWindow(MainWindow *pGame){
 	gdk_color_parse("#2E2E2E", &pGame->black_clicked);
 	gdk_color_parse("#E8E8E8", &pGame->white_clicked);
 	
-	// Création des separator
+	// Création d
+
+#ifdef WIN32
+    GdkColor black = {0, 65535, 65535, 65535};
+    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &black);
+
+    GdkColor white = {0, 0, 0, 0};
+    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &white);
+
+    GdkColor brown = {0, 65535, 0, 0};
+    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &brown);
+
+    GdkColor black_clicked = {0, 65535, 0, 0};
+    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &black_clicked);
+
+    GdkColor white_clicked = {0, 65535, 0, 0};
+    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &white_clicked);
+ation des separator
 	for(i=0;i<2;i++){
 		pGame->pSeparator[i] = gtk_vseparator_new();
 	}
@@ -271,7 +288,4 @@ void CreateGameWindow(MainWindow *pGame){
 	
 
 	// Accrochage de la VBox dans la fenêtre
-	gtk_container_add(GTK_CONTAINER(pGame->pWindow), pGame->pVBox);
-
-
-}
+	gtk_container_add(GTK_CONTAINER(pGame->pWindow), pG
