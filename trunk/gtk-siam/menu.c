@@ -43,7 +43,7 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	pGame->pComboBoxCPU = gtk_combo_box_new_text();
 	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Un joueur (Humain vs. CPU)");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Deux joueurs (Humain vs. Humain");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxCPU), 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxCPU), 1);
 	
 	pGame->pComboBoxAnimal = gtk_combo_box_new_text();
 	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxAnimal), "Hippopotame (gris)");
@@ -202,8 +202,7 @@ void OnButtonWithDrawal(GtkWidget *pMenuItem, MainWindow *pGame) {
 	
 	g_signal_connect(G_OBJECT(pWithDrawalButton[0]),"clicked",G_CALLBACK(gtk_main_quit),NULL);
 	
-	//g_signal_connect(G_OBJECT(pWithDrawalButton[1]),"clicked",G_CALLBACK(gtk_widget_hide_all),NULL);
-	//Je ne sais pas comment cacher juste la fenêtre WithDrawal (et uniquement celle là) quand je clique sur le bouton :(
+	g_signal_connect_swapped(G_OBJECT(pWithDrawalButton[1]),"clicked",G_CALLBACK(gtk_widget_destroy), pWithDrawalWindow);
 	
 	gtk_widget_show_all(pWithDrawalWindow);
 	
