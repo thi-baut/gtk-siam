@@ -16,7 +16,6 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 	static gchar temp[150];
 	gint i = 0;
 	gint resistance;
-	pGame->turn = 0;
 	
 	if(pGame->vs_human == TRUE) {
 		
@@ -182,7 +181,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 						
 						//Incrémenter le tour de 1 MARCHE PAS FUCK
 						
-						pGame->turn+=1;
+						pGame->turn++;
 						printf("%d",pGame->turn);
 					}
 				}
@@ -420,7 +419,9 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 		}
 	}
 	
+	/*
 	else if(pGame->vs_human == FALSE) {
+
 		
 		switch(pGame->round) {
 			case 0:
@@ -433,7 +434,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous avez cliqué sur une case vide !");
 				
 				if(pGame->pBoardButton[number]->piece != 'n') {
-					/* PREPARATION DE L'ECHANGE */
+					// PREPARATION DE L'ECHANGE
 					
 					// On récupère le pion actuellement sur la case
 					pGame->pTempButton->piece = pGame->pBoardButton[number]->piece;
@@ -731,6 +732,6 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				break;
 		}
 	}
-	
+	*/
 	
 }	

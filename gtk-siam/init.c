@@ -14,6 +14,7 @@ void CreateGameWindow(MainWindow *pGame){
 	int i,j;
 	int c = -1;
 	gchar *temp;
+		pGame->turn = 0;
 	temp = (gchar *) malloc(3*sizeof(gchar));
 	pGame->pTempButton = (Button *) malloc(sizeof(Button));
 	
@@ -73,7 +74,7 @@ void CreateGameWindow(MainWindow *pGame){
     gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &black_clicked);
 
     GdkColor white_clicked = {0, 232, 232, 232};
-    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &white_clicked);ation des separator
+    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &white_clicked);ation des separator
 	for(i=0;i<2;i++){
 		pGame->pSeparator[i] = gtk_vseparator_new();
 	}
