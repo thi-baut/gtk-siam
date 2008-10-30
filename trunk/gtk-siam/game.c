@@ -14,8 +14,8 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 	// Numéro de la case. Récupérée dans le champ adéquat dans le GObject pButton passé en argument du Callback
 	static int number, number2;
 	static gchar temp[150];
-	gint i = 0;
-	gint resistance;
+	gint i, c;
+	gfloat resistance;
 	
 	if(pGame->vs_human == TRUE) {
 		
@@ -62,15 +62,23 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					switch(pGame->pBoardButton[number]->direction) {
 						case 't':
 							pGame->pBoardButton[number]->direction = 'r';
+							pGame->pBoardButton[number]->r_top = 0;
+							pGame->pBoardButton[number]->r_right = 1;
 							break;
 						case 'b':
 							pGame->pBoardButton[number]->direction = 'l';
+							pGame->pBoardButton[number]->r_bottom = 0;
+							pGame->pBoardButton[number]->r_left = 1;
 							break;
 						case 'l':
 							pGame->pBoardButton[number]->direction = 't';
+							pGame->pBoardButton[number]->r_left = 0;
+							pGame->pBoardButton[number]->r_top = 1;
 							break;
 						case 'r':
 							pGame->pBoardButton[number]->direction = 'b';
+							pGame->pBoardButton[number]->r_right = 0;
+							pGame->pBoardButton[number]->r_bottom = 1;
 							break;
 					}
 				}
@@ -179,10 +187,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 						sprintf(temp, "Nouvelles coordonnées : x = %d et y = %d. C'est un pion %c orienté en %c", pGame->pBoardButton[number2]->x, pGame->pBoardButton[number2]->y, pGame->pBoardButton[number2]->piece, pGame->pBoardButton[number2]->direction);
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, temp);
 						
-						//Incrémenter le tour de 1 MARCHE PAS FUCK
-						
 						pGame->turn++;
-						printf("%d",pGame->turn);
 					}
 				}
 				
@@ -194,42 +199,133 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								i = number;
 								resistance = pGame->pBoardButton[number]->force;
 								while(pGame->pBoardButton[i]->piece != 'n') {
-									printf("Pion %d\n", i);
-									printf("La force restante est de %d", resistance);
+									printf("\nPion %d", i);
+									printf("\nLa force restante est de %2f", resistance);
 									if(pGame->pBoardButton[i]->y <= 0) break;
 									i = i-5;
-									// On soustrait les résistances
+									// On soustrait les résistances des pions qui s'opposent au mouvement
 									switch(pGame->pBoardButton[i]->direction) {
-										case 'r':
-											if(pGame->pBoardButton[i]->piece == 'r' || pGame->pBoardButton[i]->piece == 'm')
-												resistance = resistance - pGame->pBoardButton[i]->r_right;
-											else if(pGame->pBoardButton[i]->piece == 'e')
-												resistance = resistance + pGame->pBoardButton[i]->force;
-											break;
-										case 'l':
-											if(pGame->pBoardButton[i]->piece == 'r' || pGame->pBoardButton[i]->piece == 'm')
-												resistance = resistance - pGame->pBoardButton[i]->r_left;
-											else if(pGame->pBoardButton[i]->piece == 'e')
-												resistance = resistance + pGame->pBoardButton[i]->force;
+										case 'b':
+											if(pGame->pBoardButton[i]->piece == 'r')
+												resistance = resistance - pGame->pBoardButton[i]->r_bottom;
 											break;
 										case 't':
-											if(pGame->pBoardButton[i]->piece == 'r' || pGame->pBoardButton[i]->piece == 'm')
+											if(pGame->pBoardButton[i]->piece == 'e')
+												resistance = resistance + pGame->pBoardButton[i]->force;
+										default:
+											if(pGame->pBoardButton[i]->piece == 'm')
 												resistance = resistance - pGame->pBoardButton[i]->r_top;
-											else if(pGame->pBoardButton[i]->piece == 'e')
-												resistance = resistance + pGame->pBoardButton[i]->force;
 											break;
-										case 'b':
-											if(pGame->pBoardButton[i]->piece == 'r' || pGame->pBoardButton[i]->piece == 'm')
-												resistance = resistance - pGame->pBoardButton[i]->r_bottom;
-											else if(pGame->pBoardButton[i]->piece == 'e')
-												resistance = resistance + pGame->pBoardButton[i]->force;
-											break;
+									}
+								}
+								if(resistance > 0.0) {
+
+									while(pGame->pBoardButton[i]->piece != 'n') {
+									
+									// Déplacement des pions
+										if(pGame->pBoardButton[i]->y == 0) {
+											switch(pGame->pBoardButton[i]->piece) {
+												case 'e':
+													// Doit checker si il y a une case libre (normalement oui...) dans la zone de garage des éléphants
+													for(c = 25; c < 30; c++) {
+														if(pGame->pBoardButton[c]->piece =='n') {
+															break;
+														}
+													}
+													printf("\nUne case libre est la case %d", c);
+													// Vu que le pion en question est en haut, on l'échange avec la case libre pour dégager tout ça
+													pGame->pBoardButton[c]->piece = pGame->pBoardButton[i]->piece;
+													pGame->pBoardButton[c]->r_left = pGame->pBoardButton[i]->r_left;
+													pGame->pBoardButton[c]->r_right = pGame->pBoardButton[i]->r_right;
+													pGame->pBoardButton[c]->r_top = pGame->pBoardButton[i]->r_top;
+													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i]->r_bottom;
+													pGame->pBoardButton[c]->force = pGame->pBoardButton[i]->force;
+													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i]->direction;
+													
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardButton[c]->piece, pGame->pBoardButton[c]->x, pGame->pBoardButton[c]->y);
+													RefreshDisplay(pGame, c);
+													break;
+												case 'r':
+													for(c = 30; c < 35; c++) {
+														if(pGame->pBoardButton[c]->piece =='n') {
+															break;
+														}
+													}
+													printf("\nUne case libre est la case %d", c);
+													// Vu que le pion en question est en haut, on l'échange avec la case libre pour dégager tout ça
+													
+													pGame->pBoardButton[c]->piece = pGame->pBoardButton[i]->piece;
+													pGame->pBoardButton[c]->r_left = pGame->pBoardButton[i]->r_left;
+													pGame->pBoardButton[c]->r_right = pGame->pBoardButton[i]->r_right;
+													pGame->pBoardButton[c]->r_top = pGame->pBoardButton[i]->r_top;
+													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i]->r_bottom;
+													pGame->pBoardButton[c]->force = pGame->pBoardButton[i]->force;
+													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i]->direction;
+													
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardButton[c]->piece, pGame->pBoardButton[c]->x, pGame->pBoardButton[c]->y);
+													RefreshDisplay(pGame, c);
+													break;
+												case 'm':
+													// Si c'est ça, le joueur X a gagné
+													printf("\nPartie terminée, vous avez gagné !");
+													break;
+												default:
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													RefreshDisplay(pGame, i);
+													break;
+											}
+
+										}
+										
+										if(pGame->pBoardButton[i]->y >= 4) break;
+										i = i+5; // On parcoure dans l'autre sens vu qu'on reprend la dernière valeur de i
+										
+										if(pGame->pBoardButton[i]->piece == 'n') {
+											pGame->pBoardButton[i-5]->piece = pGame->pBoardButton[i]->piece;
+											pGame->pBoardButton[i-5]->r_left = pGame->pBoardButton[i]->r_left;
+											pGame->pBoardButton[i-5]->r_right = pGame->pBoardButton[i]->r_right;
+											pGame->pBoardButton[i-5]->r_top = pGame->pBoardButton[i]->r_top;
+											pGame->pBoardButton[i-5]->r_bottom = pGame->pBoardButton[i]->r_bottom;
+											pGame->pBoardButton[i-5]->force = pGame->pBoardButton[i]->force;
+											pGame->pBoardButton[i-5]->direction = pGame->pBoardButton[i]->direction;
+											
+											pGame->pBoardButton[i]->piece = 'n';
+											pGame->pBoardButton[i]->r_left = 0;
+											pGame->pBoardButton[i]->r_right = 0;
+											pGame->pBoardButton[i]->r_top = 0;
+											pGame->pBoardButton[i]->r_bottom = 0;
+											pGame->pBoardButton[i]->force = 0;
+											pGame->pBoardButton[i]->direction = 'n';	
+										printf("\nPion %d est un %c aux coordonnées %d, %d\n", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+										RefreshDisplay(pGame, i);
+										}
 									}
 								}
 								break;
 							case 'b':
-								i = number;
-								resistance = pGame->pBoardButton[number]->r_bottom;
+								resistance = pGame->pBoardButton[c]->r_bottom;
 								while(pGame->pBoardButton[i]->piece != 'n') {
 									printf("Pion %d\n", i);
 									if(pGame->pBoardButton[i]->y > 4) break;
@@ -259,156 +355,11 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				}
 				
 				// On rafraîchit l'image :
-				switch(pGame->pBoardButton[number]->direction) {
-					case 't':
-						switch(pGame->pBoardButton[number]->piece) {
-								gtk_image_clear(GTK_IMAGE(pGame->pBoardButton[number]->image));
-								gtk_widget_destroy(pGame->pBoardButton[number]->image);
-							case 'e':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant.png");
-								break;
-							case 'r':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino.png");
-								break;
-							default:
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
-								break;
-						}
-						break;
-					case 'b':
-						switch(pGame->pBoardButton[number]->piece) {
-							case 'e':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant-b.png");
-								break;
-							case 'r':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-b.png");
-								break;
-							default:
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
-								break;
-						}
-						break;
-					case 'l':
-						switch(pGame->pBoardButton[number]->piece) {
-							case 'e':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant-l.png");
-								break;
-							case 'r':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-l.png");
-								break;
-							default:
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
-								break;
-						}
-						break;
-					case 'r':
-						switch(pGame->pBoardButton[number]->piece) {
-							case 'e':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant-r.png");
-								break;
-							case 'r':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-r.png");
-								break;
-							default:
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
-								break;
-						}
-						break;
-					default:
-						switch(pGame->pBoardButton[number]->piece) {
-							case 'e':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant-r.png");
-								break;
-							case 'r':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-r.png");
-								break;
-							case 'm':
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/mountain.png");
-								break;
-							default:
-								pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
-								break;
-						}
-						break;
-				}
-				gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[number]->button), pGame->pBoardButton[number]->image);
-				
-				if(number != number2) {
-					switch(pGame->pBoardButton[number2]->direction) {
-							gtk_image_clear(GTK_IMAGE(pGame->pBoardButton[number2]->image));
-							gtk_widget_destroy(pGame->pBoardButton[number2]->image);
-						case 't':
-							switch(pGame->pBoardButton[number2]->piece) {
-								case 'e':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/elephant.png");
-									break;
-								case 'r':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/rhino.png");
-									break;
-								default:
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/empty.png");
-									break;
-							}
-							break;
-						case 'b':
-							switch(pGame->pBoardButton[number2]->piece) {
-								case 'e':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/elephant-b.png");
-									break;
-								case 'r':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/rhino-b.png");
-									break;
-								default:
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/empty.png");
-									break;
-							}
-							break;
-						case 'l':
-							switch(pGame->pBoardButton[number2]->piece) {
-								case 'e':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/elephant-l.png");
-									break;
-								case 'r':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/rhino-l.png");
-									break;
-								default:
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/empty.png");
-									break;
-							}
-							break;
-						case 'r':
-							switch(pGame->pBoardButton[number2]->piece) {
-								case 'e':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/elephant-r.png");
-									break;
-								case 'r':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/rhino-r.png");
-									break;
-								default:
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/empty.png");
-									break;
-							}
-							break;
-						default:
-							switch(pGame->pBoardButton[number2]->piece) {
-								case 'e':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/elephant-r.png");
-									break;
-								case 'r':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/rhino-r.png");
-									break;
-								case 'm':
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/mountain.png");
-									break;
-								default:
-									pGame->pBoardButton[number2]->image = gtk_image_new_from_file("/empty.png");
-									break;
-							}
-							break;
-					}
-					gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[number2]->button), pGame->pBoardButton[number2]->image);
-				}
-				
+				RefreshDisplay(pGame, number);
+
+				if(number != number2)
+					RefreshDisplay(pGame, number2);
+					
 				// Signifie qu'on a cliqué sur le bouton d'arrivée - tout s'est déroulé correctement
 				pGame->round = 0;
 				
@@ -735,3 +686,82 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 	*/
 	
 }	
+
+void RefreshDisplay(MainWindow *pGame, gint number) {
+	switch(pGame->pBoardButton[number]->direction) {
+		case 't':
+			switch(pGame->pBoardButton[number]->piece) {
+					gtk_image_clear(GTK_IMAGE(pGame->pBoardButton[number]->image));
+					gtk_widget_destroy(pGame->pBoardButton[number]->image);
+				case 'e':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant.png");
+					break;
+				case 'r':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino.png");
+					break;
+				default:
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
+					break;
+			}
+			break;
+		case 'b':
+			switch(pGame->pBoardButton[number]->piece) {
+				case 'e':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant-b.png");
+					break;
+				case 'r':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-b.png");
+					break;
+				default:
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
+					break;
+			}
+			break;
+		case 'l':
+			switch(pGame->pBoardButton[number]->piece) {
+				case 'e':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant-l.png");
+					break;
+				case 'r':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-l.png");
+					break;
+				default:
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
+					break;
+			}
+			break;
+		case 'r':
+			switch(pGame->pBoardButton[number]->piece) {
+				case 'e':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant-r.png");
+					break;
+				case 'r':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-r.png");
+					break;
+				default:
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
+					break;
+			}
+			break;
+		default:
+			switch(pGame->pBoardButton[number]->piece) {
+				case 'e':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/elephant-r.png");
+					break;
+				case 'r':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/rhino-r.png");
+					break;
+				case 'm':
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/mountain.png");
+					break;
+				default:
+					pGame->pBoardButton[number]->image = gtk_image_new_from_file("/empty.png");
+					break;
+			}
+			break;
+	}
+	gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[number]->button), pGame->pBoardButton[number]->image);
+	
+	
+	
+}
