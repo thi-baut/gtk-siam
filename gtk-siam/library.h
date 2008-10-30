@@ -120,3 +120,4 @@ void CreateGameWindow(MainWindow *pGame);
 
 // game.c
 void ActionInGame(GtkWidget *pButton, MainWindow *pGame);
+void RefreshDisplay(MainWindow *pGame, gint number);

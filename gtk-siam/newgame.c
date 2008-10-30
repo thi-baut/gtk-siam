@@ -37,7 +37,7 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/elephant-r.png");
 		pGame->pBoardButton[i]->piece = 'e';
 		pGame->pBoardButton[i]->r_left = 0;
-		pGame->pBoardButton[i]->r_right = 0;
+		pGame->pBoardButton[i]->r_right = 1; // A 1 car le pion est en r au début
 		pGame->pBoardButton[i]->r_top = 0;
 		pGame->pBoardButton[i]->r_bottom = 0;
 		pGame->pBoardButton[i]->force = 1;
@@ -53,7 +53,7 @@ void LoadBoard(MainWindow *pGame){
 	for(i = 30; i < 35; i++) {
 		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/rhino-l.png");
 		pGame->pBoardButton[i]->piece = 'r';
-		pGame->pBoardButton[i]->r_left = 0;
+		pGame->pBoardButton[i]->r_left = 1; // A 1 voir au dessus
 		pGame->pBoardButton[i]->r_right = 0;
 		pGame->pBoardButton[i]->r_top = 0;
 		pGame->pBoardButton[i]->r_bottom = 0;
