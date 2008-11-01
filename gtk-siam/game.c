@@ -247,6 +247,15 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardButton[c]->force = pGame->pBoardButton[i]->force;
 													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i]->direction;
 													
+													// On s'assure que la case est "vidée"
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													
 													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
 													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardButton[c]->piece, pGame->pBoardButton[c]->x, pGame->pBoardButton[c]->y);
 													RefreshDisplay(pGame, c);
@@ -266,6 +275,15 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i]->r_bottom;
 													pGame->pBoardButton[c]->force = pGame->pBoardButton[i]->force;
 													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i]->direction;
+													
+													// On s'assure que la case est "vidée"
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
 
 													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
 													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardButton[c]->piece, pGame->pBoardButton[c]->x, pGame->pBoardButton[c]->y);
@@ -323,11 +341,11 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 									
 									// On soustrait les résistances des pions qui s'opposent au mouvement
 									switch(pGame->pBoardButton[i]->direction) {
-										case 'b':
+										case 't':
 											if(pGame->pBoardButton[i]->piece == 'r')
 												resistance = resistance - pGame->pBoardButton[i]->r_bottom;
 											break;
-										case 't':
+										case 'b':
 											if(pGame->pBoardButton[i]->piece == 'e')
 												resistance = resistance + pGame->pBoardButton[i]->force;
 										default:
@@ -340,10 +358,10 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								printf("\nLa valeur de j est %d", j);
 								if(resistance > 0) {
 									
-									while(i+5 >= 0) {
-
+									while(i >= 0) {
+										printf("\nPion %d", i+5);
 										// Déplacement des pions
-										if(pGame->pBoardButton[i+5*(j-2)]->y == 4) {
+										if(pGame->pBoardButton[i+5]->y == 4) {
 											switch(pGame->pBoardButton[i]->piece) {
 												case 'e':
 													// Doit checker si il y a une case libre (normalement oui...) dans la zone de garage des éléphants
@@ -351,15 +369,24 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													while(c < 30 && pGame->pBoardButton[c]->piece != 'n') c++;
 													printf("\nUne case libre est la case %d", c);
 													// Vu que le pion en question est en haut, on l'échange avec la case libre pour dégager tout ça
-													pGame->pBoardButton[c]->piece = pGame->pBoardButton[i]->piece;
-													pGame->pBoardButton[c]->r_left = pGame->pBoardButton[i]->r_left;
-													pGame->pBoardButton[c]->r_right = pGame->pBoardButton[i]->r_right;
-													pGame->pBoardButton[c]->r_top = pGame->pBoardButton[i]->r_top;
-													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i]->r_bottom;
-													pGame->pBoardButton[c]->force = pGame->pBoardButton[i]->force;
-													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i]->direction;
+													pGame->pBoardButton[c]->piece = pGame->pBoardButton[i+5]->piece;
+													pGame->pBoardButton[c]->r_left = pGame->pBoardButton[i+5]->r_left;
+													pGame->pBoardButton[c]->r_right = pGame->pBoardButton[i+5]->r_right;
+													pGame->pBoardButton[c]->r_top = pGame->pBoardButton[i+5]->r_top;
+													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i+5]->r_bottom;
+													pGame->pBoardButton[c]->force = pGame->pBoardButton[i+5]->force;
+													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i+5]->direction;
 													
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+													// On s'assure que la case est "vidée"
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													
+													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i+5, pGame->pBoardButton[i+5]->piece, pGame->pBoardButton[i+5]->x, pGame->pBoardButton[i+5]->y);
 													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardButton[c]->piece, pGame->pBoardButton[c]->x, pGame->pBoardButton[c]->y);
 													RefreshDisplay(pGame, c);
 													break;
@@ -371,15 +398,24 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													printf("\nUne case libre est la case %d", c);
 													// Vu que le pion en question est en haut, on l'échange avec la case libre pour dégager tout ça
 													
-													pGame->pBoardButton[c]->piece = pGame->pBoardButton[i]->piece;
-													pGame->pBoardButton[c]->r_left = pGame->pBoardButton[i]->r_left;
-													pGame->pBoardButton[c]->r_right = pGame->pBoardButton[i]->r_right;
-													pGame->pBoardButton[c]->r_top = pGame->pBoardButton[i]->r_top;
-													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i]->r_bottom;
-													pGame->pBoardButton[c]->force = pGame->pBoardButton[i]->force;
-													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i]->direction;
+													pGame->pBoardButton[c]->piece = pGame->pBoardButton[i+5]->piece;
+													pGame->pBoardButton[c]->r_left = pGame->pBoardButton[i+5]->r_left;
+													pGame->pBoardButton[c]->r_right = pGame->pBoardButton[i+5]->r_right;
+													pGame->pBoardButton[c]->r_top = pGame->pBoardButton[i+5]->r_top;
+													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i+5]->r_bottom;
+													pGame->pBoardButton[c]->force = pGame->pBoardButton[i+5]->force;
+													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i+5]->direction;
 													
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+													// On s'assure que la case est "vidée"
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													
+													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i+5, pGame->pBoardButton[i+5]->piece, pGame->pBoardButton[i+5]->x, pGame->pBoardButton[i+5]->y);
 													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardButton[c]->piece, pGame->pBoardButton[c]->x, pGame->pBoardButton[c]->y);
 													RefreshDisplay(pGame, c);
 													break;
@@ -388,14 +424,14 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													printf("\nPartie terminée, vous avez gagné !");
 													break;
 												default:
-													pGame->pBoardButton[i]->piece = 'n';
-													pGame->pBoardButton[i]->r_left = 0;
-													pGame->pBoardButton[i]->r_right = 0;
-													pGame->pBoardButton[i]->r_top = 0;
-													pGame->pBoardButton[i]->r_bottom = 0;
-													pGame->pBoardButton[i]->force = 0;
-													pGame->pBoardButton[i]->direction = 'n';
-													RefreshDisplay(pGame, i);
+													pGame->pBoardButton[i+5+5]->piece = 'n';
+													pGame->pBoardButton[i+5]->r_left = 0;
+													pGame->pBoardButton[i+5]->r_right = 0;
+													pGame->pBoardButton[i+5]->r_top = 0;
+													pGame->pBoardButton[i+5]->r_bottom = 0;
+													pGame->pBoardButton[i+5]->force = 0;
+													pGame->pBoardButton[i+5]->direction = 'n';
+													RefreshDisplay(pGame, i+5);
 													break;
 											}
 										}
@@ -421,24 +457,266 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								}
 								break;
 								
-								break;
 							case 'l':
 								i = number;
+								i_tmp = number;
 								resistance = pGame->pBoardButton[number]->r_left;
 								while(pGame->pBoardButton[i]->piece != 'n') {
-									printf("Pion %d\n", i);
-									if(pGame->pBoardButton[i]->x < 0) break;
-									i = i-1;
 									
+									printf("\nPion %d", i);
+									printf("\nLa force restante est de %2f", resistance);
+									
+									if(pGame->pBoardButton[i]->x == 0) break;
+									i = i-1;
+									j++;
+									
+									// On soustrait les résistances des pions qui s'opposent au mouvement
+									switch(pGame->pBoardButton[i]->direction) {
+										case 'r':
+											if(pGame->pBoardButton[i]->piece == 'r')
+												resistance = resistance - pGame->pBoardButton[i]->r_right;
+											break;
+										case 'l':
+											if(pGame->pBoardButton[i]->piece == 'e')
+												resistance = resistance + pGame->pBoardButton[i]->force;
+										default:
+											if(pGame->pBoardButton[i]->piece == 'm')
+												resistance = resistance - pGame->pBoardButton[i]->r_top;
+											break;
+									}
+								}
+								printf("\nLa valeur de j est %d", j);
+								if(resistance > 0) {
+									while(i-1 <= i_tmp) {
+
+										// Déplacement des pions
+										if(pGame->pBoardButton[i]->x == 0) {
+											switch(pGame->pBoardButton[i]->piece) {
+												case 'e':
+													// Doit checker si il y a une case libre (normalement oui...) dans la zone de garage des éléphants
+													c = 25;
+													while(c < 30 && pGame->pBoardButton[c]->piece != 'n') c++;
+													printf("\nUne case libre est la case %d", c);
+													// Vu que le pion en question est en haut, on l'échange avec la case libre pour dégager tout ça
+													pGame->pBoardButton[c]->piece = pGame->pBoardButton[i]->piece;
+													pGame->pBoardButton[c]->r_left = pGame->pBoardButton[i]->r_left;
+													pGame->pBoardButton[c]->r_right = pGame->pBoardButton[i]->r_right;
+													pGame->pBoardButton[c]->r_top = pGame->pBoardButton[i]->r_top;
+													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i]->r_bottom;
+													pGame->pBoardButton[c]->force = pGame->pBoardButton[i]->force;
+													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i]->direction;
+													
+													// On s'assure que la case est "vidée"
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													
+													
+													printf("\n1) La case %d, contient %c", c, pGame->pBoardButton[c]->piece);
+													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardButton[c]->piece, pGame->pBoardButton[c]->x, pGame->pBoardButton[c]->y);
+													RefreshDisplay(pGame, c);
+													break;
+													
+												case 'r':
+													c = 30;
+													while(c < 35 && pGame->pBoardButton[c]->piece != 'n') c++;
+													
+													printf("\nUne case libre est la case %d", c);
+													// Vu que le pion en question est en haut, on l'échange avec la case libre pour dégager tout ça
+													
+													pGame->pBoardButton[c]->piece = pGame->pBoardButton[i]->piece;
+													pGame->pBoardButton[c]->r_left = pGame->pBoardButton[i]->r_left;
+													pGame->pBoardButton[c]->r_right = pGame->pBoardButton[i]->r_right;
+													pGame->pBoardButton[c]->r_top = pGame->pBoardButton[i]->r_top;
+													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i]->r_bottom;
+													pGame->pBoardButton[c]->force = pGame->pBoardButton[i]->force;
+													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i]->direction;
+													
+													// On s'assure que la case est "vidée"
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													
+													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardButton[c]->piece, pGame->pBoardButton[c]->x, pGame->pBoardButton[c]->y);
+													RefreshDisplay(pGame, c);
+													break;
+												case 'm':
+													// Si c'est ça, le joueur X a gagné
+													printf("\nPartie terminée, vous avez gagné !");
+													break;
+												default:
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													RefreshDisplay(pGame, i);
+													break;
+											}
+										}
+										
+										printf("\nLa valeur de i est %d", i);
+										
+										if(i-1 >= 0) {
+											pGame->pBoardButton[i-1]->piece = pGame->pBoardButton[i]->piece;
+											pGame->pBoardButton[i-1]->r_left = pGame->pBoardButton[i]->r_left;
+											pGame->pBoardButton[i-1]->r_right = pGame->pBoardButton[i]->r_right;
+											pGame->pBoardButton[i-1]->r_top = pGame->pBoardButton[i]->r_top;
+											pGame->pBoardButton[i-1]->r_bottom = pGame->pBoardButton[i]->r_bottom;
+											pGame->pBoardButton[i-1]->force = pGame->pBoardButton[i]->force;
+											pGame->pBoardButton[i-1]->direction = pGame->pBoardButton[i]->direction;
+											
+											printf("\nPion %d est un %c dans le sens %c aux coordonnées %d, %d\n", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->direction, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+											RefreshDisplay(pGame, i-1);
+											RefreshDisplay(pGame, i);
+											
+										}
+										
+										i = i+1; // On parcoure dans l'autre sens vu qu'on reprend la dernière valeur de i
+									}
 								}
 								break;
+								
 							case 'r':
 								i = number;
 								resistance = pGame->pBoardButton[number]->r_right;
 								while(pGame->pBoardButton[i]->piece != 'n') {
+									
+									printf("\nPion %d", i);
+									printf("\nLa force restante est de %2f", resistance);
+									
 									if(pGame->pBoardButton[i]->x > 4) break;
-									printf("Pion %d\n", i);
 									i = i+1;
+									j++;
+									
+									// On soustrait les résistances des pions qui s'opposent au mouvement
+									switch(pGame->pBoardButton[i]->direction) {
+										case 'l':
+											if(pGame->pBoardButton[i]->piece == 'r')
+												resistance = resistance - pGame->pBoardButton[i]->r_left;
+											break;
+										case 'r':
+											if(pGame->pBoardButton[i]->piece == 'e')
+												resistance = resistance + pGame->pBoardButton[i]->force;
+										default:
+											if(pGame->pBoardButton[i]->piece == 'm')
+												resistance = resistance - pGame->pBoardButton[i]->r_top;
+											break;
+									}
+								}
+								i_tmp = i;
+								printf("\nLa valeur de j est %d", j);
+								if(resistance > 0) {
+									while(i+1 >= 0) {
+										
+										// Déplacement des pions
+										if(pGame->pBoardButton[i]->x == 0) {
+											switch(pGame->pBoardButton[i]->piece) {
+												case 'e':
+													// Doit checker si il y a une case libre (normalement oui...) dans la zone de garage des éléphants
+													c = 25;
+													while(c < 30 && pGame->pBoardButton[c]->piece != 'n') c++;
+													printf("\nUne case libre est la case %d", c);
+													// Vu que le pion en question est en haut, on l'échange avec la case libre pour dégager tout ça
+													pGame->pBoardButton[c]->piece = pGame->pBoardButton[i]->piece;
+													pGame->pBoardButton[c]->r_left = pGame->pBoardButton[i]->r_left;
+													pGame->pBoardButton[c]->r_right = pGame->pBoardButton[i]->r_right;
+													pGame->pBoardButton[c]->r_top = pGame->pBoardButton[i]->r_top;
+													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i]->r_bottom;
+													pGame->pBoardButton[c]->force = pGame->pBoardButton[i]->force;
+													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i]->direction;
+													
+													// On s'assure que la case est "vidée"
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													
+													
+													printf("\n1) La case %d, contient %c", c, pGame->pBoardButton[c]->piece);
+													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardButton[c]->piece, pGame->pBoardButton[c]->x, pGame->pBoardButton[c]->y);
+													RefreshDisplay(pGame, c);
+													break;
+													
+												case 'r':
+													c = 30;
+													while(c < 35 && pGame->pBoardButton[c]->piece != 'n') c++;
+													
+													printf("\nUne case libre est la case %d", c);
+													// Vu que le pion en question est en haut, on l'échange avec la case libre pour dégager tout ça
+													
+													pGame->pBoardButton[c]->piece = pGame->pBoardButton[i]->piece;
+													pGame->pBoardButton[c]->r_left = pGame->pBoardButton[i]->r_left;
+													pGame->pBoardButton[c]->r_right = pGame->pBoardButton[i]->r_right;
+													pGame->pBoardButton[c]->r_top = pGame->pBoardButton[i]->r_top;
+													pGame->pBoardButton[c]->r_bottom = pGame->pBoardButton[i]->r_bottom;
+													pGame->pBoardButton[c]->force = pGame->pBoardButton[i]->force;
+													pGame->pBoardButton[c]->direction = pGame->pBoardButton[i]->direction;
+													
+													// On s'assure que la case est "vidée"
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													
+													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardButton[c]->piece, pGame->pBoardButton[c]->x, pGame->pBoardButton[c]->y);
+													RefreshDisplay(pGame, c);
+													break;
+												case 'm':
+													// Si c'est ça, le joueur X a gagné
+													printf("\nPartie terminée, vous avez gagné !");
+													break;
+												default:
+													pGame->pBoardButton[i]->piece = 'n';
+													pGame->pBoardButton[i]->r_left = 0;
+													pGame->pBoardButton[i]->r_right = 0;
+													pGame->pBoardButton[i]->r_top = 0;
+													pGame->pBoardButton[i]->r_bottom = 0;
+													pGame->pBoardButton[i]->force = 0;
+													pGame->pBoardButton[i]->direction = 'n';
+													RefreshDisplay(pGame, i);
+													break;
+											}
+										}
+										
+										printf("\nLa valeur de i est %d", i);
+										
+										if(i+1 <= 24) {
+											pGame->pBoardButton[i+1]->piece = pGame->pBoardButton[i]->piece;
+											pGame->pBoardButton[i+1]->r_left = pGame->pBoardButton[i]->r_left;
+											pGame->pBoardButton[i+1]->r_right = pGame->pBoardButton[i]->r_right;
+											pGame->pBoardButton[i+1]->r_top = pGame->pBoardButton[i]->r_top;
+											pGame->pBoardButton[i+1]->r_bottom = pGame->pBoardButton[i]->r_bottom;
+											pGame->pBoardButton[i+1]->force = pGame->pBoardButton[i]->force;
+											pGame->pBoardButton[i+1]->direction = pGame->pBoardButton[i]->direction;
+											
+											printf("\nPion %d est un %c dans le sens %c aux coordonnées %d, %d\n", i, pGame->pBoardButton[i]->piece, pGame->pBoardButton[i]->direction, pGame->pBoardButton[i]->x, pGame->pBoardButton[i]->y);
+											RefreshDisplay(pGame, i+1);
+											
+										}
+										
+										i = i-1; // On parcoure dans l'autre sens vu qu'on reprend la dernière valeur de i
+									}
 								}
 								break;
 						}
