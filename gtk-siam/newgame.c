@@ -70,7 +70,7 @@ void LoadBoard(MainWindow *pGame){
 void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	
 	// Variables
-	gchar *temp;
+	gchar *temp, *temp2;
 	gint i;
 	
 	// On enregistre le niveau de la partie
@@ -89,10 +89,15 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	pGame->player_name = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry));
 	if(pGame->player_name[0] != '\0') {
 		temp = (gchar *) malloc(strlen(pGame->player_name)*sizeof(gchar) + 16);
+		temp2 = (gchar *) malloc(strlen(pGame->player_name)*sizeof(gchar) + 16);
 		strcpy(temp, "Nom du joueur : ");
 		strcat(temp, pGame->player_name);
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[0]), temp); /* BUGUE JE NE SAIS PAS POURQUOI : RELOU ! */
+		strcpy(temp2,"Tour de jeu : ");
+		strcat(temp2, pGame->player_name);
+		gtk_label_set_text(GTK_LABEL(pGame->pLabel[0]), temp);
+		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp2);
 	}
+	
 	
 	if(pGame->vs_human == FALSE) {
 		

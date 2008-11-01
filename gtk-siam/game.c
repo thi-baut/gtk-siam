@@ -140,6 +140,19 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					
 				}
 				
+				else if((((pGame->turn) % 2) == 0) & (pGame->pBoardButton[number]->piece != 'r')) {
+					
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas bouger un pion adverse");
+					
+				}
+				
+				else if((((pGame->turn) % 2) != 0) & (pGame->pBoardButton[number]->piece != 'e')) {
+					
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas bouger un pion adverse");
+					
+				}
+			
+				
 				// Cas de l'échange, c'est à dire qu'on inverse deux pièces. Simple déplacement des pions en fait !
 				else if(pGame->pBoardButton[number2]->piece == 'n'){
 					
@@ -188,8 +201,10 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 						// Si l'échange a été effectué, message dans la statusbar
 						sprintf(temp, "Nouvelles coordonnées : x = %d et y = %d. C'est un pion %c orienté en %c", pGame->pBoardButton[number2]->x, pGame->pBoardButton[number2]->y, pGame->pBoardButton[number2]->piece, pGame->pBoardButton[number2]->direction);
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, temp);
-						
+
+		
 						pGame->turn++;
+
 					}
 				}
 				
