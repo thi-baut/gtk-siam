@@ -14,7 +14,7 @@ void CreateGameWindow(MainWindow *pGame){
 	int i,j;
 	int c = -1;
 	gchar *temp;
-		pGame->turn = 0;
+		pGame->turn = 1;
 	temp = (gchar *) malloc(3*sizeof(gchar));
 	pGame->pTempButton = (Button *) malloc(sizeof(Button));
 	
@@ -41,7 +41,7 @@ void CreateGameWindow(MainWindow *pGame){
 	// Labels
 	pGame->pLabel[0] = gtk_label_new("Nom du joueur : non renseigné");
 	pGame->pLabel[1] = gtk_label_new("Chronomètre : désactivé");
-	pGame->pLabel[2] = gtk_label_new("Mode : non renseign�	pGame->pLabel[3] = gtk_label_new("Tour de jeu : Pas de jeu en coursigné");
+	pGame->pLabel[2] = gtk_label_new("Mode : non renseign�	pGame->pLabel[3] = gtk_label_new("Tour de jeu : Joueur 1, soyez prêt !igné");
 	
 	// Images
 
@@ -190,9 +190,8 @@ void CreateGameWindow(MainWindow *pGame){
 
     pGame->pMenuItem = gtk_menu_item_new_with_label("Enregistrer la partie");
 	g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonSaveGame), (MainWindow*) pGame);
-    gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
-
-    pGame->pMenuItem = gtk_menu_item_new_with_label("Quitter");
+ ->pBoardButtoname);
+    gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem pGame->pMenuItem = gtk_menu_item_new_with_label("Quitter");
     g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnQuitBtn), pGame);
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
 

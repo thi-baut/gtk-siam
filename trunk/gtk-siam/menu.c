@@ -139,16 +139,19 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
     gtk_widget_destroy(pFileSelection);
 }
 
-void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
+void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ // FUCKED UP because of un bug qui fait chier (gdb error quand on exploite des variable de pGame)
 	
 	GtkWidget *pFileSelection;
 	GtkWidget *pParent;
 	gchar *sChemin;
+	FILE* pSave;
 	
 	pParent = GTK_WIDGET(pGame);
 	
+	printf("%c",pGame->pBoardButton[0]->piece);
+	
 	/* Creation de la fenetre de selection */
-	pFileSelection = gtk_file_chooser_dialog_new("Choisir un endroit où sauver la partie...", GTK_WINDOW(pParent), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
+	pFileSelection = gtk_file_chooser_dialog_new("Choisir un endroit où sauver la partie...", GTK_WINDOW(pParent), GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
     /* On limite les actions a cette fenetre */
     gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 	
@@ -159,9 +162,12 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
 			/* Recuperation du chemin */
 			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
 			g_free(sChemin);
+			pSave = fopen(sChemin, "wb+");
+		
+			
 			break;
 			
-		default:
+			default:
 			break;
     }
 	
@@ -203,7 +209,7 @@ void OnButtonWithDrawal(GtkWidget *pMenuItem, MainWindow *pGame) {
 	g_signal_connect(G_OBJECT(pWithDrawalButton[0]),"clicked",G_CALLBACK(gtk_main_quit),NULL);
 	
 	g_signal_connect_swapped(G_OBJECT(pWithDrawalButton[1]),"clicked",G_CALLBACK(gtk_widget_destroy), pWithDrawalWindow);
-	
+
 	gtk_widget_show_all(pWithDrawalWindow);
 	
 }
