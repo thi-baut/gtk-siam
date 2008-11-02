@@ -50,9 +50,8 @@ void CreateGameWindow(MainWindow *pGame){
 	pGame->pBoardButton[i]->button=gtk_button_new();
 	}
 
-	pGame->pTable = gtk_table_new(5, 5, TRUE);
-
-	gdk_colo_parse("black", &pGame->black);
+	pGame->pTable = gtk_table_new(5, 5, T
+#ifndef WIN32_parse("black", &pGame->black);
 	gdk_color_parse("white", &pGame->white);
 	gdk_color_parse("#392B20", &pGame->brown);
 	gdk_color_parse("#2E2E2E", &pGame->black_clicked);
@@ -60,26 +59,12 @@ void CreateGameWindow(MainWindow *pGame){
 	
 	// Créa#endif
 
-#ifdef WIN32
-    GdkColor black = {0, 0, 0, 0};
-    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &black);
-
-    GdkColor white = {0, 65535, 65535, 65535};
-    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &white);
-
-    GdkColor brown = {0, 165, 42, 42};
-    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &brown);
-
-    GdkColor black_clicked = {0, 46, 46, 46};
-    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &black_clicked);
-
-    GdkColor white_clicked = {0, 232, 232, 232};
-    gtk_widget_modify_bg(&pGame->black, GTK_STATE_NORMAL, &white_clicked);ation des separator
+s separator
 	for(i=0;i<2;i++){
 		pGame->pSeparator[i] = gtk_vseparator_new();
 	}
 
-	for( i= 0; i< 25; i++) {
+	for( i= 0; i< 2#ifndef WIN3225; i++) {
 		// Couleurs des boutons
 		switch(i%2) {
 			case 0:
@@ -95,7 +80,7 @@ void CreateGameWindow(MainWindow *pGame){
 		}
 	}
 	
-	// Numéro des boutons dans le GObject
+	// Numéro de#endifes boutons dans le GObject
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[0]->button), "number", "0");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[1]->button), "number", "1");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[2]->button), "number", "2");
