@@ -35,7 +35,7 @@ struct _MainWindow
 {
 	/* Fenêtre principale */
 	GtkWidget *pWindow;
-	
+
 	GtkWidget *pMenuBar;
 	GtkWidget *pMenu;
 	GtkWidget *pMenuItem;
@@ -47,19 +47,19 @@ struct _MainWindow
 	Button *pTempButton;
 
 	GtkWidget *pLabel[4];
-	
+
 	GtkWidget *pStatusBar;
 
 	GtkWidget *pVBox, *pVBox1, *pVBox2;
-	
+
 	GtkWidget *pHBox;
-	
+
 	GtkWidget *pSeparator[2];
-	
-	
+
+
 	/* Fenêtre "Nouvelle partie" */
 	GtkWidget *pNewGameWindow;
-	
+
 	GtkWidget *pNewGameLabel[5];
 
 	GtkWidget *pNewGameButton[2];
@@ -68,15 +68,15 @@ struct _MainWindow
 	GtkWidget *pComboBoxTimer;
 	GtkWidget *pComboBoxCPU;
 	GtkWidget *pComboBoxAnimal;
-	
+
 	GtkWidget *pNewGameEntry;
 
 	GtkWidget *pNewGameVBox;
 
 	GtkWidget *pNewGameHBox[6];
-	
+
 	GtkWidget *pNewGameHSeparator;
-	
+
 	/* Variables générales */
 	gint level; // Niveau du jeu
 	gboolean timer; // Timer activé ou non

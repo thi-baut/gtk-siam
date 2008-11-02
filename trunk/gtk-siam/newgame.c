@@ -10,14 +10,14 @@
 #include "library.h"
 
 void LoadBoard(MainWindow *pGame){
-	
+
 	gint i;
 	// On s'occupe de tous les pions
 	for(i = 0; i < 35; i++) {
 		pGame->pBoardButton[i]->piece = 'n';
 		pGame->pBoardButton[i]->image = gtk_image_new();
 	}
-	
+
 	// On s'occupe des montagnes
 	for(i = 11; i <= 13; i++) {
 		pGame->pBoardButton[i]->piece = 'm';
@@ -30,7 +30,7 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->direction = 'n';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
 	}
-	
+
 	// On enregistre les paramètres des pions hors-jeu
 	// Éléphants
 	for(i = 25; i < 30; i++) {
@@ -48,7 +48,7 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->y = i-25;
 
 	}
-	
+
 	// Rhinocéros
 	for(i = 30; i < 35; i++) {
 		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/rhino-l.png");
@@ -65,26 +65,26 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->x = 5;
 
 	}
-	
+
 }
 void InitGame(GtkWidget *pButton, MainWindow *pGame) {
-	
+
 	// Variables
 	gchar *temp, *temp2;
 	gint i;
-	
+
 	// On enregistre le niveau de la partie
 	pGame->level = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxLevel));
-	
+
 	// On enregistre les paramètres du chrono
 	pGame->timer = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxTimer));
-	
+
 	// On enregistre le type de partie (J vs. CPU ou J vs. J)
 	pGame->vs_human = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxCPU));
-	
+
 	// On enregistre le choix du joueur concernant les pions
 	pGame->pion = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxAnimal));
-	
+
 	// On enregistre le nom du joueur
 	pGame->player_name = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry));
 	if(pGame->player_name[0] != '\0') {
@@ -97,20 +97,20 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[0]), temp);
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp2);
 	}
-	
-	
+
+
 	if(pGame->vs_human == FALSE) {
-		
+
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. CPU");
-		
+
 	}
-	
+
 	else if(pGame->vs_human == TRUE) {
-		
+
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. Humain");
-	
-	}	
-	
+
+	}
+
 	// On (re)démarre le timer
 	if(pGame->timer == TRUE && pGame->chrono != -1) {
 		pGame->chrono = 0;
@@ -120,17 +120,17 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		timeout(pGame);
 		g_timeout_add_seconds(1, (gpointer)timeout, (MainWindow *)pGame);
 	}
-	
+
 	// On modifie le message de la barre d'outils
 	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, "La partie a débuté, c'est à vous de jouer");
-	
+
 	// On applique les callbacks pour tous les boutons
 	for(i = 0; i < 35; i++) {
 		g_signal_connect(G_OBJECT(pGame->pBoardButton[i]->button), "clicked", G_CALLBACK(ActionInGame), pGame);
 	}
-	
-	/* Détruit la fenêtre (elle reçoit donc un signal "destroy") 
-	C'est pourquoi on ne doit pas connecter le signal "destroy" de la fenêtre 
+
+	/* Détruit la fenêtre (elle reçoit donc un signal "destroy")
+	C'est pourquoi on ne doit pas connecter le signal "destroy" de la fenêtre
 	( = plantage car essaierai de destroy un GtkWidget déjà détruit) */
 	gtk_widget_destroy(pGame->pNewGameWindow);
 }
