@@ -148,7 +148,7 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
     gtk_widget_destroy(pFileSelection);
 }
 
-void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ // FUCKED UP because of un bug qui fait chier (gdb error quand on exploite des variable de pGame)
+void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ // FUCKED UP because of un bug qui fait chier (gdb error quand on exploite des variable de pGame )
 	
 	GtkWidget *pFileSelection;
 	GtkWidget *pParent;
