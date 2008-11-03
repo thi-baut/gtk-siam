@@ -10,8 +10,13 @@
 
 int main (int argc, char **argv)
 {
+
+	
 	/* Constants pour les deux systèmes (juste au cas-où on en ai besoin ;) */
 #ifdef __APPLE__
+	CFBundleRef mainBundle;
+	// Get the main bundle for the app
+	mainBundle = CFBundleGetMainBundle();
 #endif
 	
 #ifdef WIN32
