@@ -14,12 +14,13 @@ void CreateGameWindow(MainWindow *pGame){
 	int i,j;
 	int c = -1;
 	gchar *temp;
-		pGame->turn = 1;
+	pGame->turn = 1;
+	pGame->first_init = TRUE;
 	temp = (gchar *) malloc(3*sizeof(gchar));
 	pGame->pTempButton = (Button *) malloc(sizeof(Button));
 	
 	// Allocation de la mémoire pour les boutons
-	for(i=0 ; i < 36; i++) {
+	for(i=0 ; i < 56; i++) {
 		pGame->pBoardButton[i] = (Button *) malloc(sizeof(Button));
 	}
 	
@@ -39,15 +40,16 @@ void CreateGameWindow(MainWindow *pGame){
 	g_signal_connect(pGame->pWindow, "destroy", G_CALLBACK (OnQuitBtn), pGame);
 
 	// Labels
-	pGame->pLabel[0] = gtk_label_new("Nom du joueur : non renseigné");
+	pGame->pLabel[0] = gtk_label_new("Nom du jo1 : ");
+	pGame->pLabel[4] = gtk_label_new("Nom du joueur 2 : igné");
 	pGame->pLabel[1] = gtk_label_new("Chronomètre : désactivé");
-	pGame->pLabel[2] = gtk_label_new("Mode : non renseign�	pGame->pLabel[3] = gtk_label_new("Tour de jeu : Joueur 1, soyez prêt !igné");
-	
-	// Images
+	pGame->pLabel[2] = gtk_label_new("Mode : non renseign�	pGame->pLabel[3] = gtk_label_new("Tour de jeu : pas de partie en cours");
+	pGame->pPlayerLabel[0] = gtk_label_new("non renseigné");
+	pGame->pPlayerLabel[1] = gtk_label_new("non renseigné");
 
 	// Table de jeu
 	for (i=0; i<35; i++){
-	pGame->pBoardButton[i]->button=gtk_button_new();
+	pGame->pBoardButton[i]->button = utton=gtk_button_new();
 	}
 
 	pGame->pTable = gtk_table_new(5, 5, T
@@ -80,8 +82,16 @@ s separator
 		}
 	}
 	
-	// Numéro de#endifes boutons dans le GObject
-	g_object_set_data(G_OBJECT(pGame->pBoardButton[0]->button), "number", "0");
+	// Numéro de des boutons out
+	for(i = 25; i < 35; i++) {
+		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->brown);
+		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->brown);
+		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->brown);
+	}
+	
+	for (i=0; #endif
+	
+	// Numéro des boutons dans le GObject : pas de boucle, comme ça les chaînes sont allouées automatiquement :pdata(G_OBJECT(pGame->pBoardButton[0]->button), "number", "0");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[1]->button), "number", "1");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[2]->button), "number", "2");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[3]->button), "number", "3");
@@ -107,7 +117,7 @@ s separator
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[23]->button), "number", "23");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[24]->button), "number", "24");
 	
-	g_object_set_data(G_OBJECT(pGame->pBoardButton[25]->button), "number", "25");
+	g_object_set	_data(G_OBJECT(pGame->pBoardButton[25]->button), "number", "25");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[26]->button), "number", "26");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[27]->button), "number", "27");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[28]->button), "number", "28");
@@ -118,14 +128,7 @@ s separator
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[33]->button), "number", "33");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[34]->button), "number", "34");
 	
-	// Couleurs des boutons out
-	for(i = 25; i < 35; i++) {
-		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->brown);
-		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->brown);
-		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->brown);
-	}
-	
-	for (i=0; i<5; i++)
+	// Couleurs	i<5; i++)
 		for (j=0; j<5; j++) {
 			c++;
 			// On enregistre les coordonnées
@@ -134,10 +137,15 @@ s separator
 			gtk_table_attach(GTK_TABLE(pGame->pTable), pGame->pBoardButton[c]->button,j, j+1, i, i+1, GTK_EXPAND  | GTK_FILL , GTK_FILL | GTK_EXPAND, 0, 0);
 		}
 	
-	// Chargement des pions du plateau
-	LoadBoard(pGame);
-	
-	// Barre d'outils
+	// Charge	
+	// Chargement des pions vide du plateau
+	for(i = 0; i < 35; i++) {
+		if(pGame->first_init == FALSE)
+			gtk_widget_destroy(pGame->pBoardButton[i]->image);
+		pGame->pBoardButton[i]->piece = 'n';
+		pGame->pBoardButton[i]->image = gtk_image_new_from_file("/empty.png");
+		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
+	}e d'outils
 	pGame->pToolbar = gtk_toolbar_new();
 	gtk_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_NEW, "Nouveau", NULL, G_CALLBACK(OnButtonNewGame), pGame, -1);
 	gtk_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_OPEN,"Ouvrir", NULL, G_CALLBACK(OnButtonOpenGame), NULL,-1);
@@ -147,9 +155,11 @@ s separator
 	/* Insertion d'un espace */
 	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
 	
-	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[0], "Nom du joueur", "Nom du joueur", -1);
-	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
-	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[1], "Chronomètre", "Chronomètre", -1);
+	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[0], "Nom du joueur", "Nom d 1", "Nom du joueur 1", -1);
+	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pPlayerLabel[0], "Nom du joueur 1", "Nom du joueur 1gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
+	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode4], "Nom du joueur 2", "Nom du joueur 2", -1);
+	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pPlayerLabel[1], "Nom du joueur 1", "Nom du joueur 1gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
+	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Modenomètre", "Chronomètre", -1);
 	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
 	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode 1 vs 1",", "Mod	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
 	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode3], "Tour", "Tour

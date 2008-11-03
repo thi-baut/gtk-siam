@@ -3,7 +3,7 @@
  *  GTK-Siam
  *
  *  Created by Gabriel Féron on 22/10/08.
- *  Copyright 2008 __MyCompanyName__. All rights reserved.
+ *  Copyright 2008 Fusion Studios. All rights reserved.
  *
  */
 
@@ -59,8 +59,21 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 			case 1:
 				// Permet de savoir de quelle case du tableau de structures il s'agît.
 				number2 = atoi(g_object_get_data(G_OBJECT(pButton), "number"));
-
-				if(number == number2) {
+				
+				// TROP STYLÉ MEC CA MARCHE BIEN C KIFFAN JE MAUTO KIFF LA VIVE MOI 
+				if((((pGame->turn) % 2) == 0) & (pGame->pBoardButton[number]->piece != 'r')) {
+					
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas bouger un pion adverse");
+					
+				}
+				
+				else if((((pGame->turn) % 2) != 0) & (pGame->pBoardButton[number]->piece != 'e')) {
+					
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas bouger un pion adverse");
+					
+				}
+				
+				else if(number == number2) {
 					switch(pGame->pBoardButton[number]->direction) {
 						case 't':
 							pGame->pBoardButton[number]->direction = 'r';
@@ -141,18 +154,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				}
 				
 				
-				// TROP STYLÉ MEC CA MARCHE BIEN C KIFFAN JE MAUTO KIFF LA VIVE MOI 
-				else if((((pGame->turn) % 2) == 0) & (pGame->pBoardButton[number]->piece != 'r')) {
-
-					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas bouger un pion adverse");
-
-				}
-
-				else if((((pGame->turn) % 2) != 0) & (pGame->pBoardButton[number]->piece != 'e')) {
-
-					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas bouger un pion adverse");
-
-				} // JE VAIS MATTER HIMYM SI TU CONTINUES FUCKER :@ (style) // DOUBEL COMMENTAIRE LA CLASSE !!!! // TRIPLE KARAMELIT TRIPEUL C CA KI EST BON !!!
+				 // JE VAIS MATTER HIMYM SI TU CONTINUES FUCKER :@ (style) // DOUBEL COMMENTAIRE LA CLASSE !!!! // TRIPLE KARAMELIT TRIPEUL C CA KI EST BON !!!
 				// OUAIS COMME LA BINOUSE, CE CODE IL EST BRASSÉ TROIS FOIS ! 
 				// ET COMME TA BITE AUSSI
 				// TOUT S'EXPLIQUE ALORS ! LA VIE JE LA COMPREND MAINTENANT, MERCI GABY DE M'AVOIR MONTRÉ LE CHEMIN DE LA VERITÉ
@@ -192,14 +194,15 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					 {
 
 						if(((pGame->turn) % 2) == 0) {
-
-							gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), "Tour de jeu : Joueur 1");
-
+							strcpy(temp, "Tour de jeu : ");
+							strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
+							gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
 						}
 
 						else {
-							gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), "Tour de jeu : Joueur 2");
-
+							strcpy(temp, "Tour de jeu : ");
+							strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
+							gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
 						}
 
 						pGame->pBoardButton[number]->piece = pGame->pBoardButton[number2]->piece;
