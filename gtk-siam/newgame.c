@@ -12,7 +12,8 @@
 void LoadBoard(MainWindow *pGame){
 
 	gint i;
-	// On s'occupe de tous les pions
+	
+	// On s'occupe de toutes les cases
 	for(i = 0; i < 35; i++) {
 		pGame->pBoardButton[i]->piece = 'n';
 		pGame->pBoardButton[i]->image = gtk_image_new();
@@ -44,7 +45,6 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->direction = 'r';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[i]->button), pGame->pBoardButton[i]->image);
 		pGame->pBoardButton[i]->x = -1; // Signifie que le pion est hors plateau
-
 		pGame->pBoardButton[i]->y = i-25;
 
 	}
@@ -70,7 +70,8 @@ void LoadBoard(MainWindow *pGame){
 void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 
 	// Variables
-	gchar *temp, *temp2;
+	gchar temp[60];
+	gchar temp2[60];
 	gint i;
 
 	// On enregistre le niveau de la partie
@@ -86,30 +87,23 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	pGame->pion = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxAnimal));
 
 	// On enregistre le nom du joueur
-	pGame->player_name = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry));
-	if(pGame->player_name[0] != '\0') {
-		temp = (gchar *) malloc(strlen(pGame->player_name)*sizeof(gchar) + 16);
-		temp2 = (gchar *) malloc(strlen(pGame->player_name)*sizeof(gchar) + 16);
-		strcpy(temp, "Nom du joueur : ");
-		strcat(temp, pGame->player_name);
-		strcpy(temp2,"Tour de jeu : ");
-		strcat(temp2, pGame->player_name);
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[0]), temp);
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp2);
-	}
+	pGame->player_name[0] = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry[0]));
+	strcpy(temp, pGame->player_name[0]);
+	strcpy(temp2,"Tour de jeu : ");
+	strcat(temp2, pGame->player_name[0]);
+	gtk_label_set_text(GTK_LABEL(pGame->pPlayerLabel[0]), temp);
+	gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp2);
+	
+	pGame->player_name[1] = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry[1]));
+	strcpy(temp, pGame->player_name[1]);
+	gtk_label_set_text(GTK_LABEL(pGame->pPlayerLabel[1]), temp);
 
 
-	if(pGame->vs_human == FALSE) {
-
+	if(pGame->vs_human == FALSE)
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. CPU");
 
-	}
-
-	else if(pGame->vs_human == TRUE) {
-
+	else if(pGame->vs_human == TRUE)
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. Humain");
-
-	}
 
 	// On (re)démarre le timer
 	if(pGame->timer == TRUE && pGame->chrono != -1) {
@@ -122,15 +116,35 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	}
 
 	// On modifie le message de la barre d'outils
-	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, "La partie a débuté, c'est à vous de jouer");
+	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, "La partie a débuté, c'est à vous de jouer !");
 
 	// On applique les callbacks pour tous les boutons
-	for(i = 0; i < 35; i++) {
+	if(pGame->first_init == TRUE) {
+		for(i = 0; i < 35; i++) {
 		g_signal_connect(G_OBJECT(pGame->pBoardButton[i]->button), "clicked", G_CALLBACK(ActionInGame), pGame);
+		}
+		pGame->first_init = FALSE;
 	}
-
+	
 	/* Détruit la fenêtre (elle reçoit donc un signal "destroy")
 	C'est pourquoi on ne doit pas connecter le signal "destroy" de la fenêtre
 	( = plantage car essaierai de destroy un GtkWidget déjà détruit) */
-	gtk_widget_destroy(pGame->pNewGameWindow);
+	if(pGame->player_name[0][0] == '\0' || pGame->player_name[1][0] == '\0') {
+		GtkWidget *pDialog;
+		pDialog = gtk_message_dialog_new(GTK_WINDOW(pGame->pNewGameWindow), GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "Vous n'avez pas entré les noms correctement !");
+		gtk_window_set_position(GTK_WINDOW(pDialog), GTK_WIN_POS_CENTER);
+		gtk_window_set_title(GTK_WINDOW(pDialog), "GTK-Siam - Erreur");
+		gtk_dialog_run(GTK_DIALOG(pDialog));
+		gtk_widget_destroy(pDialog);
+		gtk_widget_destroy(pGame->pNewGameWindow);
+		OnButtonNewGame(NULL, pGame);
+	}
+	else {
+		
+		gtk_widget_destroy(pGame->pNewGameWindow);
+		
+		// Sinon, on opère les modifications visuelles
+		// On charge le plateau
+		LoadBoard(pGame);
+	}
 }
