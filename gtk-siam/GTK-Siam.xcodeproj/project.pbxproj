@@ -15,6 +15,7 @@
 		53F35A350EAE1BB60066F650 /* timer.c in Sources */ = {isa = PBXBuildFile; fileRef = 53F35A340EAE1BB60066F650 /* timer.c */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.c */; settings = {ATTRIBUTES = (); }; };
+		BF6A1B220EBF9ACE0073B71E /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF6A1B210EBF9ACE0073B71E /* CoreFoundation.framework */; };
 		C0196E570EA3985D007A6E23 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C0196E560EA3985D007A6E23 /* icon.icns */; };
 		C0196E840EA3A2FE007A6E23 /* newgame.c in Sources */ = {isa = PBXBuildFile; fileRef = C0196E830EA3A2FE007A6E23 /* newgame.c */; };
 		C0196E950EA3A613007A6E23 /* menu.c in Sources */ = {isa = PBXBuildFile; fileRef = C0196E940EA3A613007A6E23 /* menu.c */; };
@@ -46,6 +47,7 @@
 		53F6FE4A0EB0C768007ACF2C /* rhino.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rhino.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* GTK-Siam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GTK-Siam.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF6A1B210EBF9ACE0073B71E /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		C0196E560EA3985D007A6E23 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		C0196E600EA398AC007A6E23 /* library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = library.h; sourceTree = "<group>"; };
 		C0196E830EA3A2FE007A6E23 /* newgame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = newgame.c; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				15409F750DCB9D6C00BC6E83 /* GLib.framework in Frameworks */,
 				15409F790DCB9D7A00BC6E83 /* Gtk.framework in Frameworks */,
 				15409F7D0DCB9D8800BC6E83 /* Cairo.framework in Frameworks */,
+				BF6A1B220EBF9ACE0073B71E /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +79,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BF6A1B210EBF9ACE0073B71E /* CoreFoundation.framework */,
 				15409F7C0DCB9D8800BC6E83 /* Cairo.framework */,
 				15409F780DCB9D7A00BC6E83 /* Gtk.framework */,
 				15409F740DCB9D6C00BC6E83 /* GLib.framework */,
