@@ -26,7 +26,7 @@ gfloat r_right;
 gfloat r_top;
 gfloat r_bottom;
 gchar piece; // Pion
-gchar direction; // Direction (regarde de l'animal)
+gchar direction; // Direction (regard de l'animal)
 
 };
 typedef struct _Button Button;
@@ -125,3 +125,5 @@ void CreateGameWindow(MainWindow *pGame);
 // game.c
 void ActionInGame(GtkWidget *pButton, MainWindow *pGame);
 void RefreshDisplay(MainWindow *pGame, gint number);
+void OnWin(MainWindow *pGame);
+

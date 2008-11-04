@@ -154,6 +154,7 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ // FUCKED UP bec
 	GtkWidget *pParent;
 	gchar *sChemin;
 	FILE* pSave;
+	int i;
 	
 	pParent = GTK_WIDGET(pGame);
 	
@@ -171,14 +172,28 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ // FUCKED UP bec
 			/* Recuperation du chemin */
 			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
 			g_free(sChemin);
-			pSave = fopen(sChemin, "wb+");
-		
-			
+			pSave = fopen(sChemin, "w+");
+			if (pSave != NULL)
+			{
+				for (i=0; i<35; i++){
+					fprintf(pSave,"Coordonnee du bouton %d en x :%d \n", i, pGame->pBoardButton[i]->x);
+					fprintf(pSave,"Coordonnee du bouton %d en y :%d \n", i, pGame->pBoardButton[i]->y);
+					fprintf(pSave,"force du bouton %d \n", i, pGame->pBoardButton[i]->force);
+					fprintf(pSave,"r_left du bouton %d \n", i, pGame->pBoardButton[i]->r_left);
+					fprintf(pSave,"r_right du bouton %d \n", i, pGame->pBoardButton[i]->r_right);
+					fprintf(pSave,"r_top du bouton %d \n", i, pGame->pBoardButton[i]->r_top);
+					fprintf(pSave,"r_bottom du bouton %d \n", i, pGame->pBoardButton[i]->r_bottom);
+					fprintf(pSave,"la piece %d est un %c \n", i, pGame->pBoardButton[i]->piece);
+					fprintf(pSave,"la piece %d est orientee vers la %gc \n", i, pGame->pBoardButton[i]->direction);
+					}
+				fprintf(pSave,"niveau de difficulte : %d \n", i, pGame->level);
+			}
 			break;
 			
 			default:
 			break;
     }
+	
 	
     gtk_widget_destroy(pFileSelection);
 }

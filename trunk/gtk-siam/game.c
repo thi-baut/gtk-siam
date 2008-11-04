@@ -123,25 +123,30 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					
 				}
 				
-				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) && ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==1){
+				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) 
+						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==1){
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
 					
 				}
 				
-				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) && ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1){
+	
+				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) 
+						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1){
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
 					
 				}
 				
-				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==-1) && ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==1){
+				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==-1) 
+						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==1){
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
 					
 				}
 				
-				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==-1) && ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1){
+				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==-1) 
+						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1){
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
 					
@@ -334,7 +339,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
-													printf("\nPartie terminée, vous avez gagné !");
+													OnWin(pGame);
 													break;
 												default:
 													pGame->pBoardButton[i]->piece = 'n';
@@ -1539,5 +1544,12 @@ void RefreshDisplay(MainWindow *pGame, gint number) {
 	gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[number]->button), pGame->pBoardButton[number]->image);
 
 
+}
 
+void OnWin(MainWindow *pGame) {
+	GtkWidget *pDialog;	
+	pDialog = gtk_message_dialog_new(GTK_WINDOW(pGame->pWindow), GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Bravo %s vous avez gagné ! :)",gtk_label_get_text(pGame->pPlayerLabel[1]));
+	gtk_dialog_run(GTK_DIALOG(pDialog));
+	gtk_widget_destroy(pDialog);
+	gtk_main_quit();
 }
