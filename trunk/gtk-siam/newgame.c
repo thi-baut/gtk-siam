@@ -123,6 +123,17 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		for(i = 0; i < 35; i++) {
 		g_signal_connect(G_OBJECT(pGame->pBoardButton[i]->button), "clicked", G_CALLBACK(ActionInGame), pGame);
 		}
+		
+		//Hbox
+		gtk_container_remove(GTK_CONTAINER(pGame->pHBox), pGame->pStartImage);
+		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pVBox1, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pSeparator[0], FALSE, FALSE, 15);
+		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pTable, TRUE, TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pSeparator[1], FALSE, FALSE, 15);
+		gtk_box_pack_end(GTK_BOX(pGame->pHBox), pGame->pVBox2, FALSE, FALSE, 0);
+		
+		gtk_widget_show_all(pGame->pWindow);
+		
 		pGame->first_init = FALSE;
 	}
 	

@@ -111,20 +111,18 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					
 				}
 				
-				else if(((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))>1)) || (((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))<-1)) {
+				else if((((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))>1)) || (((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))<-1)) && (number < 25 && ((number2 > 5) || (number2 < 20))) ) {
+					
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez vous déplacer que d'une case par tour !");
+					
+				}+
+				else if((((((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))>1)) || (((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))<-1))) {
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez vous déplacer que d'une case par tour !");
 					
 				}
 				
-				else if(((((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))>1)) || (((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))<-1)) {
-					
-					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez vous déplacer que d'une case par tour !");
-					
-				}
-				
-				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) 
-						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==1){
+				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) && ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==1 && number < 25){
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
 					
@@ -132,21 +130,21 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				
 	
 				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) 
-						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1){
+						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1 && number < 25){
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
 					
 				}
 				
 				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==-1) 
-						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==1){
+						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==1 && number < 25){
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
 					
 				}
 				
 				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==-1) 
-						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1){
+						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1 && number < 25){
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
 					
@@ -157,43 +155,23 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Rentrée sur le plateau impossible");
 					
 				}
-				
-				
-				 // JE VAIS MATTER HIMYM SI TU CONTINUES FUCKER :@ (style) // DOUBEL COMMENTAIRE LA CLASSE !!!! // TRIPLE KARAMELIT TRIPEUL C CA KI EST BON !!!
-				// OUAIS COMME LA BINOUSE, CE CODE IL EST BRASSÉ TROIS FOIS ! 
-				// ET COMME TA BITE AUSSI
-				// TOUT S'EXPLIQUE ALORS ! LA VIE JE LA COMPREND MAINTENANT, MERCI GABY DE M'AVOIR MONTRÉ LE CHEMIN DE LA VERITÉ
-				// TU ES SUR LE CHEMIN DE LA FOI (HAHA) TU VAS BIENTÔT POUVOIR RENCONTRER LE TOUT PUISSANT ET AVOIR LES 10000 VIERGES POUR TOI TOUT SEUL
-				// ATTENTION ELLE RESSEMBLENT FORCEMMENT TOUTES A UNE EX : J ESPERE QUE ILS ONT PAS CHOISI.... TU VOIS QUI... VOLDEMORT?
-				// QQCH COMMME çA OUI. G EU UNE EX BIEN (AU MOINS UNE POUR UNE VIE ?) DONC VOILA
-				// MS JLUI PARLE PLU JE PENSE QUE LE TOUT PUISSANT NACCEPTERA PAS
-				// JE SUIS BAISER PAR TOUT LES TROUS
-				// OUAIS EN PLUS ON VA T'EN FORER UN BIENTÔT DANS LA BOUCHE. J'ESPERE QU'ON VA PAS TE BAISER PAR LA AUSSI. CA FERAIT MAL
-				// MAL A MA FIERTÉ OUI, 
-				// BON GO HIMYM SEE YA JE VAIS PAS SUPPRIMER CA xD COMME CA ON VERRA SI SUCK-COCKS-SEGADO LÎT LE CODE :D
-				// C UN RISQUE A PRENDRE, JE PROPOSE QU ON CHECKE DEJA SI TIBO LIT LE CODE :D
-				// OUAIS YA MOYEN DE VERIFIER CA. EN CE MOMENT POUR LUI LA ROUTE EST SANGLANTE, IL DOIT EMPRUNTER LE CHEMIN BOUEUX A MON AVIS !
-				// DEGUEU MAIS VRAIMENT DEGUEU ! MAIS C FUN XD
-				// EN MÊME TEMPS ELLE VIENT DU LAOS DONC C'EST PAS COMME CI ELLE S'ETAIT JAMAIS FAIT VIOLER :D (HORRIBLE)
-				// OUI MODE GORE AU CARRE LA (COMME LA CLE TNT) D'AILLEURS YA JAMES BOND CE SOIR AVEC UNE VRAI JAMES BOND GIRL :D + SOPHIE MARCEAU (L)
-				// IL PUE CELUI LA BON JE TE KICKE DE MON ORDI TU FAIT CHIER
 
 				// Cas de l'échange, c'est à dire qu'on inverse deux pièces. Simple déplacement des pions en fait !
 				else if (pGame->pBoardButton[number2]->piece == 'n')  {
 
 
 					// C'est ici que l'on vérifie que le sens du pion est correctement enregistré pour permettre le déplacement
-					if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x > 0) && (pGame->pBoardButton[number]->direction != 'l'))
-						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
+					if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x > 0) && (pGame->pBoardButton[number]->direction != 'l') && pGame->pBoardButton[number]->x != -1 && pGame->pBoardButton[number]->x != 5)
+						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
 
-					else if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x < 0) && (pGame->pBoardButton[number]->direction != 'r'))
-						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
+					else if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x < 0) && (pGame->pBoardButton[number]->direction != 'r') && pGame->pBoardButton[number]->x != -1 && pGame->pBoardButton[number]->x != 5)
+						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
 
-					else if((pGame->pBoardButton[number]->y - pGame->pBoardButton[number2]->y > 0) && (pGame->pBoardButton[number]->direction != 't'))
-						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
+					else if((pGame->pBoardButton[number]->y - pGame->pBoardButton[number2]->y > 0) && (pGame->pBoardButton[number]->direction != 't') && pGame->pBoardButton[number]->x != -1 && pGame->pBoardButton[number]->x != 5)
+						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
 
-					else if((pGame->pBoardButton[number]->y - pGame->pBoardButton[number2]->y < 0) && (pGame->pBoardButton[number]->direction != 'b'))
-						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement");
+					else if((pGame->pBoardButton[number]->y - pGame->pBoardButton[number2]->y < 0) && (pGame->pBoardButton[number]->direction != 'b') && pGame->pBoardButton[number]->x != -1 && pGame->pBoardButton[number]->x != 5)
+						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
 
 					else
 					 {

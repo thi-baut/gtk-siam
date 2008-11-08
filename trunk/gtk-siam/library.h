@@ -57,6 +57,8 @@ struct _MainWindow
 	GtkWidget *pHBox;
 
 	GtkWidget *pSeparator[2];
+	
+	GtkWidget *pStartImage;
 
 
 	/* Fenêtre "Nouvelle partie" */
