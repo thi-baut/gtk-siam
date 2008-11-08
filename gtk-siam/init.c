@@ -34,8 +34,7 @@ void CreateGameWindow(MainWindow *pGame){
 	pGame->pWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(pGame->pWindow), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(pGame->pWindow), "GTK Siam - Plateau");
-	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindow), 1000, 800);
-	//gtk_window_set_resizable(GTK_WINDOW(pGame->pWindow), FALSE);
+	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindow), 1000, 80E);
 	
 	g_signal_connect(pGame->pWindow, "destroy", G_CALLBACK (OnQuitBtn), pGame);
 
@@ -60,7 +59,9 @@ void CreateGameWindow(MainWindow *pGame){
 	gdk_color_parse("#E8E8E8", &pGame->white_clicked);
 	
 	// Créa#endif
-
+	// Loading de l'image de welcome
+	pGame->pStartImage = gtk_image_new_from_file("/splashscreen.png");
+	
 s separator
 	for(i=0;i<2;i++){
 		pGame->pSeparator[i] = gtk_vseparator_new();
@@ -230,12 +231,12 @@ pGame_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregi
 	// VBox
 	pGame->pVBox = gtk_vbox_new(FALSE, 0);
 	
-	//Vboxes 1 et 2
+	//Vboxes 1 t 2
 	
 	pGame->pVBox1 = gtk_vbox_new(FALSE, 0);
 	pGame->pVBox2 = gtk_vbox_new(FALSE, 0);
 	
-	// Hbox qui contient la totalité des boxes
+	// Hbox qui contient la totalité desboxes
 	
 	pGame->pHBox = gtk_hbox_new(FALSE, 0);
 
@@ -247,14 +248,14 @@ pGame_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregi
 
 	// Fenêtre pGame
 	
-	// VBox
+// VBox
 	
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pMenuBar, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pToolbar, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pHBox, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox), pGame->pStatusBar, FALSE, TRUE, 0);
 	
-	//5 boutons dans VBox1 et 5 boutons dans VBox 2 (de part et d'autre de la table)
+	//5 boutons dans VBox1 et 5 boutons dans VBox 2 (de part et d'autre dela table)
 	
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pBoardButton[25]->button, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox1), pGame->pBoardButton[26]->button, TRUE, TRUE, 0);
@@ -266,16 +267,9 @@ pGame_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregi
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pBoardButton[31]->button, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pBoardButton[32]->button, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pBoardButton[33]->button, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pBoardButton[34]->button, TRUE, TRUE, 0);
-	
-	
-	//Hbox
-	
-	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pVBox1, FALSE, FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pSeparator[0], FALSE, FALSE, 15);
-	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pTable, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pSeparator[1], FALSE, FALSE, 15);
-	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pVBox2, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame->pVBox2), pGame->pBoardButton[34]->button, TRUE	// HBox
+	// On y colle une image
+	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pStartImage, TRUE, TRUE, 0);LSE, FALSE, 0);
 	
 
 	// Accrochage de la VBox dans la fenêtre
