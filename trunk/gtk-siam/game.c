@@ -59,8 +59,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 			case 1:
 				// Permet de savoir de quelle case du tableau de structures il s'agît.
 				number2 = atoi(g_object_get_data(G_OBJECT(pButton), "number"));
-				
-				// TROP STYLÉ MEC CA MARCHE BIEN C KIFFAN JE MAUTO KIFF LA VIVE MOI 
+
 				if((((pGame->turn) % 2) == 0) & (pGame->pBoardButton[number]->piece != 'r')) {
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas bouger un pion adverse");
@@ -115,7 +114,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez vous déplacer que d'une case par tour !");
 					
-				}+
+				}
 				else if((((((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))>1)) || (((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))<-1))) {
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez vous déplacer que d'une case par tour !");
@@ -1433,7 +1432,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 
 				// Signifie qu'on a cliqué sur le bouton d'arrivée - tout s'est déroulé correctement
 				pGame->round = 0;
-
+				
 				break;
 
 			default:

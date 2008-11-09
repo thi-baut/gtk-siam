@@ -18,6 +18,7 @@ void CreateGameWindow(MainWindow *pGame){
 	pGame->first_init = TRUE;
 	temp = (gchar *) malloc(3*sizeof(gchar));
 	pGame->pTempButton = (Button *) malloc(sizeof(Button));
+	pGame->toggle_color = TRUE;
 	
 	// Allocation de la mémoire pour les boutons
 	for(i=0 ; i < 56; i++) {
@@ -55,9 +56,9 @@ void CreateGameWindow(MainWindow *pGame){
 #ifndef WIN32_parse("black", &pGame->black);
 	gdk_color_parse("white", &pGame->white);
 	gdk_color_parse("#392B20", &pGame->brown);
-	gdk_color_parse("#2E2E2E", &pGame->black_clicked);
-	gdk_color_parse("#E8E8E8", &pGame->white_clicked);
-	
+	gdk_color_parse("#2E2E2E", &pD0D0D0", &pGame->black_clicked);
+	gdk_color_parse("#D0D0D0", &pGame->white_clicked);
+	gdk_color_parse("#D0D0D0", &pGame->brown	
 	// Créa#endif
 	// Loading de l'image de welcome
 	pGame->pStartImage = gtk_image_new_from_file("/splashscreen.png");
@@ -67,31 +68,7 @@ s separator
 		pGame->pSeparator[i] = gtk_vseparator_new();
 	}
 
-	for( i= 0; i< 2#ifndef WIN3225; i++) {
-		// Couleurs des boutons
-		switch(i%2) {
-			case 0:
-				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->black);
-				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->black);
-				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->black_clicked);
-				break;
-			case 1:
-				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->white);
-				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->white);
-				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->white_clicked);
-				break;
-		}
-	}
-	
-	// Numéro de des boutons out
-	for(i = 25; i < 35; i++) {
-		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->brown);
-		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->brown);
-		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->brown);
-	}
-	
-	for (i=0; #endif
-	
+	for( i= 0; i< 	
 	// Numéro des boutons dans le GObject : pas de boucle, comme ça les chaînes sont allouées automatiquement :pdata(G_OBJECT(pGame->pBoardButton[0]->button), "number", "0");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[1]->button), "number", "1");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[2]->button), "number", "2");

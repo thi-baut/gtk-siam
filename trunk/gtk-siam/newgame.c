@@ -18,7 +18,41 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->piece = 'n';
 		pGame->pBoardButton[i]->image = gtk_image_new();
 	}
-
+	
+#ifndef WIN32
+	for( i= 0; i< 25; i++) {
+		// Couleurs des boutons
+		switch(i%2) {
+			case 0:
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->black);
+				if(pGame->toggle_color == TRUE) {
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->black_clicked);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->black_clicked);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_SELECTED, &pGame->black_clicked);
+				}
+				break;
+			case 1:
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->white);
+					if(pGame->toggle_color == TRUE) {
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->white_clicked);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->white_clicked);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_SELECTED, &pGame->white_clicked);
+					}
+				break;
+		}
+	}
+	
+	// Couleurs des boutons out
+	for(i = 25; i < 35; i++) {
+		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->brown);
+			if(pGame->toggle_color == TRUE) {
+		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->brown_clicked);
+		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->brown_clicked);
+		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->brown_clicked);
+			}
+	}
+#endif
+	
 	// On s'occupe des montagnes
 	for(i = 11; i <= 13; i++) {
 		pGame->pBoardButton[i]->piece = 'm';
@@ -65,6 +99,10 @@ void LoadBoard(MainWindow *pGame){
 		pGame->pBoardButton[i]->x = 5;
 
 	}
+	
+	for(i = 0; i < 35; i++) {
+		RefreshDisplay(pGame, i);
+	}
 
 }
 void InitGame(GtkWidget *pButton, MainWindow *pGame) {
@@ -85,6 +123,9 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 
 	// On enregistre le choix du joueur concernant les pions
 	pGame->pion = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxAnimal));
+	
+	// On enregistre le choix du joueur concernant les pions
+	pGame->toggle_color = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxToggle));
 
 	// On enregistre le nom du joueur
 	pGame->player_name[0] = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry[0]));
