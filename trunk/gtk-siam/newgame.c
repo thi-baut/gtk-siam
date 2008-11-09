@@ -12,6 +12,12 @@
 void LoadBoard(MainWindow *pGame){
 
 	gint i;
+	pGame->turn = 1;
+	pGame->toggle_color = TRUE;
+	pGame->lock_turn = -1;
+	
+	// On intialise l'entier qui servira de round;
+	pGame->round = 0;
 	
 	// On s'occupe de toutes les cases
 	for(i = 0; i < 35; i++) {
