@@ -15,10 +15,7 @@ int main (int argc, char **argv)
 	
 #ifdef WIN32
 #endif
-	
-	/* Paramètre la langue et les signes utilisés par GTK+ (meilleur pour le multi-plateforme) */
-	gtk_set_locale();
-	
+
 	/* Initialisation de GTK+ */
 	gtk_init(&argc, &argv);
 

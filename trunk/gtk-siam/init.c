@@ -19,6 +19,7 @@ void CreateGameWindow(MainWindow *pGame){
 	temp = (gchar *) malloc(3*sizeof(gchar));
 	pGame->pTempButton = (Button *) malloc(sizeof(Button));
 	pGame->toggle_color = TRUE;
+	pGame->lock_turn = -1;
 	
 	// Allocation de la mémoire pour les boutons
 	for(i=0 ; i < 56; i++) {
@@ -44,6 +45,7 @@ void CreateGameWindow(MainWindow *pGame){
 	pGame->pLabel[4] = gtk_label_new("Nom du joueur 2 : igné");
 	pGame->pLabel[1] = gtk_label_new("Chronomètre : désactivé");
 	pGame->pLabel[2] = gtk_label_new("Mode : non renseign�	pGame->pLabel[3] = gtk_label_new("Tour de jeu : pas de partie en cours");
+	pGame->pLabel[5] = gtk_label_new("Laisser la main : ");
 	pGame->pPlayerLabel[0] = gtk_label_new("non renseigné");
 	pGame->pPlayerLabel[1] = gtk_label_new("non renseigné");
 
@@ -133,17 +135,7 @@ s separator
 pGame_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregistrer", NULL, G_CALLBACK(OnButtonSaveGame), NULL, -1);pGamek_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_QUIT, "Quitter", NULL, G_CALLBACK(OnQuitBtn), pGame, -1);
 
 	/* Insertion d'un espace */
-	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
-	
-	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[0], "Nom du joueur", "Nom d 1", "Nom du joueur 1", -1);
-	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pPlayerLabel[0], "Nom du joueur 1", "Nom du joueur 1gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
-	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode4], "Nom du joueur 2", "Nom du joueur 2", -1);
-	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pPlayerLabel[1], "Nom du joueur 1", "Nom du joueur 1gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
-	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Modenomètre", "Chronomètre", -1);
-	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
-	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode 1 vs 1",", "Mod	gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
-	gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode3], "Tour", "Tour
-	/* Modification de la taille des icones */
+	gtk_toolbification de la taille des icones */
 	gtk_toolbar_set_icon_size(GTK_TOOLBAR(pGame->pToolbar), GTK_ICON_SIZE_BUTTON);
 	/* Affichage uniquement des icones */
 	gtk_toolbar_set_style(GTK_TOOLBAR(pGame->pToolbar), GTK_TOOLBAR_ICONS);

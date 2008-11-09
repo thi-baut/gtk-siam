@@ -29,6 +29,7 @@ gchar piece; // Pion
 gchar direction; // Direction (regard de l'animal)
 
 };
+
 typedef struct _Button Button;
 
 // Structure principale contenant toutes les variables d'interface
@@ -48,7 +49,7 @@ struct _MainWindow
 	Button *pBoardButton[35];
 	Button *pTempButton;
 
-	GtkWidget *pLabel[5];
+	GtkWidget *pLabel[6];
 
 	GtkWidget *pStatusBar;
 
@@ -65,11 +66,10 @@ struct _MainWindow
 	/* Fenêtre "Nouvelle partie" */
 	GtkWidget *pNewGameWindow;
 
-	GtkWidget *pNewGameLabel[7];
+	GtkWidget *pNewGameLabel[6];
 
 	GtkWidget *pNewGameButton[2];
 
-	GtkWidget *pComboBoxLevel;
 	GtkWidget *pComboBoxTimer;
 	GtkWidget *pComboBoxCPU;
 	GtkWidget *pComboBoxAnimal;
@@ -79,7 +79,7 @@ struct _MainWindow
 
 	GtkWidget *pNewGameVBox;
 
-	GtkWidget *pNewGameHBox[8];
+	GtkWidget *pNewGameHBox[7];
 
 	GtkWidget *pNewGameHSeparator;
 	
@@ -94,13 +94,14 @@ struct _MainWindow
 	/* Variables générales */
 	gint level; // Niveau du jeu
 	gboolean timer; // Timer activé ou non
-	gboolean vs_human; // J. vs. J. (= TRUE) ou J. vs. CPU (= FALSE)
+	gint mode; // J. vs. J. (= TRUE) ou J. vs. CPU (= FALSE)
 	gboolean toggle_color;
 	const gchar* player_name[2]; // Nom du joueur
 	gint chrono; // Valeur du chronomètre
 	gboolean pion; // TRUE pour Elephant (blancs donc la partie commence par eux) ou FALSE pour les hippos
 	gint round;
 	gint turn;
+	gint lock_turn;
 	gint x;
 	gint y;
 	GdkColor black;
@@ -111,6 +112,7 @@ struct _MainWindow
 	GdkColor brown_clicked;
 	
 	gboolean first_init;
+	gboolean first_rotate;
 
 };
 typedef struct _MainWindow MainWindow;
@@ -141,5 +143,6 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame);
 void RefreshDisplay(MainWindow *pGame, gint number);
 void OnWin(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnDestroyWinWindow (GtkWidget *pMenuItem, MainWindow *pGame);
+void OnSkipTurn(GtkWidget *pButton, MainWindow* pGame);
 
 

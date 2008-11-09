@@ -14,12 +14,13 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 	// Numéro de la case. Récupérée dans le champ adéquat dans le GObject pButton passé en argument du Callback
 	static int number, number2;
 	static gchar temp[150];
+	static int number2_bak;
 	gint i, c;
 	gfloat resistance;
 	gint i_tmp;
 	gint j = 0;
 
-	if(pGame->vs_human == TRUE) {
+	if(pGame->mode == 3) {
 
 
 		switch(pGame->round) {
@@ -73,7 +74,14 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				}
 				
 				else if(number == number2) {
-					switch(pGame->pBoardButton[number]->direction) {
+					
+					if(pGame->first_rotate == TRUE) {
+						number2_bak = number2;
+						pGame->first_rotate = FALSE;
+					}
+					
+					if(number2 == number2_bak) {
+						switch(pGame->pBoardButton[number]->direction) {
 						case 't':
 							pGame->pBoardButton[number]->direction = 'r';
 							pGame->pBoardButton[number]->r_top = 0;
@@ -94,9 +102,10 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 							pGame->pBoardButton[number]->r_right = 0;
 							pGame->pBoardButton[number]->r_bottom = 1;
 							break;
+						}
 					}
+					pGame->lock_turn = 0;
 				}
-
 
 				else if((pGame->pBoardButton[number]->piece == 'e') && (number2>=30) && (number2<35))   {
 					
@@ -158,7 +167,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				// Cas de l'échange, c'est à dire qu'on inverse deux pièces. Simple déplacement des pions en fait !
 				else if (pGame->pBoardButton[number2]->piece == 'n')  {
 
-
+					if(pGame->lock_turn == -1) {
 					// C'est ici que l'on vérifie que le sens du pion est correctement enregistré pour permettre le déplacement
 					if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x > 0) && (pGame->pBoardButton[number]->direction != 'l') && pGame->pBoardButton[number]->x != -1 && pGame->pBoardButton[number]->x != 5)
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
@@ -207,13 +216,16 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 						sprintf(temp, "Nouvelles coordonnées : x = %d et y = %d. C'est un pion %c orienté en %c", pGame->pBoardButton[number2]->x, pGame->pBoardButton[number2]->y, pGame->pBoardButton[number2]->piece, pGame->pBoardButton[number2]->direction);
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, temp);
 
-
-						pGame->turn++;
+						 pGame->turn++;
+					}
+					}
+					else {
+						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas déplacer votre pion après avoir changé son orientation. Cliquez-sur le bouton \"Laisser la main\"");
 					}
 				}
 
 				// Cas de la poussée : et là, c'est le drame.
-				else {
+				else if(pGame->lock_turn == -1) {
 					if(pGame->pBoardButton[number]->piece == 'e')
 						switch(pGame->pBoardButton[number]->direction) {
 
@@ -1420,7 +1432,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								break;
 						}
 				
-					pGame->turn++;
+						pGame->turn++;
 				}
 
 
@@ -1558,3 +1570,24 @@ void OnDestroyWinWindow (GtkWidget *pMenuItem, MainWindow *pGame) {
 	
 }
 
+void OnSkipTurn(GtkWidget *pButton, MainWindow* pGame) {
+	
+	// On passe la main à l'autre joueur
+	pGame->turn++%2;
+	pGame->lock_turn = -1;
+	pGame->first_rotate = TRUE;
+	gchar temp[150];
+	
+	if(((pGame->turn) % 2) == 0) {
+		strcpy(temp, "Tour de jeu : ");
+		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
+		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+	}
+	
+	else {
+		strcpy(temp, "Tour de jeu : ");
+		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
+		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+	}
+	
+}
