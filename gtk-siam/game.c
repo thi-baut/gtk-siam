@@ -119,14 +119,14 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					
 				}
 				
-				else if((((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))>1)) || (((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))<-1)) && (number < 25 && ((number2 > 5) || (number2 < 20))) ) {
-					
-					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez vous déplacer que d'une case par tour !");
+				else if((((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))>1)) || (((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))<-1)) && (number < 25 && ((number2 > 5) || (number2 < 20))) || NUMBER_CENTER) {
+	
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement non autorisé !");
 					
 				}
-				else if((((((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))>1)) || (((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))<-1))) {
+				else if((((((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))>1)) || (((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))<-1)) || NUMBER_CENTER) {
 					
-					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez vous déplacer que d'une case par tour !");
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement non autorisé !");
 					
 				}
 				
@@ -137,8 +137,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				}
 				
 	
-				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) 
-						&& ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1 && number < 25){
+				else if((((pGame->pBoardButton[number2]->x)-(pGame->pBoardButton[number]->x))==1) && ((pGame->pBoardButton[number2]->y)-(pGame->pBoardButton[number]->y))==-1 && number < 25){
 					
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
 					

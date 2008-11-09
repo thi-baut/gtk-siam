@@ -11,32 +11,27 @@
 
 void CreateGameWindow(MainWindow *pGame){
 
+	// Allocation des variables (temporaires)
 	int i,j;
 	int c = -1;
 	gchar *temp;
-	pGame->turn = 1;
-	pGame->first_init = TRUE;
+		pGame->first_init = TRUE;
+	// Allocation dynamique de la structure "Bouton temporaire"
 	temp = (gchar *) malloc(3*sizeof(gchar));
 	pGame->pTempButton = (Button *) malloc(sizeof(Button));
-	pGame->toggle_color = TRUE;
-	pGame->lock_turn = -1;
-	
-	// Allocation de la mémoire pour les boutons
-	for(i=0 ; i < 56; i++) {
+
+	// Allocation de la mémoire pour des Boutons
+	for(i=0 ; i < 35; i++)
 		pGame->pBoardButton[i] = (Button *) malloc(sizeof(Button));
-	}
-	
+
 	// On initialise le chrono à 0
-	pGame->chrono = -1;
-	
-	// On intialise l'entier qui servira de round;
-	pGame->round = 0;
+	pGame->chrono = -1= 0;
 	
 	// Création de la fenêtre
 	pGame->pWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(pGame->pWindow), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(pGame->pWindow), "GTK Siam - Plateau");
-	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindow), 1000, 80E);
+	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindo8, 1000, 80E);
 	
 	g_signal_connect(pGame->pWindow, "destroy", G_CALLBACK (OnQuitBtn), pGame);
 

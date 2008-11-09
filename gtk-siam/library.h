@@ -13,6 +13,9 @@
 #include <string.h>
 #include <CoreFoundation/CoreFoundation.h>
 
+/* CONSTANTES */
+#define NUMBER_CENTER (number >= 25 && (number2 == 6 || number2 == 7 || number2 == 8 || number2 == 11 || number2 == 12 || number2 == 13 || number2 == 16 || number2 == 17 || number2 == 18))
+
 /* STRUCTURES */
 
 struct _Button{
