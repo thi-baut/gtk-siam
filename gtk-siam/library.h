@@ -8,6 +8,7 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <gtk/gtk.h>
 #include <string.h>
 #include <CoreFoundation/CoreFoundation.h>
