@@ -30,14 +30,24 @@ void LoadBoard(MainWindow *pGame){
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->black_clicked);
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_SELECTED, &pGame->black_clicked);
 				}
+				else {
+					gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->black);
+					gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->black);
+					gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_SELECTED, &pGame->black);
+				}
 				break;
 			case 1:
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->white);
-					if(pGame->toggle_color == TRUE) {
+				if(pGame->toggle_color == TRUE) {
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->white_clicked);
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->white_clicked);
 				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_SELECTED, &pGame->white_clicked);
-					}
+				}
+				else {
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->white);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->white);
+				gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_SELECTED, &pGame->white);
+				}
 				break;
 		}
 	}
@@ -45,11 +55,16 @@ void LoadBoard(MainWindow *pGame){
 	// Couleurs des boutons out
 	for(i = 25; i < 35; i++) {
 		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_NORMAL, &pGame->brown);
-			if(pGame->toggle_color == TRUE) {
+		if(pGame->toggle_color == TRUE) {
 		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->brown_clicked);
 		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->brown_clicked);
 		gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->brown_clicked);
-			}
+		}
+		else {
+			gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_PRELIGHT, &pGame->brown);
+			gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_ACTIVE, &pGame->brown);
+			gtk_widget_modify_bg (pGame->pBoardButton[i]->button, GTK_STATE_SELECTED, &pGame->brown);
+		}
 	}
 #endif
 	
@@ -111,15 +126,12 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	gchar temp[60];
 	gchar temp2[60];
 	gint i;
-
-	// On enregistre le niveau de la partie
-	pGame->level = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxLevel));
-
+	
 	// On enregistre les paramètres du chrono
 	pGame->timer = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxTimer));
 
 	// On enregistre le type de partie (J vs. CPU ou J vs. J)
-	pGame->vs_human = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxCPU));
+	pGame->mode = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxCPU));
 
 	// On enregistre le choix du joueur concernant les pions
 	pGame->pion = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxAnimal));
@@ -140,10 +152,10 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	gtk_label_set_text(GTK_LABEL(pGame->pPlayerLabel[1]), temp);
 
 
-	if(pGame->vs_human == FALSE)
+	if(pGame->mode == FALSE)
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. CPU");
 
-	else if(pGame->vs_human == TRUE)
+	else if(pGame->mode == TRUE)
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. Humain");
 
 	// On (re)démarre le timer
@@ -172,7 +184,22 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pTable, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pSeparator[1], FALSE, FALSE, 15);
 		gtk_box_pack_end(GTK_BOX(pGame->pHBox), pGame->pVBox2, FALSE, FALSE, 0);
+		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
 		
+		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[0], "Nom du joueur 1", "Nom du joueur 1", -1);
+		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pPlayerLabel[0], "Nom du joueur 1", "Nom du joueur 1", -1);
+		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
+		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[4], "Nom du joueur 2", "Nom du joueur 2", -1);
+		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pPlayerLabel[1], "Nom du joueur 1", "Nom du joueur 1", -1);
+		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
+		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[1], "Chronomètre", "Chronomètre", -1);
+		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
+		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode", "Mode", -1);
+		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
+		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[3], "Tour", "Tour", -1);
+		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
+		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[5], "Tour", "Tour", -1);
+		gtk_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_GOTO_LAST, "Passer le tour", NULL, G_CALLBACK(OnSkipTurn), pGame, -1);
 		gtk_widget_show_all(pGame->pWindow);
 		
 		pGame->first_init = FALSE;
