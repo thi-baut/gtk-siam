@@ -25,6 +25,7 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	pGame->pNewGameLabel[3] = gtk_label_new("Animal :");
 	pGame->pNewGameLabel[4] = gtk_label_new("Nom du joueur 1 :");
 	pGame->pNewGameLabel[5] = gtk_label_new("Nom du joueur 2 :");
+	pGame->pNewGameLabel[6] = gtk_label_new("Surlignage des boutons :");
 	
 	// Zone de saisie
 	pGame->pNewGameEntry[0] = gtk_entry_new_with_max_length(30);
@@ -54,6 +55,11 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxAnimal), "Éléphant (blanc)");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxAnimal), 0);
 	
+	pGame->pComboBoxToggle = gtk_combo_box_new_text();
+	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxToggle), "Activé");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxToggle), "Désactivé");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxToggle), 1);
+	
 	// Boutons
 	pGame->pNewGameButton[0] = gtk_button_new_with_label("Nouvelle partie");
 	pGame->pNewGameButton[1] = gtk_button_new_with_label("Annuler");
@@ -69,6 +75,7 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	pGame->pNewGameHBox[4] = gtk_hbox_new(FALSE, 10);
 	pGame->pNewGameHBox[5] = gtk_hbox_new(FALSE, 10);
 	pGame->pNewGameHBox[6] = gtk_hbox_new(FALSE, 10);
+	pGame->pNewGameHBox[7] = gtk_hbox_new(FALSE, 10);
 	
 	// Séparateur horizontale
 	pGame->pNewGameHSeparator = gtk_hseparator_new();
@@ -98,13 +105,18 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[6]), pGame->pNewGameButton[0], TRUE, TRUE, 10);
 	gtk_box_pack_end(GTK_BOX(pGame->pNewGameHBox[6]), pGame->pNewGameButton[1], TRUE, TRUE, 10);
 	
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[7]), pGame->pNewGameLabel[6], FALSE, FALSE, 10);
+	gtk_box_pack_end(GTK_BOX(pGame->pNewGameHBox[7]), pGame->pComboBoxToggle, TRUE, TRUE, 10);
+	
 	// VBox
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[0], FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[1], FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[2], FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[3], FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[7], FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[4], FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[5], FALSE, FALSE, 0);
+
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHSeparator, FALSE, FALSE, 0);
 	gtk_box_pack_end(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[6], FALSE, FALSE, 0);
 	

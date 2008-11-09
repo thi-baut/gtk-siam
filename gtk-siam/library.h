@@ -64,7 +64,7 @@ struct _MainWindow
 	/* Fenêtre "Nouvelle partie" */
 	GtkWidget *pNewGameWindow;
 
-	GtkWidget *pNewGameLabel[6];
+	GtkWidget *pNewGameLabel[7];
 
 	GtkWidget *pNewGameButton[2];
 
@@ -72,12 +72,13 @@ struct _MainWindow
 	GtkWidget *pComboBoxTimer;
 	GtkWidget *pComboBoxCPU;
 	GtkWidget *pComboBoxAnimal;
-
+	GtkWidget *pComboBoxToggle;
+	
 	GtkWidget *pNewGameEntry[2];
 
 	GtkWidget *pNewGameVBox;
 
-	GtkWidget *pNewGameHBox[7];
+	GtkWidget *pNewGameHBox[8];
 
 	GtkWidget *pNewGameHSeparator;
 
@@ -85,6 +86,7 @@ struct _MainWindow
 	gint level; // Niveau du jeu
 	gboolean timer; // Timer activé ou non
 	gboolean vs_human; // J. vs. J. (= TRUE) ou J. vs. CPU (= FALSE)
+	gboolean toggle_color;
 	const gchar* player_name[2]; // Nom du joueur
 	gint chrono; // Valeur du chronomètre
 	gboolean pion; // TRUE pour Elephant (blancs donc la partie commence par eux) ou FALSE pour les hippos
@@ -97,6 +99,7 @@ struct _MainWindow
 	GdkColor brown;
 	GdkColor black_clicked;
 	GdkColor white_clicked;
+	GdkColor brown_clicked;
 	
 	gboolean first_init;
 
