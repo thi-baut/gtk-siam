@@ -127,37 +127,140 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 	GtkWidget *pFileSelection;
 	GtkWidget *pParent;
 	gchar *sChemin;
+	FILE* pSave;
+	gchar info [500];
+	gchar *info2;
+	gint i;
 	
 	pParent = GTK_WIDGET(pGame);
 	
 	/* Creation de la fenetre de selection */
 	pFileSelection = gtk_file_chooser_dialog_new("Ouvrir une partie existante...", GTK_WINDOW(pParent), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
-    /* On limite les actions a cette fenetre */
-    gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
+	/* On limite les actions a cette fenetre */
+	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 	
-    /* Affichage fenetre */
-    switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
-    {
-		case GTK_RESPONSE_OK:
-			/* Recuperation du chemin */
-			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
-			g_free(sChemin);
-			break;
+	/* Affichage fenetre */
+		switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
+		{
+			case GTK_RESPONSE_OK:
+				/* Recuperation du chemin */
+				sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
+				g_free(sChemin);
+				pSave = fopen(sChemin, "r");
+				
+				fscanf(pSave,"%s", info);
+				 
+				info2 = strtok(info, ":");
+				
+				for(i=0;i<35;i++){
+					
+					pGame->pBoardButton[i]->piece = info2[0];
+					info2 = strtok(NULL, ":");
+					pGame->pBoardButton[i]->direction = info2[0];
+					info2 = strtok(NULL, ":");
+					pGame->pBoardButton[i]->force = atoi(info2);
+					info2 = strtok(NULL, ":");
+					
+					/*pGame->pBoardButton[i]->r_left = (float)atof(info2);
+					info2 = strtok(NULL, ":");
+					pGame->pBoardButton[i]->r_right = (float)atof(info2);
+					info2 = strtok(NULL, ":");
+					pGame->pBoardButton[i]->r_top = (float)atof(info2);
+					info2 = strtok(NULL, ":");
+					pGame->pBoardButton[i]->r_bottom = (float)atof(info2);
+					info2 = strtok(NULL, ":");*/
+					
+					switch (pGame->pBoardButton[i]->direction) {
+						
+						case 'r' :
+							
+							pGame->pBoardButton[i]->r_left = 0;
+							pGame->pBoardButton[i]->r_right = 1;
+							pGame->pBoardButton[i]->r_top = 0;
+							pGame->pBoardButton[i]->r_bottom = 0;
+				
+							break;
+							
+						case 'l' :
+							
+							pGame->pBoardButton[i]->r_left = 1;
+							pGame->pBoardButton[i]->r_right = 0;
+							pGame->pBoardButton[i]->r_top = 0;
+							pGame->pBoardButton[i]->r_bottom = 0;
+							
+							break;
+							
+						case 't' :
+							
+							pGame->pBoardButton[i]->r_left = 0;
+							pGame->pBoardButton[i]->r_right = 0;
+							pGame->pBoardButton[i]->r_top = 1;
+							pGame->pBoardButton[i]->r_bottom = 0;
+							
+							break;
+							
+						case 'b' :
+							
+							pGame->pBoardButton[i]->r_left = 0;
+							pGame->pBoardButton[i]->r_right = 0;
+							pGame->pBoardButton[i]->r_top = 0;
+							pGame->pBoardButton[i]->r_bottom = 1;
+							
+							break;
+							
+						case 'n' :
+							
+							if(pGame->pBoardButton[i]->piece = 'm') {
+								
+								pGame->pBoardButton[i]->r_left = 0.9;
+								pGame->pBoardButton[i]->r_right = 0.9;
+								pGame->pBoardButton[i]->r_top = 0.9;
+								pGame->pBoardButton[i]->r_bottom = 0.9;
+								
+							}
+							
+							else {
+								
+								pGame->pBoardButton[i]->r_left = 0;
+								pGame->pBoardButton[i]->r_right = 0;
+								pGame->pBoardButton[i]->r_top = 0;
+								pGame->pBoardButton[i]->r_bottom = 0;
+								
+							}	
+							
+							break;
+							
+						default :
+							
+							break;
+							
+					}
+				 
+					 RefreshDisplay(pGame, i);
+				 }
 			
-		default:
-			break;
-    }
-	
-    gtk_widget_destroy(pFileSelection);
-}
+				
+			default:
+				break;
+		}
+		
+		gtk_widget_destroy(pFileSelection);
+	}
 
-void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ // FUCKED UP because of un bug qui fait chier (gdb error quand on exploite des variable de pGame )
+void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ 
 	
 	GtkWidget *pFileSelection;
 	GtkWidget *pParent;
 	gchar *sChemin;
 	FILE* pSave;
-	int i;
+	gint i;
+	gchar *buffer_force, *buffer_l, *buffer_r, *buffer_t, *buffer_b;
+	
+	buffer_force = (gchar*)malloc(100*sizeof(gchar));
+	buffer_l = (gchar*)malloc(100*sizeof(gchar));
+	buffer_r = (gchar*)malloc(100*sizeof(gchar));
+	buffer_t = (gchar*)malloc(100*sizeof(gchar));
+	buffer_b = (gchar*)malloc(100*sizeof(gchar));
 	
 	pParent = GTK_WIDGET(pGame);
 	
@@ -176,21 +279,27 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ // FUCKED UP bec
 			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
 			g_free(sChemin);
 			pSave = fopen(sChemin, "w+");
-			if (pSave != NULL)
-			{
-				for (i=0; i<35; i++){
-					fprintf(pSave,"Coordonnee du bouton %d en x :%d \n", i, pGame->pBoardButton[i]->x);
-					fprintf(pSave,"Coordonnee du bouton %d en y :%d \n", i, pGame->pBoardButton[i]->y);
-					fprintf(pSave,"force du bouton %d \n", i, pGame->pBoardButton[i]->force);
-					fprintf(pSave,"r_left du bouton %d \n", i, pGame->pBoardButton[i]->r_left);
-					fprintf(pSave,"r_right du bouton %d \n", i, pGame->pBoardButton[i]->r_right);
-					fprintf(pSave,"r_top du bouton %d \n", i, pGame->pBoardButton[i]->r_top);
-					fprintf(pSave,"r_bottom du bouton %d \n", i, pGame->pBoardButton[i]->r_bottom);
-					fprintf(pSave,"la piece %d est un %c \n", i, pGame->pBoardButton[i]->piece);
-					fprintf(pSave,"la piece %d est orientee vers la %gc \n", i, pGame->pBoardButton[i]->direction);
-					}
-				fprintf(pSave,"niveau de difficulte : %d \n", i, pGame->level);
+
+			for(i=0;i<35;i++){
+				
+				fprintf(pSave,"%c:",pGame->pBoardButton[i]->piece);
+				fprintf(pSave,"%c:",pGame->pBoardButton[i]->direction);
+				
+				sprintf(buffer_force,"%d",pGame->pBoardButton[i]->force);
+				fprintf(pSave,"%s:",buffer_force);
+				
+				/*sprintf(buffer_l,"%f",pGame->pBoardButton[i]->r_left);
+				fprintf(pSave,"%s:",buffer_l);
+				sprintf(buffer_r,"%f",pGame->pBoardButton[i]->r_right);
+				fprintf(pSave,"%s:",buffer_r);
+				sprintf(buffer_t,"%f",pGame->pBoardButton[i]->r_top);
+				fprintf(pSave,"%s:",buffer_t);
+				sprintf(buffer_b,"%f",pGame->pBoardButton[i]->r_bottom);
+				fprintf(pSave,"%s:",buffer_b);*/
+				
 			}
+
+			
 			break;
 			
 			default:

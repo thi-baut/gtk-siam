@@ -157,7 +157,7 @@ pGame_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregi
 
     pGame->pMenuItem = gtk_menu_item_new_with_label("Enregistrer la partie");
 	g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonSaveGame), (MainWindow*) pGame);
- ->pBoardButtoname);
+ ame);
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem pGame->pMenuItem = gtk_menu_item_new_with_label("Quitter");
     g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnQuitBtn), pGame);
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);

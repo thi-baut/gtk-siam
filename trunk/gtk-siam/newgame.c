@@ -16,6 +16,12 @@ void LoadBoard(MainWindow *pGame){
 	// On s'occupe de toutes les cases
 	for(i = 0; i < 35; i++) {
 		pGame->pBoardButton[i]->piece = 'n';
+		pGame->pBoardButton[i]->r_left = 0;
+		pGame->pBoardButton[i]->r_right = 0;
+		pGame->pBoardButton[i]->r_top = 0;
+		pGame->pBoardButton[i]->r_bottom = 0;
+		pGame->pBoardButton[i]->force = 0;
+		pGame->pBoardButton[i]->direction = 'n';
 		pGame->pBoardButton[i]->image = gtk_image_new();
 	}
 	
