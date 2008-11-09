@@ -55,6 +55,30 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
+			PBXConfiguration.PBXFileTableDataSource3.XCSCMDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					20,
+					969,
+					20,
+					48.16259765625,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_SCM_ColumnID,
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
 			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
 				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
@@ -231,6 +255,9 @@
 			C0F104330EC76C2500C8C623 /* PBXTextBookmark */ = C0F104330EC76C2500C8C623 /* PBXTextBookmark */;
 			C0F104340EC76C2500C8C623 /* PBXTextBookmark */ = C0F104340EC76C2500C8C623 /* PBXTextBookmark */;
 			C0F104370EC76C5400C8C623 /* PBXTextBookmark */ = C0F104370EC76C5400C8C623 /* PBXTextBookmark */;
+			C0F104390EC76D1B00C8C623 /* PBXTextBookmark */ = C0F104390EC76D1B00C8C623 /* PBXTextBookmark */;
+			C0F1043A0EC76D1B00C8C623 /* PBXTextBookmark */ = C0F1043A0EC76D1B00C8C623 /* PBXTextBookmark */;
+			C0F1043B0EC76D1B00C8C623 /* PBXBookmark */ = C0F1043B0EC76D1B00C8C623 /* PBXBookmark */;
 		};
 		sourceControlManager = C0612E4D0E8E862700DD97F1 /* Source Control */;
 		userBuildSettings = {
@@ -255,7 +282,7 @@
 	5374A5C80EAF903F00B698B5 /* game.c */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1606, 25670}}";
-			sepNavSelRange = "{69016, 0}";
+			sepNavSelRange = "{68430, 0}";
 			sepNavVisRange = "{68032, 1228}";
 			sepNavWindowFrame = "{{15, -1}, {1440, 874}}";
 		};
@@ -1826,5 +1853,29 @@
 		rType = 0;
 		vrLen = 1228;
 		vrLoc = 68032;
+	};
+	C0F104390EC76D1B00C8C623 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5374A5C80EAF903F00B698B5 /* game.c */;
+		name = "game.c: 1538";
+		rLen = 0;
+		rLoc = 68430;
+		rType = 0;
+		vrLen = 1228;
+		vrLoc = 68032;
+	};
+	C0F1043A0EC76D1B00C8C623 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 5374A5C80EAF903F00B698B5 /* game.c */;
+		name = "game.c: 1538";
+		rLen = 0;
+		rLoc = 68430;
+		rType = 0;
+		vrLen = 1228;
+		vrLoc = 68032;
+	};
+	C0F1043B0EC76D1B00C8C623 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = C0F103B10EC75A7400C8C623 /* win.png */;
 	};
 }
