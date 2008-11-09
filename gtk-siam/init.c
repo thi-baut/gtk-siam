@@ -63,6 +63,9 @@ void CreateGameWindow(MainWindow *pGame){
 	// Loading de l'image de welcome
 	pGame->pStartImage = gtk_image_new_from_file("/splashscreen.png");
 	
+s sLoading de l'image de victoire
+	pGame->pWinImage = gtk_image_new_from_file("/win.png");
+	
 s separator
 	for(i=0;i<2;i++){
 		pGame->pSeparator[i] = gtk_vseparator_new();
