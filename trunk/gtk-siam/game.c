@@ -316,7 +316,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
-													OnWin(pGame);
+													OnWin(NULL, pGame);
 													break;
 												default:
 													pGame->pBoardButton[i]->piece = 'n';
@@ -463,7 +463,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
-													printf("\nPartie terminée, vous avez gagné !");
+													OnWin(NULL, pGame);
 													break;
 												default:
 													pGame->pBoardButton[i]->piece = 'n';
@@ -607,7 +607,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
-													printf("\nPartie terminée, vous avez gagné !");
+													OnWin(NULL, pGame);
 													pGame->pBoardButton[i]->piece = 'n';
 													pGame->pBoardButton[i]->r_left = 0;
 													pGame->pBoardButton[i]->r_right = 0;
@@ -763,7 +763,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
-													printf("\nPartie terminée, vous avez gagné !");
+													OnWin(NULL, pGame);
 													pGame->pBoardButton[i]->piece = 'n';
 													pGame->pBoardButton[i]->r_left = 0;
 													pGame->pBoardButton[i]->r_right = 0;
@@ -918,7 +918,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
-													printf("\nPartie terminée, vous avez gagné !");
+													OnWin(NULL, pGame);
 													break;
 												default:
 													pGame->pBoardButton[i]->piece = 'n';
@@ -1065,7 +1065,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
-													printf("\nPartie terminée, vous avez gagné !");
+													OnWin(NULL, pGame);
 													break;
 												default:
 													pGame->pBoardButton[i]->piece = 'n';
@@ -1209,7 +1209,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
-													printf("\nPartie terminée, vous avez gagné !");
+													OnWin(NULL, pGame);
 													pGame->pBoardButton[i]->piece = 'n';
 													pGame->pBoardButton[i]->r_left = 0;
 													pGame->pBoardButton[i]->r_right = 0;
@@ -1365,7 +1365,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
-													printf("\nPartie terminée, vous avez gagné !");
+													OnWin(NULL, pGame);
 													pGame->pBoardButton[i]->piece = 'n';
 													pGame->pBoardButton[i]->r_left = 0;
 													pGame->pBoardButton[i]->r_right = 0;
@@ -1520,13 +1520,41 @@ void RefreshDisplay(MainWindow *pGame, gint number) {
 	}
 	gtk_button_set_image(GTK_BUTTON(pGame->pBoardButton[number]->button), pGame->pBoardButton[number]->image);
 
-
 }
 
-void OnWin(MainWindow *pGame) {
-	GtkWidget *pDialog;	
-	pDialog = gtk_message_dialog_new(GTK_WINDOW(pGame->pWindow), GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Bravo %s vous avez gagné ! :)",gtk_label_get_text(pGame->pPlayerLabel[1]));
-	gtk_dialog_run(GTK_DIALOG(pDialog));
-	gtk_widget_destroy(pDialog);
-	gtk_main_quit();
+void OnWin(GtkWidget *pMenuItem, MainWindow *pGame) {
+	
+	pGame -> pButtonNewGame = gtk_button_new_with_label("Nouvelle Partie");
+	pGame -> pButtonExit = gtk_button_new_with_label("Quitter");
+
+	pGame -> pTempBox=gtk_vbox_new(FALSE,0);
+	pGame -> pTempBox2=gtk_hbox_new(TRUE,0);
+	pGame -> pWinTemp = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	
+	gtk_window_set_position(GTK_WINDOW(pGame -> pWinTemp), GTK_WIN_POS_CENTER);
+	gtk_window_set_title(GTK_WINDOW(pGame -> pWinTemp), "Victoire !");
+	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindow), 500, 500);
+	gtk_box_pack_start(GTK_BOX(pGame -> pTempBox), pGame->pWinImage, TRUE, TRUE, 0);
+	
+	gtk_box_pack_start(GTK_BOX(pGame -> pTempBox2), pGame -> pButtonExit, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pGame -> pTempBox2), pGame -> pButtonNewGame, TRUE, TRUE, 0);
+	
+	gtk_container_add(GTK_CONTAINER(pGame -> pWinTemp), pGame -> pTempBox);
+	gtk_box_pack_start(GTK_BOX(pGame -> pTempBox), pGame -> pTempBox2, TRUE, TRUE, 0);
+	
+	g_signal_connect(G_OBJECT(pGame -> pButtonExit), "clicked", gtk_main_quit, NULL);
+	g_signal_connect(G_OBJECT(pGame -> pButtonNewGame), "clicked", G_CALLBACK(OnDestroyWinWindow), (MainWindow*) pGame);
+	
+	gtk_widget_show_all(pGame -> pWinTemp);
 }
+
+
+void OnDestroyWinWindow (GtkWidget *pMenuItem, MainWindow *pGame) {
+	
+	// ce programme permet juste de detruire la fenetre de victoire et de créer une nouvelle partie
+	
+	gtk_widget_destroy(pGame->pWinTemp);
+	OnButtonNewGame(NULL, pGame);
+	
+}
+

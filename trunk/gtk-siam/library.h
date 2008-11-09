@@ -59,6 +59,7 @@ struct _MainWindow
 	GtkWidget *pSeparator[2];
 	
 	GtkWidget *pStartImage;
+	GtkWidget *pWinImage;
 
 
 	/* Fenêtre "Nouvelle partie" */
@@ -81,6 +82,14 @@ struct _MainWindow
 	GtkWidget *pNewGameHBox[8];
 
 	GtkWidget *pNewGameHSeparator;
+	
+	/* Fenêtre "Victoire" */
+	
+	GtkWidget *pWinTemp;
+	GtkWidget *pTempBox;
+	GtkWidget *pTempBox2;
+	GtkWidget *pButtonNewGame;
+	GtkWidget *pButtonExit;
 
 	/* Variables générales */
 	gint level; // Niveau du jeu
@@ -130,5 +139,7 @@ void CreateGameWindow(MainWindow *pGame);
 // game.c
 void ActionInGame(GtkWidget *pButton, MainWindow *pGame);
 void RefreshDisplay(MainWindow *pGame, gint number);
-void OnWin(MainWindow *pGame);
+void OnWin(GtkWidget *pMenuItem, MainWindow *pGame);
+void OnDestroyWinWindow (GtkWidget *pMenuItem, MainWindow *pGame);
+
 
