@@ -11,26 +11,33 @@
 
 void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	
-	/* Création de la nouvelle fenêtre */
-	pGame->pNewGameWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	// Widgets
+	GtkWidget *pNewGameLabel[5];
+	GtkWidget *pNewGameButton[2];
+	
+	GtkWidget *pNewGameVBox;
+	GtkWidget *pNewGameHBox[6];
+	GtkWidget *pNewGameHSeparator;
+	
+	// Fenêtre
+	pGame->pNewGameWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(pGame->pNewGameWindow), GTK_WIN_POS_CENTER);
-	gtk_window_set_title(GTK_WINDOW(pGame->pNewGameWindow), "GTKSiam - Nouvelle partie");
+	gtk_window_set_title(GTK_WINDOW(pGame->pNewGameWindow), "GTK Siam - Nouvelle partie");
 	gtk_window_set_default_size(GTK_WINDOW(pGame->pNewGameWindow), 400, 200);
 	gtk_window_set_resizable(GTK_WINDOW(pGame->pNewGameWindow), FALSE);
 	
 	// Labels
-	pGame->pNewGameLabel[0] = gtk_label_new("Temps limité :");
-	pGame->pNewGameLabel[1] = gtk_label_new("Partie :");
-	pGame->pNewGameLabel[2] = gtk_label_new("Animal :");
-	pGame->pNewGameLabel[3] = gtk_label_new("Nom du joueur 1 :");
-	pGame->pNewGameLabel[4] = gtk_label_new("Nom du joueur 2 :");
-	pGame->pNewGameLabel[5] = gtk_label_new("Surlignage des boutons :");
+	pNewGameLabel[0] = gtk_label_new("Temps limité :");
+	pNewGameLabel[1] = gtk_label_new("Partie :");
+	pNewGameLabel[2] = gtk_label_new("Nom du joueur 1 :");
+	pNewGameLabel[3] = gtk_label_new("Nom du joueur 2 :");
+	pNewGameLabel[4] = gtk_label_new("Surlignage des boutons :");
 	
-	// Zone de saisie
+	// Zones de saisie
 	pGame->pNewGameEntry[0] = gtk_entry_new_with_max_length(30);
-	gtk_entry_set_text(GTK_ENTRY(pGame->pNewGameEntry[0]), "Joueur 1");
+	gtk_entry_set_text(GTK_ENTRY(pGame->pNewGameEntry[0]), "Joueur_1");
 	pGame->pNewGameEntry[1] = gtk_entry_new_with_max_length(30);
-	gtk_entry_set_text(GTK_ENTRY(pGame->pNewGameEntry[1]), "Joueur 2");
+	gtk_entry_set_text(GTK_ENTRY(pGame->pNewGameEntry[1]), "Joueur_2");
 	
 	// Listes déroulantes
 	pGame->pComboBoxTimer = gtk_combo_box_new_text();
@@ -39,16 +46,9 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxTimer), 0);
 	
 	pGame->pComboBoxCPU = gtk_combo_box_new_text();
-	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Un joueur - Facile (Humain vs. CPU)");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Un joueur - Moyen (Humain vs. CPU)");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Un joueur - Difficile (Humain vs. CPU)");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Un joueur (Humain vs. CPU)");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Deux joueurs (Humain vs. Humain)");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxCPU), 3);
-	
-	pGame->pComboBoxAnimal = gtk_combo_box_new_text();
-	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxAnimal), "Hippopotame (gris)");
-	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxAnimal), "Éléphant (blanc)");
-	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxAnimal), 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxCPU), 1);
 	
 	pGame->pComboBoxToggle = gtk_combo_box_new_text();
 	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxToggle), "Désactivé");
@@ -56,67 +56,55 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxToggle), 1);
 	
 	// Boutons
-	pGame->pNewGameButton[0] = gtk_button_new_with_label("Nouvelle partie");
-	pGame->pNewGameButton[1] = gtk_button_new_with_label("Annuler");
-	
-	// VBox
-	pGame->pNewGameVBox = gtk_vbox_new(TRUE, 0);
-	
-	// HBoxs
-	pGame->pNewGameHBox[0] = gtk_hbox_new(FALSE, 10);
-	pGame->pNewGameHBox[1] = gtk_hbox_new(FALSE, 10);
-	pGame->pNewGameHBox[2] = gtk_hbox_new(FALSE, 10);
-	pGame->pNewGameHBox[3] = gtk_hbox_new(FALSE, 10);
-	pGame->pNewGameHBox[4] = gtk_hbox_new(FALSE, 10);
-	pGame->pNewGameHBox[5] = gtk_hbox_new(FALSE, 10);
-	pGame->pNewGameHBox[6] = gtk_hbox_new(FALSE, 10);
+	pNewGameButton[0] = gtk_button_new_with_label("Nouvelle partie");
+	pNewGameButton[1] = gtk_button_new_with_label("Annuler");
 	
 	// Séparateur horizontale
-	pGame->pNewGameHSeparator = gtk_hseparator_new();
+	pNewGameHSeparator = gtk_hseparator_new();
 	
+	// HBox
+	pNewGameHBox[0] = gtk_hbox_new(FALSE, 10);
+	pNewGameHBox[1] = gtk_hbox_new(FALSE, 10);
+	pNewGameHBox[2] = gtk_hbox_new(FALSE, 10);
+	pNewGameHBox[3] = gtk_hbox_new(FALSE, 10);
+	pNewGameHBox[4] = gtk_hbox_new(FALSE, 10);
+	pNewGameHBox[5] = gtk_hbox_new(FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pNewGameHBox[0]), pNewGameLabel[0], FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pNewGameHBox[0]), pGame->pComboBoxTimer, TRUE, TRUE, 10);
 	
-	/* Ajouter les éléments à la fenêtre */
-	// HBoxs
+	gtk_box_pack_start(GTK_BOX(pNewGameHBox[1]), pNewGameLabel[1], FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(pNewGameHBox[1]), pGame->pComboBoxCPU, TRUE, TRUE, 10);
 	
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[0]), pGame->pNewGameLabel[0], FALSE, FALSE, 10);
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[0]), pGame->pComboBoxTimer, TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(pNewGameHBox[2]), pNewGameLabel[2], FALSE, FALSE, 10);
+	gtk_box_pack_end(GTK_BOX(pNewGameHBox[2]), pGame->pNewGameEntry[0], TRUE, TRUE, 10);
 	
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[1]), pGame->pNewGameLabel[1], FALSE, FALSE, 10);
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[1]), pGame->pComboBoxCPU, TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(pNewGameHBox[3]), pNewGameLabel[3], FALSE, FALSE, 10);
+	gtk_box_pack_end(GTK_BOX(pNewGameHBox[3]), pGame->pNewGameEntry[1], TRUE, TRUE, 10);
 	
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[2]), pGame->pNewGameLabel[2], FALSE, FALSE, 10);
-	gtk_box_pack_end(GTK_BOX(pGame->pNewGameHBox[2]), pGame->pComboBoxAnimal, TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(pNewGameHBox[4]), pNewGameButton[0], TRUE, TRUE, 10);
+	gtk_box_pack_end(GTK_BOX(pNewGameHBox[4]), pNewGameButton[1], TRUE, TRUE, 10);
 	
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[3]), pGame->pNewGameLabel[3], FALSE, FALSE, 10);
-	gtk_box_pack_end(GTK_BOX(pGame->pNewGameHBox[3]), pGame->pNewGameEntry[0], TRUE, TRUE, 10);
-	
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[4]), pGame->pNewGameLabel[4], FALSE, FALSE, 10);
-	gtk_box_pack_end(GTK_BOX(pGame->pNewGameHBox[4]), pGame->pNewGameEntry[1], TRUE, TRUE, 10);
-	
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[5]), pGame->pNewGameButton[0], TRUE, TRUE, 10);
-	gtk_box_pack_end(GTK_BOX(pGame->pNewGameHBox[5]), pGame->pNewGameButton[1], TRUE, TRUE, 10);
-	
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameHBox[6]), pGame->pNewGameLabel[5], FALSE, FALSE, 10);
-	gtk_box_pack_end(GTK_BOX(pGame->pNewGameHBox[6]), pGame->pComboBoxToggle, TRUE, TRUE, 10);
+	gtk_box_pack_start(GTK_BOX(pNewGameHBox[5]), pNewGameLabel[4], FALSE, FALSE, 10);
+	gtk_box_pack_end(GTK_BOX(pNewGameHBox[5]), pGame->pComboBoxToggle, TRUE, TRUE, 10);
 	
 	// VBox
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[0], FALSE, FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[1], FALSE, FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[2], FALSE, FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[6], FALSE, FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[3], FALSE, FALSE, 1);
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[4], FALSE, FALSE, 0);
+	pNewGameVBox = gtk_vbox_new(TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(pNewGameVBox), pNewGameHBox[1], FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(pNewGameVBox), pNewGameHBox[0], FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(pNewGameVBox), pNewGameHBox[5], FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(pNewGameVBox), pNewGameHBox[2], FALSE, FALSE, 1);
+	gtk_box_pack_start(GTK_BOX(pNewGameVBox), pNewGameHBox[3], FALSE, FALSE, 1);
 	
-	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHSeparator, FALSE, FALSE, 0);
-	gtk_box_pack_end(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[5], FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(pNewGameVBox), pNewGameHSeparator, FALSE, FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(pNewGameVBox), pNewGameHBox[4], FALSE, FALSE, 0);
 	
 	// Accrochage de la VBox dans la fenêtre+
 	gtk_container_set_border_width(GTK_CONTAINER(pGame->pNewGameWindow), 25);
-	gtk_container_add(GTK_CONTAINER(pGame->pNewGameWindow), pGame->pNewGameVBox);
+	gtk_container_add(GTK_CONTAINER(pGame->pNewGameWindow), pNewGameVBox);
 	
-	/* Connexion des signaux */
-	g_signal_connect(G_OBJECT(pGame->pNewGameButton[0]), "clicked", G_CALLBACK(InitGame), pGame);
-	g_signal_connect_swapped(G_OBJECT(pGame->pNewGameButton[1]), "clicked", G_CALLBACK(gtk_widget_destroy), pGame->pNewGameWindow);
+	// Connexion des signaux
+	g_signal_connect(G_OBJECT(pNewGameButton[0]), "clicked", G_CALLBACK(InitGame), pGame);
+	g_signal_connect_swapped(G_OBJECT(pNewGameButton[1]), "clicked", G_CALLBACK(gtk_widget_destroy), pGame->pNewGameWindow);
 	// Swapped signifie qu'on inverse les arguments envoyés : la fonction gtk_widget_destroy appellée en callback reçoit donc pGame->pNewGameWindow pour son seul argument.
 	
 	gtk_widget_show_all(pGame->pNewGameWindow);
@@ -138,6 +126,12 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 	pFileSelection = gtk_file_chooser_dialog_new("Ouvrir une partie existante...", GTK_WINDOW(pParent), GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
 	/* On limite les actions a cette fenetre */
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
+	
+	/* Filtre de sélection de fichier */
+	
+	GtkFileFilter *filter = gtk_file_filter_new();
+	gtk_file_filter_add_pattern(filter, "*.siam");
+	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER(pFileSelection), filter);
 	
 	/* Affichage fenetre */
 	switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
@@ -232,9 +226,12 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 						
 				}
 				
+				
 				RefreshDisplay(pGame, i);
 				
 			}
+			
+			break;
 			
 		case GTK_RESPONSE_CANCEL:
 			
@@ -246,9 +243,10 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 			break;
 	}
 	
+	fclose(pSave);
+	
 	gtk_widget_destroy(pFileSelection);
 	
-	fclose(pSave);
 }
 
 void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ 
@@ -267,8 +265,14 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
 	
 	/* Creation de la fenetre de selection */
 	pFileSelection = gtk_file_chooser_dialog_new("Choisir un endroit où sauver la partie...", GTK_WINDOW(pParent), GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
-    /* On limite les actions a cette fenetre */
-    gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
+	/* On limite les actions a cette fenetre */
+	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
+	
+	/* Filtre de sélection de fichier */
+	
+	GtkFileFilter *filter = gtk_file_filter_new();
+	gtk_file_filter_add_pattern(filter, "*.siam");
+	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER(pFileSelection), filter);
 	
     /* Affichage fenetre */
     switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
@@ -304,7 +308,6 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
 		default:
 			break;
     }
-	
 	fclose(pSave);
 	
     gtk_widget_destroy(pFileSelection);
@@ -312,8 +315,7 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
 
 void OnButtonWithDrawal(GtkWidget *pMenuItem, MainWindow *pGame) {
 	
-	/* Fenêtre popup forfait */
-	
+	// Variables
 	GtkWidget *pWithDrawalWindow;
 	GtkWidget *pWithDrawalButton[2];
 	GtkWidget *pWithDrawalLabel;
@@ -350,7 +352,6 @@ void OnButtonWithDrawal(GtkWidget *pMenuItem, MainWindow *pGame) {
 	
 }
 
-/* PROCÉDURE À MODIFIER POUR PLUS DE STYLE */
 void OnGameRules(GtkWidget *pMenuItem, MainWindow *pGame) {
 	
 	GtkWidget *pWindowAbout;
@@ -397,15 +398,14 @@ void OnAbout(GtkWidget *pMenuItem, MainWindow *pGame) {
 
 void OnQuitBtn(GtkWidget* widget, MainWindow *pGame){
 	
+	// Variables
     GtkWidget *pQuestion;
 	
-    /* Création de la boîte de dialogue de type OUI-NON */
-	// GTK_DIALOG_DESTROY_WITH_PARENT veut dire que si l'application se ferme, cette fenêtre est détruitre aussi
-	// GTK_MESSAGE_WARNING c'est le petit icône de point d'exclamation
+    // Création de la boîte de dialogue de type OUI-NON
     pQuestion = gtk_message_dialog_new (GTK_WINDOW(pGame->pWindow), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_WARNING, GTK_BUTTONS_YES_NO, "Voulez vous vraiment quitter le jeu ?");
 	gtk_window_set_position(GTK_WINDOW(pQuestion), GTK_WIN_POS_CENTER);
 	
-    /* Affichage et attente d'une réponse, ceci n'est pas une boucle infinie :) */
+    // Affichage et attente d'une réponse
     switch(gtk_dialog_run(GTK_DIALOG(pQuestion)))
     {
         case GTK_RESPONSE_YES:

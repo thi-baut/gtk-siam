@@ -9,8 +9,8 @@
 
 #include "library.h"
 
-gboolean timeout(MainWindow *pGame)
-{
+gboolean timeout(MainWindow *pGame) {
+	
 	// On incrémente le chrono
 	pGame->chrono++;
 

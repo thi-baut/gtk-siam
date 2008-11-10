@@ -8,13 +8,7 @@
 
 #include "library.h"
 
-int main (int argc, char **argv)
-{
-#ifdef __APPLE__
-#endif
-	
-#ifdef WIN32
-#endif
+int main (int argc, char **argv) {
 
 	/* Initialisation de GTK+ */
 	gtk_init(&argc, &argv);
@@ -25,6 +19,9 @@ int main (int argc, char **argv)
 
 	/* Création et paramétrage des fenêtres */
 	CreateGameWindow(pGame);
+	
+	/* Chargement du plateau, avant l'affichage de la fenêtre */
+	LoadBoard(pGame);
 	
 	/* Affichage de la fenêtre */
 	gtk_widget_show_all(pGame->pWindow);
