@@ -278,7 +278,7 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
 			
 			/* Recuperation du chemin */
 			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
-			strftime(temp, 100, "Sauvegarde du %d-%m-%Y à %H:%M.siam", timeinfo);
+			strftime(temp, 100, "Sauvegarde du %d-%m-%Y à %Hh%M.siam", timeinfo);
 			
 			sprintf(temp2, "%s/%s", sChemin, temp);
 			printf("%s", temp2);
