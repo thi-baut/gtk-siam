@@ -139,7 +139,6 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 		case GTK_RESPONSE_OK:
 			/* Recuperation du chemin */
 			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
-			g_free(sChemin);
 			pSave = fopen(sChemin, "r");
 			
 			fscanf(pSave,"%s", info);
@@ -153,68 +152,68 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 			
 			for(i=0;i<35;i++){
 				
-				pGame->pBoardButton[i]->piece = info2[0];
+				pGame->pBoardSquare[i]->piece = info2[0];
 				info2 = strtok(NULL, ":");
-				pGame->pBoardButton[i]->direction = info2[0];
+				pGame->pBoardSquare[i]->direction = info2[0];
 				info2 = strtok(NULL, ":");
-				pGame->pBoardButton[i]->force = atoi(info2);
+				pGame->pBoardSquare[i]->force = atoi(info2);
 				info2 = strtok(NULL, ":");
 				
-				switch (pGame->pBoardButton[i]->direction) {
+				switch (pGame->pBoardSquare[i]->direction) {
 						
 					case 'r' :
 						
-						pGame->pBoardButton[i]->r_left = 0;
-						pGame->pBoardButton[i]->r_right = 1;
-						pGame->pBoardButton[i]->r_top = 0;
-						pGame->pBoardButton[i]->r_bottom = 0;
+						pGame->pBoardSquare[i]->r_left = 0;
+						pGame->pBoardSquare[i]->r_right = 1;
+						pGame->pBoardSquare[i]->r_top = 0;
+						pGame->pBoardSquare[i]->r_bottom = 0;
 						
 						break;
 						
 					case 'l' :
 						
-						pGame->pBoardButton[i]->r_left = 1;
-						pGame->pBoardButton[i]->r_right = 0;
-						pGame->pBoardButton[i]->r_top = 0;
-						pGame->pBoardButton[i]->r_bottom = 0;
+						pGame->pBoardSquare[i]->r_left = 1;
+						pGame->pBoardSquare[i]->r_right = 0;
+						pGame->pBoardSquare[i]->r_top = 0;
+						pGame->pBoardSquare[i]->r_bottom = 0;
 						
 						break;
 						
 					case 't' :
 						
-						pGame->pBoardButton[i]->r_left = 0;
-						pGame->pBoardButton[i]->r_right = 0;
-						pGame->pBoardButton[i]->r_top = 1;
-						pGame->pBoardButton[i]->r_bottom = 0;
+						pGame->pBoardSquare[i]->r_left = 0;
+						pGame->pBoardSquare[i]->r_right = 0;
+						pGame->pBoardSquare[i]->r_top = 1;
+						pGame->pBoardSquare[i]->r_bottom = 0;
 						
 						break;
 						
 					case 'b' :
 						
-						pGame->pBoardButton[i]->r_left = 0;
-						pGame->pBoardButton[i]->r_right = 0;
-						pGame->pBoardButton[i]->r_top = 0;
-						pGame->pBoardButton[i]->r_bottom = 1;
+						pGame->pBoardSquare[i]->r_left = 0;
+						pGame->pBoardSquare[i]->r_right = 0;
+						pGame->pBoardSquare[i]->r_top = 0;
+						pGame->pBoardSquare[i]->r_bottom = 1;
 						
 						break;
 						
 					case 'n' :
 						
-						if(pGame->pBoardButton[i]->piece == 'm') {
+						if(pGame->pBoardSquare[i]->piece == 'm') {
 							
-							pGame->pBoardButton[i]->r_left = 0.9;
-							pGame->pBoardButton[i]->r_right = 0.9;
-							pGame->pBoardButton[i]->r_top = 0.9;
-							pGame->pBoardButton[i]->r_bottom = 0.9;
+							pGame->pBoardSquare[i]->r_left = 0.9;
+							pGame->pBoardSquare[i]->r_right = 0.9;
+							pGame->pBoardSquare[i]->r_top = 0.9;
+							pGame->pBoardSquare[i]->r_bottom = 0.9;
 							
 						}
 						
 						else {
 							
-							pGame->pBoardButton[i]->r_left = 0;
-							pGame->pBoardButton[i]->r_right = 0;
-							pGame->pBoardButton[i]->r_top = 0;
-							pGame->pBoardButton[i]->r_bottom = 0;
+							pGame->pBoardSquare[i]->r_left = 0;
+							pGame->pBoardSquare[i]->r_right = 0;
+							pGame->pBoardSquare[i]->r_top = 0;
+							pGame->pBoardSquare[i]->r_bottom = 0;
 							
 						}	
 						
@@ -230,23 +229,14 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 				RefreshDisplay(pGame, i);
 				
 			}
-			
+			if(pSave != NULL) 
+				fclose(pSave);
 			break;
-			
-		case GTK_RESPONSE_CANCEL:
-			
-			gtk_widget_destroy(pFileSelection); // CHIE, gaby exerce ta magie !
-			
-			break;
-			
+
 		default:
 			break;
 	}
-	
-	fclose(pSave);
-	
 	gtk_widget_destroy(pFileSelection);
-	
 }
 
 void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ 
@@ -261,56 +251,60 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
 	
 	pParent = GTK_WIDGET(pGame);
 	
-	printf("%c",pGame->pBoardButton[0]->piece);
+	printf("%c",pGame->pBoardSquare[0]->piece);
 	
 	/* Creation de la fenetre de selection */
-	pFileSelection = gtk_file_chooser_dialog_new("Choisir un endroit où sauver la partie...", GTK_WINDOW(pParent), GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
+	pFileSelection = gtk_file_chooser_dialog_new("Choisir un endroit où sauver la partie...", GTK_WINDOW(pParent), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
 	/* On limite les actions a cette fenetre */
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 	
 	/* Filtre de sélection de fichier */
-	
-	GtkFileFilter *filter = gtk_file_filter_new();
-	gtk_file_filter_add_pattern(filter, "*.siam");
-	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER(pFileSelection), filter);
+	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (pFileSelection), TRUE);
 	
     /* Affichage fenetre */
     switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
     {
-		case GTK_RESPONSE_OK:
+		case GTK_RESPONSE_OK :
+			
+			// On récupère la date et l'heure pour donner le nom au fichier
+			
+			printf("%d", 2);
+			time_t rawtime;
+			struct tm * timeinfo;
+			time ( &rawtime );
+			timeinfo = localtime ( &rawtime );
+			gchar temp[100];
+			gchar temp2[300];
+			
 			/* Recuperation du chemin */
 			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
-			g_free(sChemin);
-			pSave = fopen(sChemin, "w+");
+			strftime(temp, 100, "Sauvegarde du %d-%m-%Y à %H:%M.siam", timeinfo);
 			
+			sprintf(temp2, "%s/%s", sChemin, temp);
+			printf("%s", temp2);
+			pSave = fopen(temp2, "w+");
+
 			fprintf(pSave, "%s:", gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
 			fprintf(pSave, "%s:", gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
 			
 			for(i=0;i<35;i++){
 				
-				fprintf(pSave,"%c:",pGame->pBoardButton[i]->piece);
-				fprintf(pSave,"%c:",pGame->pBoardButton[i]->direction);
+				fprintf(pSave,"%c:",pGame->pBoardSquare[i]->piece);
+				fprintf(pSave,"%c:",pGame->pBoardSquare[i]->direction);
 				
-				sprintf(buffer_force,"%d",pGame->pBoardButton[i]->force);
+				sprintf(buffer_force,"%d",pGame->pBoardSquare[i]->force);
 				fprintf(pSave,"%s:",buffer_force);
 				
 			}
-			
-			
-			break;
-			
-		case GTK_RESPONSE_CANCEL:
-			
-			gtk_widget_destroy(pFileSelection); // CHIE, gaby exerce ta magie !
+			if(pSave != NULL) 
+				fclose(pSave);
 			
 			break;
 			
 		default:
 			break;
     }
-	fclose(pSave);
-	
-    gtk_widget_destroy(pFileSelection);
+	gtk_widget_destroy(pFileSelection);
 }
 
 void OnButtonWithDrawal(GtkWidget *pMenuItem, MainWindow *pGame) {
