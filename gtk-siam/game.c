@@ -369,6 +369,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 										}
 									}
 								}
+								else	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée impossible !");
 								break;
 
 							case 'b':
@@ -514,6 +515,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 										i = i-5;
 									}
 								}
+								else	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée impossible !");
 								break;
 
 							case 'r':
@@ -548,7 +550,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								printf("\n\nLa valeur de j est %d", j);
 								i = number + j;
 
-                                if(resistance > 0) {
+								if(resistance > 0) {
 
 									while(i-1 >= 0) {
 
@@ -670,11 +672,12 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 
 									}
 								}
+								else	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée impossible !");
 								break;
 
 							case 'l':
 								i = number;
-                                i_tmp = i;
+								i_tmp = i;
 
 								resistance = pGame->pBoardSquare[number]->force;
 								while(pGame->pBoardSquare[i]->piece != 'n') {
@@ -824,6 +827,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 
 									}
 								}
+								else	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée impossible !");
 								break;
 						}
                     if(pGame->pBoardSquare[number]->piece == 'r')
@@ -971,6 +975,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 										}
 									}
 								}
+								else	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée impossible !");
 								break;
 
 							case 'b':
@@ -1116,6 +1121,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 										i = i-5;
 									}
 								}
+								else	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée impossible !");
 								break;
 
 							case 'r':
@@ -1150,7 +1156,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								printf("\n\nLa valeur de j est %d", j);
 								i = number + j;
 
-                                if(resistance > 0) {
+								if(resistance > 0) {
 
 									while(i-1 >= 0) {
 
@@ -1272,6 +1278,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 
 									}
 								}
+								else	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée impossible !");
 								break;
 
 							case 'l':
@@ -1426,6 +1433,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 
 									}
 								}
+								else	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée impossible !");
 								break;
 						}
 				
