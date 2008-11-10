@@ -13,6 +13,7 @@
 #include <gdk/gdk.h>
 #include <cairo.h>
 #include <string.h>
+#include <time.h>
 
 /* CONSTANTES */
 // Rappel : seulement en cas de besoin

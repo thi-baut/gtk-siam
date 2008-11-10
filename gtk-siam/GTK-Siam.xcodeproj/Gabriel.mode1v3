@@ -231,8 +231,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -277,7 +275,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>7</integer>
+									<integer>6</integer>
 									<integer>2</integer>
 									<integer>0</integer>
 								</array>
@@ -313,12 +311,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>menu.c</string>
+								<string>library.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,19 +326,19 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>menu.c</string>
+										<string>library.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>C032D8360EC8E55500F168BE</string>
+										<string>C032D8AE0EC8F40B00F168BE</string>
 										<key>history</key>
 										<array>
-											<string>C0CACB300EC8D36100949005</string>
 											<string>C0CACB3A0EC8D37100949005</string>
 											<string>C0CACB3E0EC8D3E800949005</string>
-											<string>C0CACB730EC8E12000949005</string>
 											<string>C0CACBA40EC8E3AC00949005</string>
-											<string>C0CACBB30EC8E53E00949005</string>
+											<string>C032D8690EC8EB9D00F168BE</string>
+											<string>C032D8810EC8EF1F00F168BE</string>
+											<string>C032D8820EC8EF1F00F168BE</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -348,6 +348,9 @@
 											<string>C0CAC9680EC8B32E00949005</string>
 											<string>C0CACA0D0EC8BCF000949005</string>
 											<string>C0CACA480EC8BF5A00949005</string>
+											<string>C032D86B0EC8EB9D00F168BE</string>
+											<string>C032D86C0EC8EB9D00F168BE</string>
+											<string>C032D8830EC8EF1F00F168BE</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -405,9 +408,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>C032D8370EC8E55500F168BE</string>
+				<string>C032D84A0EC8E81900F168BE</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>C032D8380EC8E55500F168BE</string>
+				<string>C032D84B0EC8E81900F168BE</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -541,8 +544,12 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1CD10A99069EF8BA00B06720</string>
+		<string>C032D85F0EC8E8C800F168BE</string>
+		<string>C032D8600EC8E8C800F168BE</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/Gabriel/Projets Xcode/GTK+/gtk-siam/GTK-Siam.xcodeproj</string>
+		<string>1CD10A99069EF8BA00B06720</string>
+		<string>C0C512FE0EA3963B001E7FF0</string>
 	</array>
 	<key>WindowString</key>
 	<string>-2 59 1683 969 0 0 1680 1028 </string>
@@ -624,7 +631,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>C0C512FE0EA3963B001E7FF0</string>
-				<string>C0CAC93A0EC8B01B00949005</string>
+				<string>C032D84F0EC8E8A500F168BE</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -635,7 +642,7 @@
 			<key>WindowToolGUID</key>
 			<string>C0C512FE0EA3963B001E7FF0</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -744,13 +751,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>C032D8390EC8E55500F168BE</string>
+				<string>C032D8550EC8E8B300F168BE</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>C032D83A0EC8E55500F168BE</string>
-				<string>C032D83B0EC8E55500F168BE</string>
-				<string>C032D83C0EC8E55500F168BE</string>
-				<string>C032D83D0EC8E55500F168BE</string>
-				<string>C032D83E0EC8E55500F168BE</string>
+				<string>C032D8560EC8E8B300F168BE</string>
+				<string>C032D8570EC8E8B300F168BE</string>
+				<string>C032D8580EC8E8B300F168BE</string>
+				<string>C032D8590EC8E8B300F168BE</string>
+				<string>C032D85A0EC8E8B300F168BE</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -759,7 +766,7 @@
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -906,7 +913,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>C0CAC9410EC8B01B00949005</string>
+				<string>C032D85B0EC8E8B300F168BE</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
@@ -916,7 +923,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
