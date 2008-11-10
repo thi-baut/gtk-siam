@@ -17,7 +17,7 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	gtk_window_set_title(GTK_WINDOW(pGame->pNewGameWindow), "GTKSiam - Nouvelle partie");
 	gtk_window_set_default_size(GTK_WINDOW(pGame->pNewGameWindow), 400, 200);
 	gtk_window_set_resizable(GTK_WINDOW(pGame->pNewGameWindow), FALSE);
-
+	
 	// Labels
 	pGame->pNewGameLabel[0] = gtk_label_new("Temps limité :");
 	pGame->pNewGameLabel[1] = gtk_label_new("Partie :");
@@ -37,7 +37,7 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxTimer), "Désactivé");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxTimer), "Activé");
 	gtk_combo_box_set_active(GTK_COMBO_BOX(pGame->pComboBoxTimer), 0);
-	   
+	
 	pGame->pComboBoxCPU = gtk_combo_box_new_text();
 	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Un joueur - Facile (Humain vs. CPU)");
 	gtk_combo_box_append_text(GTK_COMBO_BOX(pGame->pComboBoxCPU), "Un joueur - Moyen (Humain vs. CPU)");
@@ -106,7 +106,7 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[6], FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[3], FALSE, FALSE, 1);
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[4], FALSE, FALSE, 0);
-
+	
 	gtk_box_pack_start(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHSeparator, FALSE, FALSE, 0);
 	gtk_box_pack_end(GTK_BOX(pGame->pNewGameVBox), pGame->pNewGameHBox[5], FALSE, FALSE, 0);
 	
@@ -140,113 +140,116 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 	gtk_window_set_modal(GTK_WINDOW(pFileSelection), TRUE);
 	
 	/* Affichage fenetre */
-		switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
-		{
-			case GTK_RESPONSE_OK:
-				/* Recuperation du chemin */
-				InitGame(NULL, pGame);
-				sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
-				g_free(sChemin);
-				pSave = fopen(sChemin, "r");
-				
-				fscanf(pSave,"%s", info);
-				 
-				info2 = strtok(info, ":");
-				
-				for(i=0;i<35;i++){
-					
-					pGame->pBoardButton[i]->piece = info2[0];
-					info2 = strtok(NULL, ":");
-					pGame->pBoardButton[i]->direction = info2[0];
-					info2 = strtok(NULL, ":");
-					pGame->pBoardButton[i]->force = atoi(info2);
-					info2 = strtok(NULL, ":");
-					
-					/*pGame->pBoardButton[i]->r_left = (float)atof(info2);
-					info2 = strtok(NULL, ":");
-					pGame->pBoardButton[i]->r_right = (float)atof(info2);
-					info2 = strtok(NULL, ":");
-					pGame->pBoardButton[i]->r_top = (float)atof(info2);
-					info2 = strtok(NULL, ":");
-					pGame->pBoardButton[i]->r_bottom = (float)atof(info2);
-					info2 = strtok(NULL, ":");*/
-					
-					/*switch (pGame->pBoardButton[i]->direction) {
-						
-						case 'r' :
-							
-							pGame->pBoardButton[i]->r_left = 0;
-							pGame->pBoardButton[i]->r_right = 1;
-							pGame->pBoardButton[i]->r_top = 0;
-							pGame->pBoardButton[i]->r_bottom = 0;
-				
-							break;
-							
-						case 'l' :
-							
-							pGame->pBoardButton[i]->r_left = 1;
-							pGame->pBoardButton[i]->r_right = 0;
-							pGame->pBoardButton[i]->r_top = 0;
-							pGame->pBoardButton[i]->r_bottom = 0;
-							
-							break;
-							
-						case 't' :
-							
-							pGame->pBoardButton[i]->r_left = 0;
-							pGame->pBoardButton[i]->r_right = 0;
-							pGame->pBoardButton[i]->r_top = 1;
-							pGame->pBoardButton[i]->r_bottom = 0;
-							
-							break;
-							
-						case 'b' :
-							
-							pGame->pBoardButton[i]->r_left = 0;
-							pGame->pBoardButton[i]->r_right = 0;
-							pGame->pBoardButton[i]->r_top = 0;
-							pGame->pBoardButton[i]->r_bottom = 1;
-							
-							break;
-							
-						case 'n' :
-							
-							if(pGame->pBoardButton[i]->piece = 'm') {
-								
-								pGame->pBoardButton[i]->r_left = 0.9;
-								pGame->pBoardButton[i]->r_right = 0.9;
-								pGame->pBoardButton[i]->r_top = 0.9;
-								pGame->pBoardButton[i]->r_bottom = 0.9;
-								
-							}
-							
-							else {
-								
-								pGame->pBoardButton[i]->r_left = 0;
-								pGame->pBoardButton[i]->r_right = 0;
-								pGame->pBoardButton[i]->r_top = 0;
-								pGame->pBoardButton[i]->r_bottom = 0;
-								
-							}	
-							
-							break;
-							
-						default :
-							
-							break;
-							
-					}*/
-				 
-					 RefreshDisplay(pGame, i);
-				 }
+	switch(gtk_dialog_run(GTK_DIALOG(pFileSelection)))
+	{
+		case GTK_RESPONSE_OK:
+			/* Recuperation du chemin */
+			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
+			g_free(sChemin);
+			pSave = fopen(sChemin, "r");
 			
+			fscanf(pSave,"%s", info);
+			
+			info2 = strtok(info, ":");
+			
+			gtk_label_set_text(GTK_LABEL(pGame->pPlayerLabel[0]), info2);
+			info2 = strtok(NULL, ":");
+			gtk_label_set_text(GTK_LABEL(pGame->pPlayerLabel[1]), info2);
+			info2 = strtok(NULL, ":");
+			
+			for(i=0;i<35;i++){
 				
-			default:
-				break;
-		}
-		
-		gtk_widget_destroy(pFileSelection);
+				pGame->pBoardButton[i]->piece = info2[0];
+				info2 = strtok(NULL, ":");
+				pGame->pBoardButton[i]->direction = info2[0];
+				info2 = strtok(NULL, ":");
+				pGame->pBoardButton[i]->force = atoi(info2);
+				info2 = strtok(NULL, ":");
+				
+				switch (pGame->pBoardButton[i]->direction) {
+						
+					case 'r' :
+						
+						pGame->pBoardButton[i]->r_left = 0;
+						pGame->pBoardButton[i]->r_right = 1;
+						pGame->pBoardButton[i]->r_top = 0;
+						pGame->pBoardButton[i]->r_bottom = 0;
+						
+						break;
+						
+					case 'l' :
+						
+						pGame->pBoardButton[i]->r_left = 1;
+						pGame->pBoardButton[i]->r_right = 0;
+						pGame->pBoardButton[i]->r_top = 0;
+						pGame->pBoardButton[i]->r_bottom = 0;
+						
+						break;
+						
+					case 't' :
+						
+						pGame->pBoardButton[i]->r_left = 0;
+						pGame->pBoardButton[i]->r_right = 0;
+						pGame->pBoardButton[i]->r_top = 1;
+						pGame->pBoardButton[i]->r_bottom = 0;
+						
+						break;
+						
+					case 'b' :
+						
+						pGame->pBoardButton[i]->r_left = 0;
+						pGame->pBoardButton[i]->r_right = 0;
+						pGame->pBoardButton[i]->r_top = 0;
+						pGame->pBoardButton[i]->r_bottom = 1;
+						
+						break;
+						
+					case 'n' :
+						
+						if(pGame->pBoardButton[i]->piece == 'm') {
+							
+							pGame->pBoardButton[i]->r_left = 0.9;
+							pGame->pBoardButton[i]->r_right = 0.9;
+							pGame->pBoardButton[i]->r_top = 0.9;
+							pGame->pBoardButton[i]->r_bottom = 0.9;
+							
+						}
+						
+						else {
+							
+							pGame->pBoardButton[i]->r_left = 0;
+							pGame->pBoardButton[i]->r_right = 0;
+							pGame->pBoardButton[i]->r_top = 0;
+							pGame->pBoardButton[i]->r_bottom = 0;
+							
+						}	
+						
+						break;
+						
+					default :
+						
+						break;
+						
+				}
+				
+				RefreshDisplay(pGame, i);
+				
+			}
+			
+		case GTK_RESPONSE_CANCEL:
+			
+			gtk_widget_destroy(pFileSelection); // CHIE, gaby exerce ta magie !
+			
+			break;
+			
+		default:
+			break;
 	}
+	
+	gtk_widget_destroy(pFileSelection);
+	
+	fclose(pSave);
+}
 
 void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){ 
 	
@@ -255,13 +258,8 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
 	gchar *sChemin;
 	FILE* pSave;
 	gint i;
-	gchar *buffer_force, *buffer_l, *buffer_r, *buffer_t, *buffer_b;
-	
+	gchar *buffer_force;	
 	buffer_force = (gchar*)malloc(100*sizeof(gchar));
-	buffer_l = (gchar*)malloc(100*sizeof(gchar));
-	buffer_r = (gchar*)malloc(100*sizeof(gchar));
-	buffer_t = (gchar*)malloc(100*sizeof(gchar));
-	buffer_b = (gchar*)malloc(100*sizeof(gchar));
 	
 	pParent = GTK_WIDGET(pGame);
 	
@@ -280,7 +278,10 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
 			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
 			g_free(sChemin);
 			pSave = fopen(sChemin, "w+");
-
+			
+			fprintf(pSave, "%s:", gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
+			fprintf(pSave, "%s:", gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
+			
 			for(i=0;i<35;i++){
 				
 				fprintf(pSave,"%c:",pGame->pBoardButton[i]->piece);
@@ -289,24 +290,22 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
 				sprintf(buffer_force,"%d",pGame->pBoardButton[i]->force);
 				fprintf(pSave,"%s:",buffer_force);
 				
-				/*sprintf(buffer_l,"%f",pGame->pBoardButton[i]->r_left);
-				fprintf(pSave,"%s:",buffer_l);
-				sprintf(buffer_r,"%f",pGame->pBoardButton[i]->r_right);
-				fprintf(pSave,"%s:",buffer_r);
-				sprintf(buffer_t,"%f",pGame->pBoardButton[i]->r_top);
-				fprintf(pSave,"%s:",buffer_t);
-				sprintf(buffer_b,"%f",pGame->pBoardButton[i]->r_bottom);
-				fprintf(pSave,"%s:",buffer_b);*/
-				
 			}
-
+			
 			
 			break;
 			
-			default:
+		case GTK_RESPONSE_CANCEL:
+			
+			gtk_widget_destroy(pFileSelection); // CHIE, gaby exerce ta magie !
+			
+			break;
+			
+		default:
 			break;
     }
 	
+	fclose(pSave);
 	
     gtk_widget_destroy(pFileSelection);
 }
@@ -346,7 +345,7 @@ void OnButtonWithDrawal(GtkWidget *pMenuItem, MainWindow *pGame) {
 	g_signal_connect(G_OBJECT(pWithDrawalButton[0]),"clicked",G_CALLBACK(gtk_main_quit),NULL);
 	
 	g_signal_connect_swapped(G_OBJECT(pWithDrawalButton[1]),"clicked",G_CALLBACK(gtk_widget_destroy), pWithDrawalWindow);
-
+	
 	gtk_widget_show_all(pWithDrawalWindow);
 	
 }
