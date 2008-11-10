@@ -14,7 +14,6 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 	// Numéro de la case. Récupérée dans le champ adéquat dans le GObject pButton passé en argument du Callback
 	static int number, number2;
 	static gchar temp[150];
-	static int number2_bak;
 	gint i, c;
 	gfloat resistance;
 	gint i_tmp;
@@ -74,37 +73,44 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				}
 				
 				else if(number == number2) {
-					
-					if(pGame->first_rotate == TRUE) {
-						number2_bak = number2;
-						pGame->first_rotate = FALSE;
-					}
-					
-					if(number2 == number2_bak) {
-						switch(pGame->pBoardButton[number]->direction) {
-						case 't':
-							pGame->pBoardButton[number]->direction = 'r';
-							pGame->pBoardButton[number]->r_top = 0;
-							pGame->pBoardButton[number]->r_right = 1;
-							break;
-						case 'b':
-							pGame->pBoardButton[number]->direction = 'l';
-							pGame->pBoardButton[number]->r_bottom = 0;
-							pGame->pBoardButton[number]->r_left = 1;
-							break;
-						case 'l':
-							pGame->pBoardButton[number]->direction = 't';
-							pGame->pBoardButton[number]->r_left = 0;
-							pGame->pBoardButton[number]->r_top = 1;
-							break;
-						case 'r':
-							pGame->pBoardButton[number]->direction = 'b';
-							pGame->pBoardButton[number]->r_right = 0;
-							pGame->pBoardButton[number]->r_bottom = 1;
-							break;
-						}
-					}
-					pGame->lock_turn = 0;
+
+					GtkWidget *pPopup;
+					GtkWidget *pLabel;
+					GtkWidget *pVBox;
+					GtkWidget *pButton[5];
+					gint x;
+					gint y;
+					gint win_x;
+					gint win_y;
+					GdkDisplay *display = gdk_display_get_default ();
+					pPopup = gtk_window_new(GTK_WINDOW_POPUP);
+					gtk_window_set_position(GTK_WINDOW(pPopup), GTK_WIN_POS_MOUSE);
+					pVBox = gtk_vbox_new(TRUE, 2);
+					pLabel = gtk_label_new("Orientation :");
+					pButton[0] = gtk_button_new_with_label("Droite");
+					pButton[1] = gtk_button_new_with_label("Bas");
+					pButton[2] = gtk_button_new_with_label("Gauche");
+					pButton[3] = gtk_button_new_with_label("Haut");
+					pButton[4] = gtk_button_new_with_label("Annuler");
+					gtk_box_pack_start(GTK_BOX(pVBox), pLabel, TRUE, TRUE, 0);
+					gtk_box_pack_start(GTK_BOX(pVBox), pButton[0], TRUE, TRUE, 0);
+					gtk_box_pack_start(GTK_BOX(pVBox), pButton[1], TRUE, TRUE, 0);
+					gtk_box_pack_start(GTK_BOX(pVBox), pButton[2], TRUE, TRUE, 0);
+					gtk_box_pack_start(GTK_BOX(pVBox), pButton[3], TRUE, TRUE, 0);
+					gtk_box_pack_start(GTK_BOX(pVBox), pButton[4], TRUE, TRUE, 0);
+					pGame->number = number;
+					g_signal_connect(G_OBJECT(pButton[0]), "clicked", G_CALLBACK(OnButtonRight), pGame);
+					g_signal_connect(G_OBJECT(pButton[1]), "clicked", G_CALLBACK(OnButtonBottom), pGame);
+					g_signal_connect(G_OBJECT(pButton[2]), "clicked", G_CALLBACK(OnButtonLeft), pGame);
+					g_signal_connect(G_OBJECT(pButton[3]), "clicked", G_CALLBACK(OnButtonTop), pGame);
+					g_signal_connect_swapped(G_OBJECT(pButton[4]), "clicked", G_CALLBACK(gtk_widget_destroy), pPopup);
+					gtk_window_set_opacity(GTK_WINDOW(pPopup), 0.9);
+					gtk_container_add(GTK_CONTAINER(pPopup), pVBox);
+					gtk_container_set_border_width(GTK_CONTAINER(pPopup), 6);
+					gdk_display_get_pointer (display, NULL, &x, &y, NULL);
+					gtk_window_get_default_size(GTK_WINDOW(pPopup), &win_x, &win_y);
+					gtk_window_move(GTK_WINDOW(pPopup), x+win_x/2, y+win_y/2);
+					gtk_widget_show_all(pPopup);
 				}
 
 				else if((pGame->pBoardButton[number]->piece == 'e') && (number2>=30) && (number2<35))   {
@@ -166,7 +172,6 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				// Cas de l'échange, c'est à dire qu'on inverse deux pièces. Simple déplacement des pions en fait !
 				else if (pGame->pBoardButton[number2]->piece == 'n')  {
 
-					if(pGame->lock_turn == -1) {
 					// C'est ici que l'on vérifie que le sens du pion est correctement enregistré pour permettre le déplacement
 					if((pGame->pBoardButton[number]->x - pGame->pBoardButton[number2]->x > 0) && (pGame->pBoardButton[number]->direction != 'l') && pGame->pBoardButton[number]->x != -1 && pGame->pBoardButton[number]->x != 5)
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
@@ -215,16 +220,12 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 						sprintf(temp, "Nouvelles coordonnées : x = %d et y = %d. C'est un pion %c orienté en %c", pGame->pBoardButton[number2]->x, pGame->pBoardButton[number2]->y, pGame->pBoardButton[number2]->piece, pGame->pBoardButton[number2]->direction);
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, temp);
 
-						 pGame->turn++;
-					}
-					}
-					else {
-						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas déplacer votre pion après avoir changé son orientation. Cliquez-sur le bouton \"Laisser la main\"");
+						 pGame->turn++%2;
 					}
 				}
 
 				// Cas de la poussée : et là, c'est le drame.
-				else if(pGame->lock_turn == -1) {
+				else{
 					if(pGame->pBoardButton[number]->piece == 'e')
 						switch(pGame->pBoardButton[number]->direction) {
 
@@ -1538,18 +1539,29 @@ void OnWin(GtkWidget *pMenuItem, MainWindow *pGame) {
 	pGame -> pButtonNewGame = gtk_button_new_with_label("Nouvelle Partie");
 	pGame -> pButtonExit = gtk_button_new_with_label("Quitter");
 
-	pGame -> pTempBox=gtk_vbox_new(FALSE,0);
+	pGame -> pTempBox=gtk_vbox_new(FALSE,15);
 	pGame -> pTempBox2=gtk_hbox_new(TRUE,0);
 	pGame -> pWinTemp = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	
+	if(((pGame->turn) % 2) == 0)
+	pGame -> pLabelWin = gtk_label_new("Bien joué Joueur 2 vous avez gagné");
+	
+	else
+	pGame -> pLabelWin = gtk_label_new("Bien joué Joueur 1 vous avez gagné");
 	
 	gtk_window_set_position(GTK_WINDOW(pGame -> pWinTemp), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(pGame -> pWinTemp), "Victoire !");
 	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindow), 500, 500);
+	gtk_container_set_border_width(GTK_CONTAINER(pGame -> pWinTemp), 25);
+	
+	gtk_container_add(GTK_CONTAINER(pGame -> pTempBox), pGame -> pLabelWin);
+	
 	gtk_box_pack_start(GTK_BOX(pGame -> pTempBox), pGame->pWinImage, TRUE, TRUE, 0);
 	
-	gtk_box_pack_start(GTK_BOX(pGame -> pTempBox2), pGame -> pButtonExit, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(pGame -> pTempBox2), pGame -> pButtonNewGame, TRUE, TRUE, 0);
-	
+		
+	gtk_box_pack_start(GTK_BOX(pGame -> pTempBox2), pGame -> pButtonExit, TRUE, TRUE, 5);
+	gtk_box_pack_start(GTK_BOX(pGame -> pTempBox2), pGame -> pButtonNewGame, TRUE, TRUE, 5);
+		
 	gtk_container_add(GTK_CONTAINER(pGame -> pWinTemp), pGame -> pTempBox);
 	gtk_box_pack_start(GTK_BOX(pGame -> pTempBox), pGame -> pTempBox2, TRUE, TRUE, 0);
 	
@@ -1589,4 +1601,52 @@ void OnSkipTurn(GtkWidget *pButton, MainWindow* pGame) {
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
 	}
 	
+}
+
+void OnButtonRight(GtkWidget *pButton, MainWindow *pGame) {
+	pGame->pBoardButton[pGame->number]->direction = 'r';
+	pGame->pBoardButton[pGame->number]->r_top = 0;
+	pGame->pBoardButton[pGame->number]->r_right = 1;
+	pGame->pBoardButton[pGame->number]->r_left = 0;
+	pGame->pBoardButton[pGame->number]->r_bottom = 0;
+	RefreshDisplay(pGame, pGame->number);
+	GtkWidget *pWindow = gtk_widget_get_parent(gtk_widget_get_parent(pButton));
+	gtk_widget_destroy(pWindow);
+	pGame->turn++%2;
+}
+
+void OnButtonLeft(GtkWidget *pButton, MainWindow *pGame) {
+	pGame->pBoardButton[pGame->number]->direction = 'l';
+	pGame->pBoardButton[pGame->number]->r_top = 0;
+	pGame->pBoardButton[pGame->number]->r_right = 0;
+	pGame->pBoardButton[pGame->number]->r_left = 1;
+	pGame->pBoardButton[pGame->number]->r_bottom = 0;
+	RefreshDisplay(pGame, pGame->number);
+	GtkWidget *pWindow = gtk_widget_get_parent(gtk_widget_get_parent(pButton));
+	gtk_widget_destroy(pWindow);
+	pGame->turn++%2;
+}
+
+void OnButtonTop(GtkWidget *pButton, MainWindow *pGame) {
+	pGame->pBoardButton[pGame->number]->direction = 't';
+	pGame->pBoardButton[pGame->number]->r_top = 1;
+	pGame->pBoardButton[pGame->number]->r_right = 0;
+	pGame->pBoardButton[pGame->number]->r_left = 0;
+	pGame->pBoardButton[pGame->number]->r_bottom = 0;
+	RefreshDisplay(pGame, pGame->number);
+	GtkWidget *pWindow = gtk_widget_get_parent(gtk_widget_get_parent(pButton));
+	gtk_widget_destroy(pWindow);
+	pGame->turn++%2;
+}
+
+void OnButtonBottom(GtkWidget *pButton, MainWindow *pGame) {
+	pGame->pBoardButton[pGame->number]->direction = 'b';
+	pGame->pBoardButton[pGame->number]->r_top = 0;
+	pGame->pBoardButton[pGame->number]->r_right = 0;
+	pGame->pBoardButton[pGame->number]->r_left = 0;
+	pGame->pBoardButton[pGame->number]->r_bottom = 1;
+	RefreshDisplay(pGame, pGame->number);
+	GtkWidget *pWindow = gtk_widget_get_parent(gtk_widget_get_parent(pButton));
+	gtk_widget_destroy(pWindow);
+	pGame->turn++%2;
 }

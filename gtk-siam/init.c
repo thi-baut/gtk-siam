@@ -142,19 +142,17 @@ pGame_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregi
 	// Premier sous-menu
     pGame->pMenu = gtk_menu_new();
 
-    pGame->pMenuItem = gtk_menu_item_new_with_label("Nouvelle partie");
-	g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonNewGame), (MainWindow*) pGame);
+    pGame->pMenuItem = gtk_menuimage_menu_item_new_from_stock(GTK_STOCK_NEW, NULL);
+	//gtk_image_menu_item_set_imagesignal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonNewGame), (MainWindow*) pGame);
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
 
-    pGame->pMenuItem = gtk_menu_item_new_with_label("Charger une partie");
-	g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonOpenGame), (MainWindow*) pGame);
+    pGame->pMenuItem = gtk_menuimage_menu_item_new_from_stock(GTK_STOCK_OPEN, NULLg_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonOpenGame), (MainWindow*) pGame);
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
 
-    pGame->pMenuItem = gtk_menu_item_new_with_label("Enregistrer la partie");
-	g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonSaveGame), (MainWindow*) pGame);
+    pGame->pMenuItem = gtk_menuimage_menu_item_new_from_stock(GTK_STOCK_SAVE, NULL);
+	ignal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnButtonSaveGame), (MainWindow*) pGame);
  ame);
-    gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem pGame->pMenuItem = gtk_menu_item_new_with_label("Quitter");
-    g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnQuitBtn), pGame);
+    gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem pGame->pMenuItem = gtk_menuimage_menu_item_new_from_stock(GTK_STOCK_CLOSE, NULL   g_signal_connect(G_OBJECT(pGame->pMenuItem), "activate", G_CALLBACK(OnQuitBtn), pGame);
     gtk_menu_shell_append(GTK_MENU_SHELL(pGame->pMenu), pGame->pMenuItem);
 
     pGame->pMenuItem = gtk_menu_item_new_with_label("Partie");
