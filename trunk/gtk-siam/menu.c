@@ -144,6 +144,7 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 		{
 			case GTK_RESPONSE_OK:
 				/* Recuperation du chemin */
+				InitGame(NULL, pGame);
 				sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
 				g_free(sChemin);
 				pSave = fopen(sChemin, "r");
@@ -170,7 +171,7 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 					pGame->pBoardButton[i]->r_bottom = (float)atof(info2);
 					info2 = strtok(NULL, ":");*/
 					
-					switch (pGame->pBoardButton[i]->direction) {
+					/*switch (pGame->pBoardButton[i]->direction) {
 						
 						case 'r' :
 							
@@ -234,7 +235,7 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 							
 							break;
 							
-					}
+					}*/
 				 
 					 RefreshDisplay(pGame, i);
 				 }

@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include <gdk/gdk.h>
+#include <cairo.h>
 #include <string.h>
 #include <CoreFoundation/CoreFoundation.h>
 
@@ -94,6 +96,7 @@ struct _MainWindow
 	GtkWidget *pTempBox2;
 	GtkWidget *pButtonNewGame;
 	GtkWidget *pButtonExit;
+	GtkWidget *pLabelWin;
 
 	/* Variables générales */
 	gint level; // Niveau du jeu
@@ -108,6 +111,7 @@ struct _MainWindow
 	gint lock_turn;
 	gint x;
 	gint y;
+	gint number;
 	GdkColor black;
 	GdkColor white;
 	GdkColor brown;
@@ -148,5 +152,9 @@ void RefreshDisplay(MainWindow *pGame, gint number);
 void OnWin(GtkWidget *pMenuItem, MainWindow *pGame);
 void OnDestroyWinWindow (GtkWidget *pMenuItem, MainWindow *pGame);
 void OnSkipTurn(GtkWidget *pButton, MainWindow* pGame);
+void OnButtonBottom(GtkWidget *pButton, MainWindow *pGame) ;
+void OnButtonTop(GtkWidget *pButton, MainWindow *pGame) ;
+void OnButtonRight(GtkWidget *pButton, MainWindow *pGame) ;
+void OnButtonLeft(GtkWidget *pButton, MainWindow *pGame) ;
 
 
