@@ -22,7 +22,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 	if(pGame->mode == 1) {
 
 		switch(pGame->round) {
-			
+
 			case 0:
 				printf("LOL");
 				// Permet de savoir de quelle case du tableau de structures il s'agît.
@@ -34,7 +34,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous avez cliqué sur une case vide !");
 
 				if(pGame->pBoardSquare[number]->piece != 'n') {
-					
+
 					/* PREPARATION DE L'ECHANGE */
 					// On récupère le type de pion actuellement sur la case
 					pGame->pTempButton->piece = pGame->pBoardSquare[number]->piece;
@@ -63,12 +63,12 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				if((pGame->turn % 2 == 0) & (pGame->pBoardSquare[number]->piece != 'r'))
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas bouger un pion adverse !");
 
-				else if((pGame->turn % 2 != 0) & (pGame->pBoardSquare[number]->piece != 'e'))	
+				else if((pGame->turn % 2 != 0) & (pGame->pBoardSquare[number]->piece != 'e'))
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas bouger un pion adverse !");
 
 				// Cas de la rotation
 				else if(number == number2) {
-					
+
 					// Variables temporaires pour le mini-menu
 					GtkWidget *pPopup;
 					GtkWidget *pLabel;
@@ -79,23 +79,42 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					gint win_x; // Taille de la fenêtre
 					gint win_y;
 					GdkDisplay *display = gdk_display_get_default();
-					
+					GtkWidget *pButtonLabel[5];
+					GtkWidget *pImage[5];
+					GtkWidget *pHBox[5];
+
 					// Fenêtre + Boxes
 					pPopup = gtk_window_new(GTK_WINDOW_POPUP);
 					gtk_window_set_position(GTK_WINDOW(pPopup), GTK_WIN_POS_MOUSE);
 					gtk_window_set_opacity(GTK_WINDOW(pPopup), 0.90);
 					gtk_container_set_border_width(GTK_CONTAINER(pPopup), 6);
 					gdk_display_get_pointer (display, NULL, &x, &y, NULL);
-					
+
 					pVBox = gtk_vbox_new(TRUE, 2);
 					pLabel = gtk_label_new("Orientation :");
-					pButton[0] = gtk_button_new_with_label("Gauche");
-					pButton[1] = gtk_button_new_with_label("Droite");
-					pButton[2] = gtk_button_new_with_label("Haut");
-					pButton[3] = gtk_button_new_with_label("Bas");
-					pButton[4] = gtk_button_new_with_label("Annuler");
+					pImage[0] = gtk_image_new_from_stock(GTK_STOCK_GO_BACK, GTK_ICON_SIZE_BUTTON);
+					pImage[1] = gtk_image_new_from_stock(GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON);
+					pImage[2] = gtk_image_new_from_stock(GTK_STOCK_GO_UP, GTK_ICON_SIZE_BUTTON);
+					pImage[3] = gtk_image_new_from_stock(GTK_STOCK_GO_DOWN, GTK_ICON_SIZE_BUTTON);
+					pImage[4] = gtk_image_new_from_stock(GTK_STOCK_CANCEL, GTK_ICON_SIZE_BUTTON);
+
+					pButtonLabel[0] = gtk_label_new("Gauche");
+					pButtonLabel[1] = gtk_label_new("Droite");
+					pButtonLabel[2] = gtk_label_new("Haut");
+					pButtonLabel[3] = gtk_label_new("Bas");
+                    pButtonLabel[4] = gtk_label_new("Annuler");
+
+                    // HBoxes
+                    for(i = 0; i < 5; i++) {
+                        pHBox[i] = gtk_hbox_new(TRUE, 0);
+                        pButton[i] = gtk_button_new();
+                        gtk_box_pack_start(GTK_BOX(pHBox[i]), pImage[i], TRUE, TRUE, 0);
+                        gtk_box_pack_start(GTK_BOX(pHBox[i]), pButtonLabel[i], TRUE, TRUE, 0);
+                        gtk_container_add(GTK_CONTAINER(pButton[i]), pHBox[i]);
+                    }
+
 					gtk_box_pack_start(GTK_BOX(pVBox), pLabel, TRUE, TRUE, 0);
-					
+
 					// Affiche différents menus selon l'orientation actuelle du pion
 					switch(pGame->pBoardSquare[number]->direction) {
 						case 'r':
@@ -128,45 +147,45 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					gtk_window_move(GTK_WINDOW(pPopup), x+win_x/2, y+win_y/2);
 
 					pGame->number = number; // Sauvegarde le numéro de la case pour l'exploiter dans les callbacks
-					
+
 					g_signal_connect(G_OBJECT(pButton[0]), "clicked", G_CALLBACK(OnButtonLeft), pGame);
 					g_signal_connect(G_OBJECT(pButton[1]), "clicked", G_CALLBACK(OnButtonRight), pGame);
 					g_signal_connect(G_OBJECT(pButton[2]), "clicked", G_CALLBACK(OnButtonTop), pGame);
 					g_signal_connect(G_OBJECT(pButton[3]), "clicked", G_CALLBACK(OnButtonBottom), pGame);
 					g_signal_connect_swapped(G_OBJECT(pButton[4]), "clicked", G_CALLBACK(gtk_widget_destroy), pPopup);
-					
+
 					gtk_widget_show_all(pPopup);
 				}
 
 				// Conditions qui empêchent l'échange et/ou la poussée
-				else if(pGame->pBoardSquare[number]->piece == 'e' && number2 >= 30 && number2 < 35) 	
+				else if(pGame->pBoardSquare[number]->piece == 'e' && number2 >= 30 && number2 < 35)
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas aller dans le camp adverse !");
-				
-				else if(pGame->pBoardSquare[number]->piece == 'r' && number2 >= 25 && number2 < 30)	
+
+				else if(pGame->pBoardSquare[number]->piece == 'r' && number2 >= 25 && number2 < 30)
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas aller dans le camp adverse !");
-				
+
 				else if(((pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x > 1) || (pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x < -1)) && (number < 25 && (number2 > 5 || number2 < 20)) || NUMBER_CENTER)
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement non autorisé !");
-					
+
 				else if(((pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y > 1) || (pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y < -1)) || NUMBER_CENTER)
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement non autorisé !");
-				
+
 				else if((pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x == 1) && (pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y == 1) && number < 25)
-					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !");
 
 				else if((pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x == 1) && (pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y == -1) && number < 25)
-					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
-				
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !");
+
 				else if((pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x == -1) && (pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y == 1) && number < 25)
-					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
-				
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !");
+
 				else if((pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x == -1) && (pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y == -1) && number < 25)
-					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !"); 
-				
-				else if(((number >= 30 && number < 35) || (number >= 25 && number < 30)) && pGame->pBoardSquare[number2]->piece !='n')		
+					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !");
+
+				else if(((number >= 30 && number < 35) || (number >= 25 && number < 30)) && pGame->pBoardSquare[number2]->piece !='n')
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Rentrée sur le plateau impossible");
 
-				
+
 				// Cas de l'échange, c'est à dire qu'on inverse deux pièces. Simple déplacement des pions en fait !
 				else if (pGame->pBoardSquare[number2]->piece == 'n')  {
 
@@ -184,17 +203,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
 
 					else {
-						if(((pGame->turn) % 2) == 0) {
-							strcpy(temp, "Tour de jeu : ");
-							strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
-							gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
-						}
-						else {
-							strcpy(temp, "Tour de jeu : ");
-							strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
-							gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
-						}
-						
+
 						// Échange des variables
 						pGame->pBoardSquare[number]->piece = pGame->pBoardSquare[number2]->piece;
 						pGame->pBoardSquare[number]->r_left = pGame->pBoardSquare[number2]->r_left;
@@ -1436,12 +1445,24 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 								else	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée impossible !");
 								break;
 						}
-				
+
 						pGame->turn++;
 				}
 
 				// On rafraîchit l'image :
 				RefreshDisplay(pGame, number);
+
+				// On rafraîchit le label du joueur
+                if(((pGame->turn) % 2) == 0) {
+                    strcpy(temp, "Tour de jeu : ");
+                    strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
+                    gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+                }
+                else {
+                    strcpy(temp, "Tour de jeu : ");
+                    strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
+                    gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+                }
 
 				// Si on est pas en mode "rotation". Un test est moins coûteux qu'un rechargement de l'image
 				if(number != number2)
@@ -1449,15 +1470,15 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 
 				// Signifie qu'on a cliqué sur le bouton d'arrivée - tout s'est déroulé correctement
 				pGame->round = 0;
-				
+
 				break;
 
 			default:
 				break;
 		}
 	}
-	
-	
+
+
 	// METTRE ICI LE CODE LORSQUE L'IA SERA COMMENCÉE - else if(mode == 1)
 
 }
@@ -1469,68 +1490,68 @@ void RefreshDisplay(MainWindow *pGame, gint number) {
 					gtk_image_clear(GTK_IMAGE(pGame->pBoardSquare[number]->image));
 					gtk_widget_destroy(pGame->pBoardSquare[number]->image);
 				case 'e':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/elephant.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./elephant.png");
 					break;
 				case 'r':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/rhino.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./rhino.png");
 					break;
 				default:
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/empty.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./empty.png");
 					break;
 			}
 			break;
 		case 'b':
 			switch(pGame->pBoardSquare[number]->piece) {
 				case 'e':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/elephant-b.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./elephant-b.png");
 					break;
 				case 'r':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/rhino-b.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./rhino-b.png");
 					break;
 				default:
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/empty.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./empty.png");
 					break;
 			}
 			break;
 		case 'l':
 			switch(pGame->pBoardSquare[number]->piece) {
 				case 'e':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/elephant-l.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./elephant-l.png");
 					break;
 				case 'r':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/rhino-l.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./rhino-l.png");
 					break;
 				default:
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/empty.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./empty.png");
 					break;
 			}
 			break;
 		case 'r':
 			switch(pGame->pBoardSquare[number]->piece) {
 				case 'e':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/elephant-r.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./elephant-r.png");
 					break;
 				case 'r':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/rhino-r.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./rhino-r.png");
 					break;
 				default:
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/empty.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./empty.png");
 					break;
 			}
 			break;
 		default:
 			switch(pGame->pBoardSquare[number]->piece) {
 				case 'e':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/elephant-r.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./elephant-r.png");
 					break;
 				case 'r':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/rhino-r.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./rhino-r.png");
 					break;
 				case 'm':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/mountain.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./mountain.png");
 					break;
 				default:
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/empty.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./empty.png");
 					break;
 			}
 			break;
@@ -1540,7 +1561,7 @@ void RefreshDisplay(MainWindow *pGame, gint number) {
 }
 
 void OnWin(GtkWidget *pMenuItem, MainWindow *pGame) {
-	
+
 	// Variables
 	GtkWidget *pVBox;
 	GtkWidget *pHBox;
@@ -1549,21 +1570,21 @@ void OnWin(GtkWidget *pMenuItem, MainWindow *pGame) {
 	GtkWidget *pLabel;
 	GtkWidget *pImage;
 	gchar temp[40];
-	
+
 	// Fenêtre
 	pGame->pVictoryWindow = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(pGame->pVictoryWindow), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(pGame->pVictoryWindow), "Victoire !");
 	gtk_window_set_default_size(GTK_WINDOW(pGame->pVictoryWindow), 500, 500);
 	gtk_container_set_border_width(GTK_CONTAINER(pGame->pVictoryWindow), 25);
-	
+
 	// Boutons
 	pButtonNewGame = gtk_button_new_with_label("Nouvelle Partie");
 	pButtonExit = gtk_button_new_with_label("Quitter");
 
 	// Image
-	pImage = gtk_image_new_from_file("/win.png");
-	
+	pImage = gtk_image_new_from_file("./win.png");
+
 	if(pGame->turn %2 == 0) {
 		sprintf(temp, "Bien joué %s, vous avez gagné !", gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
 		pLabel = gtk_label_new(temp);
@@ -1572,57 +1593,57 @@ void OnWin(GtkWidget *pMenuItem, MainWindow *pGame) {
 		sprintf(temp, "Bien joué %s, vous avez gagné !", gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
 		pLabel = gtk_label_new(temp);
 	}
-	
+
 	// Boxes
 	pVBox = gtk_vbox_new(FALSE,15);
 	pHBox = gtk_hbox_new(TRUE,0);
-				
+
 	gtk_box_pack_start(GTK_BOX(pVBox), pLabel, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(pVBox), pImage, TRUE, TRUE, 0);
 	gtk_box_pack_start(GTK_BOX(pHBox), pButtonExit, TRUE, TRUE, 5);
 	gtk_box_pack_start(GTK_BOX(pHBox), pButtonNewGame, TRUE, TRUE, 5);
 	gtk_box_pack_start(GTK_BOX(pVBox), pHBox, TRUE, TRUE, 0);
-	
+
 	// On accroche la VBox dans la fenêtre
 	gtk_container_add(GTK_CONTAINER(pGame->pVictoryWindow), pVBox);
-	
+
 	// Signaux des boutons
 	g_signal_connect(G_OBJECT(pButtonExit), "clicked", gtk_main_quit, NULL);
 	g_signal_connect(G_OBJECT(pButtonNewGame), "clicked", G_CALLBACK(OnDestroyWinWindow), (MainWindow*) pGame);
-	
+
 	gtk_widget_show_all(pGame->pVictoryWindow);
 }
 
 void OnDestroyWinWindow (GtkWidget *pMenuItem, MainWindow *pGame) {
-	
+
 	// Ce programme permet juste de detruire la fenetre de victoire et de créer une nouvelle partie
 	gtk_widget_destroy(pGame->pVictoryWindow);
 	OnButtonNewGame(NULL, pGame);
-	
+
 }
 
 void OnSkipTurn(GtkWidget *pButton, MainWindow* pGame) {
-	
+
 	// On passe la main à l'autre joueur
 	pGame->turn++%2;
 	gchar temp[150];
-	
+
 	if(((pGame->turn) % 2) == 0) {
 		strcpy(temp, "Tour de jeu : ");
 		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
 	}
-	
+
 	else {
 		strcpy(temp, "Tour de jeu : ");
 		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
 	}
-	
+
 }
 
 void OnButtonRight(GtkWidget *pButton, MainWindow *pGame) {
-	
+
 	gchar temp[48];
 	GtkWidget *pWindow = gtk_widget_get_parent(gtk_widget_get_parent(pButton));
 	if(pGame->pBoardSquare[pGame->number]->direction != 'r') {
@@ -1635,22 +1656,21 @@ void OnButtonRight(GtkWidget *pButton, MainWindow *pGame) {
 	sprintf(temp,"Le pion %d a été orienté vers la droite.", pGame->number);
 	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, temp);
 	pGame->turn++%2;
+
+	if(((pGame->turn) % 2) == 0) {
+                    strcpy(temp, "Tour de jeu : ");
+                    strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
+                    gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+                }
+                else {
+                    strcpy(temp, "Tour de jeu : ");
+                    strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
+                    gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+                }
 	}
 	else
 		gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion est déjà orienté vers la droite !");
-	
-	if(((pGame->turn) % 2) == 0) {
-		strcpy(temp, "Tour de jeu : ");
-		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
-	}
-	
-	else {
-		strcpy(temp, "Tour de jeu : ");
-		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
-	}
-	
+
 	gtk_widget_destroy(pWindow);
 }
 
@@ -1667,22 +1687,21 @@ void OnButtonLeft(GtkWidget *pButton, MainWindow *pGame) {
 		sprintf(temp,"Le pion %d a été orienté vers la gauche.", pGame->number);
 		gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, temp);
 		pGame->turn++%2;
+
+		if(((pGame->turn) % 2) == 0) {
+                    strcpy(temp, "Tour de jeu : ");
+                    strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
+                    gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+                }
+                else {
+                    strcpy(temp, "Tour de jeu : ");
+                    strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
+                    gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+                }
 	}
 	else
 		gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion est déjà orienté vers la gauche !");
-	
-	if(((pGame->turn) % 2) == 0) {
-		strcpy(temp, "Tour de jeu : ");
-		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
-	}
-	
-	else {
-		strcpy(temp, "Tour de jeu : ");
-		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
-	}
-	
+
 	gtk_widget_destroy(pWindow);
 }
 
@@ -1699,22 +1718,21 @@ void OnButtonTop(GtkWidget *pButton, MainWindow *pGame) {
 		sprintf(temp,"Le pion %d a été orienté vers le haut.", pGame->number);
 		gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, temp);
 		pGame->turn++%2;
+
+		if(((pGame->turn) % 2) == 0) {
+                    strcpy(temp, "Tour de jeu : ");
+                    strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
+                    gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+                }
+                else {
+                    strcpy(temp, "Tour de jeu : ");
+                    strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
+                    gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+                }
 	}
 	else
 		gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion est déjà orienté vers le haut !");
-	
-	if(((pGame->turn) % 2) == 0) {
-		strcpy(temp, "Tour de jeu : ");
-		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
-	}
-	
-	else {
-		strcpy(temp, "Tour de jeu : ");
-		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
-	}
-	
+
 	gtk_widget_destroy(pWindow);
 }
 
@@ -1731,21 +1749,20 @@ void OnButtonBottom(GtkWidget *pButton, MainWindow *pGame) {
 		sprintf(temp,"Le pion %d a été orienté vers le bas.", pGame->number);
 		gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, temp);
 		pGame->turn++%2;
+
+		if(((pGame->turn) % 2) == 0) {
+                    strcpy(temp, "Tour de jeu : ");
+                    strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
+                    gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+                }
+                else {
+                    strcpy(temp, "Tour de jeu : ");
+                    strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
+                    gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
+                }
 	}
 	else
 		gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion est déjà orienté vers le bas !");
-	
-	if(((pGame->turn) % 2) == 0) {
-		strcpy(temp, "Tour de jeu : ");
-		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
-	}
-	
-	else {
-		strcpy(temp, "Tour de jeu : ");
-		strcat(temp, gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp);
-	}
-	
+
 	gtk_widget_destroy(pWindow);
 }
