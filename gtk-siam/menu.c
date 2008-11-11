@@ -140,13 +140,15 @@ void OnButtonOpenGame(GtkWidget *pMenuItem, MainWindow *pGame){
 			/* Recuperation du chemin */
 			sChemin = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(pFileSelection));
 			pSave = fopen(sChemin, "r");
+			if(pSave == NULL) gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, "Erreur de chargement du fichier");
 
 			fscanf(pSave,"%s", info);
 
 			info2 = strtok(info, ":");
-
+			
 			gtk_label_set_text(GTK_LABEL(pGame->pPlayerLabel[0]), info2);
 			info2 = strtok(NULL, ":");
+		
 			gtk_label_set_text(GTK_LABEL(pGame->pPlayerLabel[1]), info2);
 			info2 = strtok(NULL, ":");
 
@@ -283,7 +285,8 @@ void OnButtonSaveGame(GtkWidget *pMenuItem, MainWindow *pGame){
 			sprintf(temp2, "%s/%s", sChemin, temp);
 			printf("%s", temp2);
 			pSave = fopen(temp2, "w+");
-
+			if(pSave == NULL) gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, "Erreur de chargement du fichier");
+			
 			fprintf(pSave, "%s:", gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[0])));
 			fprintf(pSave, "%s:", gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));
 
