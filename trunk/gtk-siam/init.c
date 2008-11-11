@@ -50,12 +50,11 @@ void CreateGameWindow(MainWindow *pGame){
 	pGame->pPlayerLabel[0] = gtk_label_new("non renseigné");
 	pGame->pPlayerLabel[1] = gtk_label_new("non renseigné");
 
-	/* NE MARCHE PAS SUR WINDOWS, PROBLÈME DE LINKER */
-#ifndef WIN32_parse("black", &pGame->black);
+    // Couleurs des boutons_parse("black", &pGame->black);
 	gdk_color_parse("white", &pGame->white);
 	gdk_color_parse("#392B20", &pGame->brown);
 	gdk_color_parse("#2E2E2E", &pD0D0D0", &pGame->grey);
-#endif
+
 
 	// Loading de l'image de démarrage
 	pGame->pStartImage = gtk_image_new_from_file("/splashscreen.png");
@@ -169,7 +168,6 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 
 	// On enregistre le choix du joueur concernant les pions
 	pGame->toggle_color = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxToggle));
-	printf("Toggle color %d", pGame->toggle_color);
 
 	// C'est le joueur 1 qui commence
 	pGame->turn = 1;
@@ -188,11 +186,6 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	pGame->player_name[1] = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry[1]));
 	strcpy(temp, pGame->player_name[1]);
 	gtk_label_set_text(GTK_LABEL(pGame->pPlayerLabel[1]), temp);
-
-	if(pGame->mode == 0)
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. CPU");
-	else
-		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. Humain");
 
 	// On (re)démarre le timer
 	if(pGame->timer == TRUE && pGame->chrono != -1) {
@@ -283,7 +276,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		// Éléphants
 		for(i = 25; i < 30; i++) {
 			gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/elephant-r.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./elephant-idle.png");
 			pGame->pBoardSquare[i]->piece = 'e';
 			pGame->pBoardSquare[i]->r_left = 0;
 			pGame->pBoardSquare[i]->r_right = 1; // A 1 car le pion est en r au début
@@ -300,7 +293,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		// Rhinocéros
 		for(i = 30; i < 35; i++) {
 			gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/rhino-l.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./rhino-idle.png");
 			pGame->pBoardSquare[i]->piece = 'r';
 			pGame->pBoardSquare[i]->r_left = 1; // A 1 voir au dessus
 			pGame->pBoardSquare[i]->r_right = 0;
@@ -469,14 +462,14 @@ i<5; i++)
 	// Éléphants
 	for(i = 25; i < 30; i++) {
 		gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/elephant-r.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./elephant-idle.png");
 		pGame->pBoardSquare[i]->piece = 'e';
 		pGame->pBoardSquare[i]->r_left = 0;
 		pGame->pBoardSquare[i]->r_right = 1; // A 1 car le pion est en r au début
 		pGame->pBoardSquare[i]->r_top = 0;
 		pGame->pBoardSquare[i]->r_bottom = 0;
 		pGame->pBoardSquare[i]->force = 1;
-		pGame->pBoardSquare[i]->direction = 'r';
+		pGame->pBoardSquare[i]->direction = 'n';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 
 		pGame->pBoardSquare[i]->x = -1; // Signifie que le pion est hors plateau
@@ -487,14 +480,14 @@ i<5; i++)
 	// Rhinocéros
 	for(i = 30; i < 35; i++) {
 		gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/rhino-l.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./rhino-idle.png");
 		pGame->pBoardSquare[i]->piece = 'r';
 		pGame->pBoardSquare[i]->r_left = 1; // A 1 voir au dessus
 		pGame->pBoardSquare[i]->r_right = 0;
 		pGame->pBoardSquare[i]->r_top = 0;
 		pGame->pBoardSquare[i]->r_bottom = 0;
 		pGame->pBoardSquare[i]->force = 1;
-		pGame->pBoardSquare[i]->direction = 'l';
+		pGame->pBoardSquare[i]->direction = 'n';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 
 		pGame->pBoardSquare[i]->y = i-30; // Signifie que le pion est hors plateau

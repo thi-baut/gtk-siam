@@ -360,7 +360,7 @@ void OnGameRules(GtkWidget *pMenuItem, MainWindow *pGame) {
 
 	pWindowAbout = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size(GTK_WINDOW(pWindowAbout), 580, 850);
-	gtk_window_set_title(GTK_WINDOW(pWindowAbout), "Règles du jeu");
+	gtk_window_set_title(GTK_WINDOW(pWindowAbout), "GTK-Siam - Règles du jeu");
 	gtk_window_set_position(GTK_WINDOW(pWindowAbout), GTK_WIN_POS_CENTER_ALWAYS);
 	g_signal_connect(G_OBJECT(pWindowAbout),"destroy",G_CALLBACK(gtk_widget_hide_all),NULL);
 
@@ -385,7 +385,8 @@ void OnAbout(GtkWidget *pMenuItem, MainWindow *pGame) {
 
 	GtkWidget *pDialog;
 
-	pDialog = gtk_message_dialog_new(GTK_WINDOW(pGame->pWindow), GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "GTK-Siam\nMade on a Mac\nCopyright © 2008 Fusion Studios\n\nCrédits :\nThibaut Diehl\nGabriel Féron\nBenoît Trocmé");
+	pDialog = gtk_message_dialog_new(GTK_WINDOW(pGame->pWindow), GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_OK, "Un jeu de SIAM codé en GTK+\nMade on a Mac\nCopyright © 2008 Fusion Studios\n\nCrédits :\nThibaut Diehl\nGabriel Féron\nBenoît Trocmé");
+	gtk_window_set_title(GTK_WINDOW(pDialog), "GTK-Siam - A propos de...");
 	gtk_dialog_run(GTK_DIALOG(pDialog));
 	gtk_widget_destroy(pDialog);
 }
