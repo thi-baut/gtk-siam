@@ -41,6 +41,7 @@ void CreateGameWindow(MainWindow *pGame){
 	gtk_window_set_position(GTK_WINDOW(pGame->pWindow), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(pGame->pWindow), "GTK Siam - Plateau");
 	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindo926, 722);
+	gtk_window_set_resizable(GTK_WINDOW(pGame->pWindow), FALSE);
 
 	// Labels
 	pGame->pLabel[0] = gtk_label_new("Joueur 1 : ");
@@ -57,7 +58,7 @@ void CreateGameWindow(MainWindow *pGame){
 
 
 	// Loading de l'image de démarrage
-	pGame->pStartImage = gtk_image_new_from_file("/splashscreen.png");
+	pGame->pStartImage = gtk_image_new_from_file("./splashscreen.png");
 
 	// Barre d'outils
 	pGame->pToolbar = gtk_toolbar_new(olbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_OPEN,"Ouvreau", NULL, G_CALLBACK(OnButtonNewGame), pGame, -1);
@@ -170,7 +171,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	pGame->toggle_color = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxToggle));
 
 	// C'est le joueur 1 qui commence
-	pGame->turn = 1;
+	pGame->turn = 0;
 
 	// On intialise l'entier qui servira de round;
 	pGame->round = 0;
@@ -248,14 +249,13 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		for(i = 0; i < 35; i++) {
 			gtk_widget_destroy(pGame->pBoardSquare[i]->image);
 			pGame->pBoardSquare[i]->piece = 'n';
-			pGame->pBoardSquare[i]->piece = 'n';
 			pGame->pBoardSquare[i]->r_left = 0;
 			pGame->pBoardSquare[i]->r_right = 0;
 			pGame->pBoardSquare[i]->r_top = 0;
 			pGame->pBoardSquare[i]->r_bottom = 0;
 			pGame->pBoardSquare[i]->force = 0;
 			pGame->pBoardSquare[i]->direction = 'n';
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/empty.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./empty.png");
 			gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 		}
 		// On s'occupe des montagnes
@@ -266,7 +266,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pBoardSquare[i]->r_right = 0.9;
 			pGame->pBoardSquare[i]->r_top = 0.9;
 			pGame->pBoardSquare[i]->r_bottom = 0.9;
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/mountain.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./mountain.png");
 			pGame->pBoardSquare[i]->force = 0;
 			pGame->pBoardSquare[i]->direction = 'n';
 			gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
@@ -283,7 +283,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pBoardSquare[i]->r_top = 0;
 			pGame->pBoardSquare[i]->r_bottom = 0;
 			pGame->pBoardSquare[i]->force = 1;
-			pGame->pBoardSquare[i]->direction = 'r';
+			pGame->pBoardSquare[i]->direction = 'n';
 			gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 
 			pGame->pBoardSquare[i]->x = -1; // Signifie que le pion est hors plateau
@@ -300,7 +300,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pBoardSquare[i]->r_top = 0;
 			pGame->pBoardSquare[i]->r_bottom = 0;
 			pGame->pBoardSquare[i]->force = 1;
-			pGame->pBoardSquare[i]->direction = 'l';
+			pGame->pBoardSquare[i]->direction = 'n';
 			gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 
 			pGame->pBoardSquare[i]->y = i-30; // Signifie que le pion est hors plateau
@@ -391,7 +391,7 @@ i<5; i++)
 		pGame->pBoardSquare[i]->r_bottom = 0;
 		pGame->pBoardSquare[i]->force = 0;
 		pGame->pBoardSquare[i]->direction = 'n';
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/empty.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./empty.png");
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 	}
 
@@ -452,7 +452,7 @@ i<5; i++)
 		pGame->pBoardSquare[i]->r_right = 0.9;
 		pGame->pBoardSquare[i]->r_top = 0.9;
 		pGame->pBoardSquare[i]->r_bottom = 0.9;
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/mountain.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./mountain.png");
 		pGame->pBoardSquare[i]->force = 0;
 		pGame->pBoardSquare[i]->direction = 'n';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
