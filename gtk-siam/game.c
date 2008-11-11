@@ -242,6 +242,8 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
                                 pPopup = gtk_window_new(GTK_WINDOW_POPUP);
                                 gtk_window_set_position(GTK_WINDOW(pPopup), GTK_WIN_POS_MOUSE);
                                 gtk_window_set_opacity(GTK_WINDOW(pPopup), 0.90);
+                                gtk_window_set_modal(GTK_WINDOW(pPopup), TRUE);
+                                gtk_window_set_transient_for(GTK_WINDOW(pPopup), GTK_WINDOW(pGame->pWindow));
                                 gtk_container_set_border_width(GTK_CONTAINER(pPopup), 6);
                                 gdk_display_get_pointer (display, NULL, &x, &y, NULL);
 
@@ -1853,4 +1855,4 @@ void OnFocusLost (GtkWidget* pPopup) {
 	printf("On Focus Marche \n");
 	gtk_widget_destroy(pPopup);
 }
-	
+
