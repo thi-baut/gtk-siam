@@ -354,9 +354,9 @@ void OnGameRules(GtkWidget *pMenuItem, MainWindow *pGame) {
 	GtkWidget *pImage[3];
 	GtkWidget *pVBox;
 
-	pImage[0] = gtk_image_new_from_file("./regle1.png");
-	pImage[1] = gtk_image_new_from_file("./regle2.png");
-	pImage[2] = gtk_image_new_from_file("./regle3.png");
+	pImage[0] = gtk_image_new_from_file("/regle1.png");
+	pImage[1] = gtk_image_new_from_file("/regle2.png");
+	pImage[2] = gtk_image_new_from_file("/regle3.png");
 
 	pWindowAbout = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_default_size(GTK_WINDOW(pWindowAbout), 580, 850);

@@ -298,9 +298,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->r_bottom = 0;
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
-
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 
@@ -327,13 +325,12 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->r_bottom = 0;
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
-
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													OnWin(NULL, pGame);
 													break;
 												default:
@@ -360,7 +357,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 										pGame->pBoardSquare[i-5]->r_bottom = pGame->pBoardSquare[i]->r_bottom;
 										pGame->pBoardSquare[i-5]->force = pGame->pBoardSquare[i]->force;
 										pGame->pBoardSquare[i-5]->direction = pGame->pBoardSquare[i]->direction;
-										printf("\nPion %d est un %c dans le sens %c aux coordonnées %d, %d\n", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->direction, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
+										gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 										RefreshDisplay(pGame, i-5);
 
 										}
@@ -446,9 +443,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->r_bottom = 0;
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
-
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 
@@ -475,9 +470,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->r_bottom = 0;
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
-
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 												case 'm':
@@ -505,7 +498,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 											pGame->pBoardSquare[i]->r_bottom = pGame->pBoardSquare[i-5]->r_bottom;
 											pGame->pBoardSquare[i]->force = pGame->pBoardSquare[i-5]->force;
 											pGame->pBoardSquare[i]->direction = pGame->pBoardSquare[i-5]->direction;
-											printf("\nPion %d est un %c dans le sens %c aux coordonnées %d, %d\n", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->direction, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
+											gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 											RefreshDisplay(pGame, i);
 										}
 
@@ -592,8 +585,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 
@@ -620,9 +612,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->r_bottom = 0;
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
-
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 												case 'm':
@@ -635,6 +625,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->r_bottom = 0;
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, i);
 													break;
 												default:
@@ -659,7 +650,8 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 										pGame->pBoardSquare[i]->r_bottom = pGame->pBoardSquare[i-1]->r_bottom;
 										pGame->pBoardSquare[i]->force = pGame->pBoardSquare[i-1]->force;
 										pGame->pBoardSquare[i]->direction = pGame->pBoardSquare[i-1]->direction;
-										printf("\nPi-1on %d est un %c dans le sens %c aux coordonnées %d, %d\n", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->direction, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
+										gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
+
 										RefreshDisplay(pGame, i);
 
 										}
@@ -749,8 +741,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 
@@ -778,8 +769,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 												case 'm':
@@ -792,6 +782,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->r_bottom = 0;
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, i);
 													break;
 												default:
@@ -905,8 +896,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 
@@ -934,12 +924,12 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 												case 'm':
 													// Si c'est ça, le joueur X a gagné
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													OnWin(NULL, pGame);
 													break;
 												default:
@@ -966,7 +956,8 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 										pGame->pBoardSquare[i-5]->r_bottom = pGame->pBoardSquare[i]->r_bottom;
 										pGame->pBoardSquare[i-5]->force = pGame->pBoardSquare[i]->force;
 										pGame->pBoardSquare[i-5]->direction = pGame->pBoardSquare[i]->direction;
-										printf("\nPion %d est un %c dans le sens %c aux coordonnées %d, %d\n", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->direction, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
+
+										gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");	
 										RefreshDisplay(pGame, i-5);
 
 										}
@@ -1053,8 +1044,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 
@@ -1082,12 +1072,12 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 												case 'm':
-													// Si c'est ça, le joueur X a gagné
+													// Si c'est ça, le joueur X a gagné`
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													OnWin(NULL, pGame);
 													break;
 												default:
@@ -1111,7 +1101,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 											pGame->pBoardSquare[i]->r_bottom = pGame->pBoardSquare[i-5]->r_bottom;
 											pGame->pBoardSquare[i]->force = pGame->pBoardSquare[i-5]->force;
 											pGame->pBoardSquare[i]->direction = pGame->pBoardSquare[i-5]->direction;
-											printf("\nPion %d est un %c dans le sens %c aux coordonnées %d, %d\n", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->direction, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
+											gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 											RefreshDisplay(pGame, i);
 										}
 
@@ -1198,8 +1188,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 
@@ -1227,8 +1216,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 												case 'm':
@@ -1241,6 +1229,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->r_bottom = 0;
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, i);
 													break;
 												default:
@@ -1265,7 +1254,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 										pGame->pBoardSquare[i]->r_bottom = pGame->pBoardSquare[i-1]->r_bottom;
 										pGame->pBoardSquare[i]->force = pGame->pBoardSquare[i-1]->force;
 										pGame->pBoardSquare[i]->direction = pGame->pBoardSquare[i-1]->direction;
-										printf("\nPi-1on %d est un %c dans le sens %c aux coordonnées %d, %d\n", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->direction, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
+										gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 										RefreshDisplay(pGame, i);
 
 										}
@@ -1355,8 +1344,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 
@@ -1384,8 +1372,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
 
-													printf("\n1) Pion %d est un %c aux coordonnées %d, %d", i, pGame->pBoardSquare[i]->piece, pGame->pBoardSquare[i]->x, pGame->pBoardSquare[i]->y);
-													printf("\n2) Pion %d est un %c aux coordonnées %d, %d\n", c, pGame->pBoardSquare[c]->piece, pGame->pBoardSquare[c]->x, pGame->pBoardSquare[c]->y);
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, c);
 													break;
 												case 'm':
@@ -1398,6 +1385,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 													pGame->pBoardSquare[i]->r_bottom = 0;
 													pGame->pBoardSquare[i]->force = 0;
 													pGame->pBoardSquare[i]->direction = 'n';
+													gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 													RefreshDisplay(pGame, i);
 													break;
 												default:
@@ -1423,7 +1411,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 										pGame->pBoardSquare[i-1]->r_bottom = pGame->pBoardSquare[i]->r_bottom;
 										pGame->pBoardSquare[i-1]->force = pGame->pBoardSquare[i]->force;
 										pGame->pBoardSquare[i-1]->direction = pGame->pBoardSquare[i]->direction;
-										printf("\nPion %d est un %c dans le sens %c aux coordonnées %d, %d\n", i-1, pGame->pBoardSquare[i-1]->piece, pGame->pBoardSquare[i-1]->direction, pGame->pBoardSquare[i-1]->x, pGame->pBoardSquare[i-1]->y);
+										gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Poussée réussie !");
 										RefreshDisplay(pGame, i-1);
 
 										}
@@ -1490,68 +1478,68 @@ void RefreshDisplay(MainWindow *pGame, gint number) {
 					gtk_image_clear(GTK_IMAGE(pGame->pBoardSquare[number]->image));
 					gtk_widget_destroy(pGame->pBoardSquare[number]->image);
 				case 'e':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./elephant.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/elephant.png");
 					break;
 				case 'r':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./rhino.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/rhino.png");
 					break;
 				default:
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./empty.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/empty.png");
 					break;
 			}
 			break;
 		case 'b':
 			switch(pGame->pBoardSquare[number]->piece) {
 				case 'e':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./elephant-b.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/elephant-b.png");
 					break;
 				case 'r':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./rhino-b.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/rhino-b.png");
 					break;
 				default:
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./empty.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/empty.png");
 					break;
 			}
 			break;
 		case 'l':
 			switch(pGame->pBoardSquare[number]->piece) {
 				case 'e':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./elephant-l.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/elephant-l.png");
 					break;
 				case 'r':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./rhino-l.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/rhino-l.png");
 					break;
 				default:
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./empty.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/empty.png");
 					break;
 			}
 			break;
 		case 'r':
 			switch(pGame->pBoardSquare[number]->piece) {
 				case 'e':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./elephant-r.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/elephant-r.png");
 					break;
 				case 'r':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./rhino-r.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/rhino-r.png");
 					break;
 				default:
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./empty.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/empty.png");
 					break;
 			}
 			break;
 		default:
 			switch(pGame->pBoardSquare[number]->piece) {
 				case 'e':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./elephant-r.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/elephant-r.png");
 					break;
 				case 'r':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./rhino-r.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/rhino-r.png");
 					break;
 				case 'm':
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./mountain.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/mountain.png");
 					break;
 				default:
-					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("./empty.png");
+					pGame->pBoardSquare[number]->image = gtk_image_new_from_file("/empty.png");
 					break;
 			}
 			break;
@@ -1583,7 +1571,7 @@ void OnWin(GtkWidget *pMenuItem, MainWindow *pGame) {
 	pButtonExit = gtk_button_new_with_label("Quitter");
 
 	// Image
-	pImage = gtk_image_new_from_file("./win.png");
+	pImage = gtk_image_new_from_file("/win.png");
 
 	if(pGame->turn %2 == 0) {
 		sprintf(temp, "Bien joué %s, vous avez gagné !", gtk_label_get_text(GTK_LABEL(pGame->pPlayerLabel[1])));

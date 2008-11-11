@@ -58,7 +58,7 @@ void CreateGameWindow(MainWindow *pGame){
 #endif
 
 	// Loading de l'image de démarrage
-	pGame->pStartImage = gtk_image_new_from_file("./splashscreen.png");
+	pGame->pStartImage = gtk_image_new_from_file("/splashscreen.png");
 
 	// Barre d'outils
 	pGame->pToolbar = gtk_toolbar_new(olbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_OPEN,"Ouvreau", NULL, G_CALLBACK(OnButtonNewGame), pGame, -1);
@@ -262,7 +262,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pBoardSquare[i]->r_bottom = 0;
 			pGame->pBoardSquare[i]->force = 0;
 			pGame->pBoardSquare[i]->direction = 'n';
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./empty.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/empty.png");
 			gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 		}
 		// On s'occupe des montagnes
@@ -273,7 +273,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pBoardSquare[i]->r_right = 0.9;
 			pGame->pBoardSquare[i]->r_top = 0.9;
 			pGame->pBoardSquare[i]->r_bottom = 0.9;
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./mountain.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/mountain.png");
 			pGame->pBoardSquare[i]->force = 0;
 			pGame->pBoardSquare[i]->direction = 'n';
 			gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
@@ -283,7 +283,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		// Éléphants
 		for(i = 25; i < 30; i++) {
 			gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./elephant-r.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/elephant-r.png");
 			pGame->pBoardSquare[i]->piece = 'e';
 			pGame->pBoardSquare[i]->r_left = 0;
 			pGame->pBoardSquare[i]->r_right = 1; // A 1 car le pion est en r au début
@@ -300,7 +300,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		// Rhinocéros
 		for(i = 30; i < 35; i++) {
 			gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./rhino-l.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/rhino-l.png");
 			pGame->pBoardSquare[i]->piece = 'r';
 			pGame->pBoardSquare[i]->r_left = 1; // A 1 voir au dessus
 			pGame->pBoardSquare[i]->r_right = 0;
@@ -398,7 +398,7 @@ i<5; i++)
 		pGame->pBoardSquare[i]->r_bottom = 0;
 		pGame->pBoardSquare[i]->force = 0;
 		pGame->pBoardSquare[i]->direction = 'n';
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./empty.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/empty.png");
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 	}
 
@@ -459,7 +459,7 @@ i<5; i++)
 		pGame->pBoardSquare[i]->r_right = 0.9;
 		pGame->pBoardSquare[i]->r_top = 0.9;
 		pGame->pBoardSquare[i]->r_bottom = 0.9;
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./mountain.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/mountain.png");
 		pGame->pBoardSquare[i]->force = 0;
 		pGame->pBoardSquare[i]->direction = 'n';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
@@ -469,7 +469,7 @@ i<5; i++)
 	// Éléphants
 	for(i = 25; i < 30; i++) {
 		gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./elephant-r.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/elephant-r.png");
 		pGame->pBoardSquare[i]->piece = 'e';
 		pGame->pBoardSquare[i]->r_left = 0;
 		pGame->pBoardSquare[i]->r_right = 1; // A 1 car le pion est en r au début
@@ -487,7 +487,7 @@ i<5; i++)
 	// Rhinocéros
 	for(i = 30; i < 35; i++) {
 		gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./rhino-l.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/rhino-l.png");
 		pGame->pBoardSquare[i]->piece = 'r';
 		pGame->pBoardSquare[i]->r_left = 1; // A 1 voir au dessus
 		pGame->pBoardSquare[i]->r_right = 0;
