@@ -47,11 +47,11 @@ typedef struct _Button Button;
 
 // Structure principale
 struct _MainWindow {
-	
+
 	/* Boutons */
 	Button *pBoardSquare[35];
 	Button *pTempButton;
-	
+
 	/* Fenêtre principale */
 	GtkWidget *pWindow;
 	GtkWidget *pStartImage;
@@ -62,16 +62,16 @@ struct _MainWindow {
 	GtkWidget *pHBox;
 	GtkWidget *pVBox[2];
 	GtkWidget *pTable;
-	
+
 	/* Fenêtre "Nouvelle partie" */
 	GtkWidget *pNewGameWindow;
-	
+
 	GtkWidget *pComboBoxTimer;
 	GtkWidget *pComboBoxCPU;
 	GtkWidget *pComboBoxAnimal;
 	GtkWidget *pComboBoxToggle;
 	GtkWidget *pNewGameEntry[2];
-	
+
 	/* Fenêtre "Victoire" */
 	GtkWidget *pVictoryWindow;
 
@@ -82,12 +82,12 @@ struct _MainWindow {
 	gboolean toggle_color; // Surlignage activé ou non
 	gboolean first_init; // Permet de savoir si c'est le jeu a déjà été chargé
 	const gchar* player_name[2]; // Noms des joueurs
-	
+
 	gint chrono; // Valeur du chronomètre
 	gint round; // Pour savoir dans quel étape on est (origine ou cible)
 	gint turn; // Pour savoir qui doit joueur
 	gint number; // Permet la copie temporaire de la case d'origine - sert au menu de rotation
-	
+
 #ifndef WIN32
 	// Couleurs des widgets
 	GdkColor black;

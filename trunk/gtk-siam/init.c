@@ -14,12 +14,13 @@ void CreateGameWindow(MainWindow *pGame){
 	// Allocation des variables (temporaires)
 	int i;
 	gchar *temp;
-	
+
 	// Tous les widgets temporaires : il n'est pas nécessaire qu'ils soient dans le structure pGame !!!
 	GtkWidget *pMenuBar;
 	GtkWidget *pMenu;
 	GtkWidget *pMenuItem;
 	GtkWidget *pVBox;
+	GtkWidget *pMenuImage[3];
 
 	// Allocation dynamique de la structure "Bouton temporaire"
 	temp = (gchar *) malloc(3*sizeof(gchar));
@@ -31,7 +32,7 @@ void CreateGameWindow(MainWindow *pGame){
 
 	// On initialise la variable qui sera incrémentée chrono
 	pGame->chrono = -1;
-	
+
 	// On prépare cette variable pour dire que le programme vient de démmarrer
 	pGame->first_init = TRUE= 0;
 	
@@ -39,9 +40,7 @@ void CreateGameWindow(MainWindow *pGame){
 	pGame->pWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(pGame->pWindow), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(pGame->pWindow), "GTK Siam - Plateau");
-	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindo8, 1000, 80);
-	
-	g_signal_connect(pGame->pWindow, "destroy", G_CALLBACK (OnQuitBtn), pGame);
+	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindo8, 1000, 80me);
 
 	// Labels
 	pGame->pLabel[0] = gtk_label_new("Nom du jo1 : ");
@@ -58,9 +57,9 @@ void CreateGameWindow(MainWindow *pGame){
 	gdk_color_parse("#392B20", &pGame->brown);
 	gdk_color_parse("#2E2E2E", &pD0D0D0", &pGame->grey);
 #endif
-	
+
 	// Loading de l'image de démarrage
-	pGame->pStartImage = gtk_image_new_from_file("/splashscreen.png");
+	pGame->pStartImage = gtk_image_new_from_file("./splashscreen.png");
 
 	// Barre d'outils
 	pGame->pToolbar = gtk_toolbar_new(olbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_OPEN,"Ouvreau", NULL, G_CALLBACK(OnButtonNewGame), pGame, -1);
@@ -99,12 +98,15 @@ pGame_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregi
 
 	// Second sous-menu
     pMenu = gtk_menu_new();
-	
-	pMenuItem = gtk_menu_item_new_with_label("Passer son tour");
-	g_signal_connect(G_OBJECT(pMenuItem), "activate", G_CALLBACK(OnSkipTurn), (MainWindow*) pGame);
-    gtk_menu_shell_append(GTK_MENU_SHELL(pMenu), pMenuItem);
-	
-    pMenuItem = gtk_menu_item_new_with_label("Déclarer forfait");
+
+	pMenuImage[1] = gtk_image_new_from_stock(GTK_STOCK_GOTO_LAST, GTK_ICON_SIZE_MENU);
+	pMenuItem = gtk_image_menu_item_new_with_label("Passer son tour");
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(pMenuItem), pMenuImage[1]);
+	g_signal_connect(G_OBJECT(uItem), "activate", G_CALLBACK(OnButtSkipTurn), (MainWindow*) pGame);     gtk_menu_shell_append(GTK_MENU_SHELL(pMenu), pMenuItem);
+
+    pMenuImage[2] = gtk_image_new_from_stock(GTK_STOCK_STOP, GTK_ICON_SIZE_MENU);
+	pMenuItem = gtk_image_menu_item_new_with_label("Déclarer forfait");
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(pMenuItem), pMenuImage[2]);
     g_signal_connect(G_OBJECT(pMenuItem), "activate", G_CALLBACK(OnButtonWithDrawal), (MainWindow*) pGame);     gtk_menu_shell_append(GTK_MENU_SHELL(pMenu), pMenuItem);
 
 	pMenuItem = gtk_menu_item_new_with_label("Action");
@@ -114,11 +116,13 @@ pGame_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregi
     // Troisième sous-menu
     pMenu = gtk_menu_new();
 
-	pMenuItem = gtk_menu_item_new_with_label("À propos de...");
+	pMenuItem = gtk_image_menu_item_new_from_stock(GTK_STOCK_ABOUT, NULL);
     g_signal_connect(G_OBJECT(e->pMenuItem), "activate", G_CALLBACK(OnAbout), (MainWindow*) pGame);
     gtk_menu_shell_append(GTK_MENU_SHELMenu), pMenuItem);
-	
-	e->pMenuItem = gtk_menu_item_new_with_label("Règles du jeu");
+
+    pMenuImage[0] = gtk_image_new_from_stock(GTK_STOCK_DND, GTK_ICON_SIZE_MENU);
+	pMenuItem = gtk_image_menu_item_new_with_label("Règles du jeu");
+	gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(pMenuItem), pMenuImage[0]eu");
     g_signal_connect(G_OBJEC->pMenuItem), "activate", G_CALLBACK(OnGameRules), (MainWindow*) pGame);
     gtk_menu_shell_append(GTK_MENU_SHELMenu), pMenuItem);
 
@@ -135,7 +139,7 @@ pGame_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregi
 	// HBox
 	pGame->pHBox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pStartImage, TRUE, TRUE, 0);
-	
+
 	// VBox
 	pVBox = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(pVBox), pMenuBar, FALSE, FALSE, 0);
@@ -148,31 +152,31 @@ pGame_toolbar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_SAVE, "Enregi
 }
 
 void InitGame(GtkWidget *pButton, MainWindow *pGame) {
-	
+
 	// Variables
 	gchar temp[60];
 	gchar temp2[60];
 	gint i;
-	
+
 	// Widgets temporaires
 	GtkWidget *pSeparator[2];
 	GtkWidget *pVBox[2];
-	
+
 	// On enregistre les paramètres du chrono
 	pGame->timer = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxTimer));
-	
+
 	// On enregistre le type de partie (J vs. CPU ou J vs. J)
 	pGame->mode = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxCPU));
-	
+
 	// On enregistre le choix du joueur concernant les pions
 	pGame->toggle_color = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxToggle));
-	
+
 	// C'est le joueur 1 qui commence
 	pGame->turn = 1;
-	
+
 	// On intialise l'entier qui servira de round;
 	pGame->round = 0;
-	
+
 	// On enregistre le nom du joueur
 	pGame->player_name[0] = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry[0]));
 	strcpy(temp, pGame->player_name[0]);
@@ -180,16 +184,16 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	strcat(temp2, pGame->player_name[0]);
 	gtk_label_set_text(GTK_LABEL(pGame->pPlayerLabel[0]), temp);
 	gtk_label_set_text(GTK_LABEL(pGame->pLabel[3]), temp2);
-	
+
 	pGame->player_name[1] = gtk_entry_get_text(GTK_ENTRY(pGame->pNewGameEntry[1]));
 	strcpy(temp, pGame->player_name[1]);
 	gtk_label_set_text(GTK_LABEL(pGame->pPlayerLabel[1]), temp);
-	
+
 	if(pGame->mode == 0)
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. CPU");
 	else
 		gtk_label_set_text(GTK_LABEL(pGame->pLabel[2]), "Mode : Humain vs. Humain");
-	
+
 	// On (re)démarre le timer
 	if(pGame->timer == TRUE && pGame->chrono != -1) {
 		pGame->chrono = 0;
@@ -201,11 +205,11 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 	}
 
 	if(pGame->first_init == TRUE) {
-		
+
 		// Séparateurs
 		for(i=0;i<2;i++)
 			pSeparator[i] = gtk_vseparator_new();
-		
+
 		// VBox
 		pVBox[0] = gtk_vbox_new(FALSE, 0);
 		pVBox[1] = gtk_vbox_new(FALSE, 0);
@@ -214,13 +218,13 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		gtk_box_pack_start(GTK_BOX(pVBox[0]), pGame->pBoardSquare[27]->button, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(pVBox[0]), pGame->pBoardSquare[28]->button, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(pVBox[0]), pGame->pBoardSquare[29]->button, TRUE, TRUE, 0);
-		
+
 		gtk_box_pack_start(GTK_BOX(pVBox[1]), pGame->pBoardSquare[30]->button, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(pVBox[1]), pGame->pBoardSquare[31]->button, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(pVBox[1]), pGame->pBoardSquare[32]->button, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(pVBox[1]), pGame->pBoardSquare[33]->button, TRUE, TRUE, 0);
 		gtk_box_pack_start(GTK_BOX(pVBox[1]), pGame->pBoardSquare[34]->button, TRUE, TRUE, 0);
-		
+
 		// HBox
 		gtk_container_remove(GTK_CONTAINER(pGame->pHBox), pGame->pStartImage);
 		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pVBox[0], FALSE, FALSE, 0);
@@ -229,7 +233,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pSeparator[1], FALSE, FALSE, 15);
 		gtk_box_pack_end(GTK_BOX(pGame->pHBox), pVBox[1], FALSE, FALSE, 0);
 		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
-		
+
 		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[0], "Nom du joueur 1", "Nom du joueur 1", -1);
 		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pPlayerLabel[0], "Nom du joueur 1", "Nom du joueur 1", -1);
 		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
@@ -245,10 +249,10 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[5], "Tour", "Tour", -1);
 	ar_insert_stock(GTK_TOOLBAR(pGame->pToolbar), GTK_STOCK_OPEN,"OuvrGOTO_LAST, "Passer le tour", NULL, G_CALLBACK(OnSkipTurn), pGame, -1);
 		gtk_widget_show_all(pGame->pWindow);
-		
+
 		pGame->first_init = FALSE;
 	}
-	
+
 	else {
 		for(i = 0; i < 35; i++) {
 			gtk_widget_destroy(pGame->pBoardSquare[i]->image);
@@ -260,7 +264,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pBoardSquare[i]->r_bottom = 0;
 			pGame->pBoardSquare[i]->force = 0;
 			pGame->pBoardSquare[i]->direction = 'n';
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/empty.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./empty.png");
 			gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 		}
 		// On s'occupe des montagnes
@@ -271,17 +275,17 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pBoardSquare[i]->r_right = 0.9;
 			pGame->pBoardSquare[i]->r_top = 0.9;
 			pGame->pBoardSquare[i]->r_bottom = 0.9;
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/mountain.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./mountain.png");
 			pGame->pBoardSquare[i]->force = 0;
 			pGame->pBoardSquare[i]->direction = 'n';
 			gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 		}
-			
+
 		// On enregistre les paramètres des pions hors-jeu
 		// Éléphants
 		for(i = 25; i < 30; i++) {
 			gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/elephant-r.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./elephant-r.png");
 			pGame->pBoardSquare[i]->piece = 'e';
 			pGame->pBoardSquare[i]->r_left = 0;
 			pGame->pBoardSquare[i]->r_right = 1; // A 1 car le pion est en r au début
@@ -290,15 +294,15 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pBoardSquare[i]->force = 1;
 			pGame->pBoardSquare[i]->direction = 'r';
 			gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
-			
+
 			pGame->pBoardSquare[i]->x = -1; // Signifie que le pion est hors plateau
 			pGame->pBoardSquare[i]->y = i-25;
 		}
-			
+
 		// Rhinocéros
 		for(i = 30; i < 35; i++) {
 			gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/rhino-l.png");
+			pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./rhino-l.png");
 			pGame->pBoardSquare[i]->piece = 'r';
 			pGame->pBoardSquare[i]->r_left = 1; // A 1 voir au dessus
 			pGame->pBoardSquare[i]->r_right = 0;
@@ -307,38 +311,38 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 			pGame->pBoardSquare[i]->force = 1;
 			pGame->pBoardSquare[i]->direction = 'l';
 			gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
-	
+
 			pGame->pBoardSquare[i]->y = i-30; // Signifie que le pion est hors plateau
 			pGame->pBoardSquare[i]->x = 5;
 		}
-			
+
 		RefreshDisplay(pGame, i);
 		}
-	
-	
+
+
 	// On modifie le message de la barre d'outils
 	gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 1, "La partie a débuté, c'est à vous de jouer !");
-	
+
 	gtk_widget_destroy(pGame->pNewGameWindow);
 }
 
 void LoadBoard(MainWindow *pGame) {
-	
+
 	// Variables
 	gint i, j, c = -1;
-		
+
 	// Plateau (+ boutons)
 	pGame->pTable = gtk_table_new(5, 5, TRUE);
-		
+
 	for (i=0; i<35; i++)
 		pGame->pBoardSquare[i]->button = gtk_button_new();
-		
+
 	// On applique les callbacks pour tous les boutons
 	if(pGame->first_init == TRUE) {
 		for(i = 0; i < 35; i++) {
 			g_signal_connect(G_OBJECT(pGame->pBoardSquare[i]->button), "clicked", G_CALLBACK(ActionInGame), pGame);
 		}
-		i<5; i++)
+i<5; i++)
 		for (j=0; j<5; j++) {
 			c++;
 			// On enregistre les coordonnées
@@ -347,7 +351,7 @@ void LoadBoard(MainWindow *pGame) {
 			gtk_table_attach(GTK_TABLE(pGame->pTable), pGame->pBoardSquarej, j+1, i, i+1, GTK_EXPAND  | GTK_FILL , GTK_FILL | GTK_EXPAND, 0, 0);
 		}
 	
-	// Charge		
+	// Charge
 	// Numéro des boutons dans le GObject : pas de boucle, comme ça les chaînes sont allouées automatiquement :pdata(G_OBJECT(pGame->pBoardButton[0]->buttSquare[0]->button), "number", "0");
 	g_object_set_data(G_OBJECT(pGame->pBoardSquare[1]->button), "number", "1");
 	g_object_set_data(G_OBJECT(pGame->pBoardSquare[2]->button), "number", "2");
@@ -373,7 +377,7 @@ void LoadBoard(MainWindow *pGame) {
 	g_object_set_data(G_OBJECT(pGame->pBoardSquare[22]->button), "number", "22");
 	g_object_set_data(G_OBJECT(pGame->pBoardSquare[23]->button), "number", "23");
 	g_object_set_data(G_OBJECT(pGame->pBoardSquare[24]->button), "number", "24");
-	
+
 	g_object_set_data(G_OBJECT(pGame->pBoardSquare[25]->button), "number", "25");
 	g_object_set_data(G_OBJECT(pGame->pBoardSquare "number", "26");
 	g_object_set_data(G_OBJECT(pGame->pBoardButton[27]->buSquare[27]->button), "number", "27");
@@ -384,8 +388,8 @@ void LoadBoard(MainWindow *pGame) {
 	g_object_set_data(G_OBJECT(pGame->pBoardSquare[32]->button), "number", "32");
 	g_object_set_data(G_OBJECT(pGame->pBoardSquare[33]->button), "number", "33");
 	g_object_set_data(G_OBJECT(pGame->pBoardSquare[34]->button), "number", "34");
-	}	
-	
+	}
+
 	// Chargement des pions vide du plateau
 	for(i = 0; i < 35; i++) {
 		pGame->pBoardSquare[i]->piece = 'n';
@@ -396,10 +400,10 @@ void LoadBoard(MainWindow *pGame) {
 		pGame->pBoardSquare[i]->r_bottom = 0;
 		pGame->pBoardSquare[i]->force = 0;
 		pGame->pBoardSquare[i]->direction = 'n';
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/empty.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./empty.png");
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 	}
-	
+
 #ifndef WIN32
 	for( i= 0; i< 25; i++) {
 		// Couleurs des boutons
@@ -432,7 +436,7 @@ void LoadBoard(MainWindow *pGame) {
 				break;
 		}
 	}
-	
+
 	// Couleurs des boutons out
 	for(i = 25; i < 35; i++) {
 		gtk_widget_modify_bg (pGame->pBoardSquare[i]->button, GTK_STATE_NORMAL, &pGame->brown);
@@ -448,7 +452,7 @@ void LoadBoard(MainWindow *pGame) {
 		}
 	}
 #endif
-	
+
 	// On s'occupe des montagnes
 	for(i = 11; i <= 13; i++) {
 		gtk_widget_destroy(pGame->pBoardSquare[i]->image);
@@ -457,17 +461,17 @@ void LoadBoard(MainWindow *pGame) {
 		pGame->pBoardSquare[i]->r_right = 0.9;
 		pGame->pBoardSquare[i]->r_top = 0.9;
 		pGame->pBoardSquare[i]->r_bottom = 0.9;
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/mountain.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./mountain.png");
 		pGame->pBoardSquare[i]->force = 0;
 		pGame->pBoardSquare[i]->direction = 'n';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
 	}
-	
+
 	// On enregistre les paramètres des pions hors-jeu
 	// Éléphants
 	for(i = 25; i < 30; i++) {
 		gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/elephant-r.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./elephant-r.png");
 		pGame->pBoardSquare[i]->piece = 'e';
 		pGame->pBoardSquare[i]->r_left = 0;
 		pGame->pBoardSquare[i]->r_right = 1; // A 1 car le pion est en r au début
@@ -476,16 +480,16 @@ void LoadBoard(MainWindow *pGame) {
 		pGame->pBoardSquare[i]->force = 1;
 		pGame->pBoardSquare[i]->direction = 'r';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
-		
+
 		pGame->pBoardSquare[i]->x = -1; // Signifie que le pion est hors plateau
 		pGame->pBoardSquare[i]->y = i-25;
-		
+
 	}
-	
+
 	// Rhinocéros
 	for(i = 30; i < 35; i++) {
 		gtk_widget_destroy(pGame->pBoardSquare[i]->image);
-		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("/rhino-l.png");
+		pGame->pBoardSquare[i]->image = gtk_image_new_from_file("./rhino-l.png");
 		pGame->pBoardSquare[i]->piece = 'r';
 		pGame->pBoardSquare[i]->r_left = 1; // A 1 voir au dessus
 		pGame->pBoardSquare[i]->r_right = 0;
@@ -494,9 +498,9 @@ void LoadBoard(MainWindow *pGame) {
 		pGame->pBoardSquare[i]->force = 1;
 		pGame->pBoardSquare[i]->direction = 'l';
 		gtk_button_set_image(GTK_BUTTON(pGame->pBoardSquare[i]->button), pGame->pBoardSquare[i]->image);
-		
+
 		pGame->pBoardSquare[i]->y = i-30; // Signifie que le pion est hors plateau
 		pGame->pBoardSquare[i]->x = 5;
-		
+
 	}
 }
