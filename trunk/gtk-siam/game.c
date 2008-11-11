@@ -141,6 +141,8 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 							gtk_box_pack_start(GTK_BOX(pVBox), pButton[4], TRUE, TRUE, 0);
 							break;
 					}
+					gtk_window_set_modal(GTK_WINDOW(pPopup), TRUE);
+					gtk_window_set_transient_for(GTK_WINDOW(pPopup), GTK_WINDOW(pGame->pWindow));
 					gtk_container_add(GTK_CONTAINER(pPopup), pVBox);
 					gtk_window_get_default_size(GTK_WINDOW(pPopup), &win_x, &win_y);
 					gtk_window_move(GTK_WINDOW(pPopup), x+win_x/2, y+win_y/2);
@@ -152,7 +154,6 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 					g_signal_connect(G_OBJECT(pButton[2]), "clicked", G_CALLBACK(OnButtonTop), pGame);
 					g_signal_connect(G_OBJECT(pButton[3]), "clicked", G_CALLBACK(OnButtonBottom), pGame);
 					g_signal_connect_swapped(G_OBJECT(pButton[4]), "clicked", G_CALLBACK(gtk_widget_destroy), pPopup);
-
 					gtk_widget_show_all(pPopup);
 				}
 
@@ -1527,7 +1528,6 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				pGame->round = 0;
 
 				break;
-
 			default:
 				break;
 		}
@@ -1821,3 +1821,9 @@ void OnButtonBottom(GtkWidget *pButton, MainWindow *pGame) {
 
 	gtk_widget_destroy(pWindow);
 }
+
+void OnFocusLost (GtkWidget* pPopup) {
+	printf("On Focus Marche \n");
+	gtk_widget_destroy(pPopup);
+}
+	

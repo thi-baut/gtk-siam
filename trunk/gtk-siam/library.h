@@ -130,5 +130,6 @@ void OnButtonBottom(GtkWidget *pButton, MainWindow *pGame) ;
 void OnButtonTop(GtkWidget *pButton, MainWindow *pGame) ;
 void OnButtonRight(GtkWidget *pButton, MainWindow *pGame) ;
 void OnButtonLeft(GtkWidget *pButton, MainWindow *pGame) ;
+void OnFocusLost (GtkWidget* pPopup);
 
 
