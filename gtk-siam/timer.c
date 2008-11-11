@@ -10,7 +10,7 @@
 #include "library.h"
 
 gboolean timeout(MainWindow *pGame) {
-	
+
 	// On incrémente le chrono
 	pGame->chrono++;
 
@@ -18,13 +18,13 @@ gboolean timeout(MainWindow *pGame) {
 	gchar *temp;
 	gchar *temp2;
 	temp = (gchar *) malloc(25*sizeof(gchar));	temp2 = (gchar *) malloc(5*sizeof(gchar));
-	
-	strcpy(temp,"Chronomètre : ");
+
+	strcpy(temp,"Chrono : ");
 	sprintf(temp2, "%02d:%02d", pGame->chrono/60, pGame->chrono%61);
 	strcat(temp, temp2);
-    
+
 	// On modifie le label
 	gtk_label_set_text(GTK_LABEL(pGame->pLabel[1]), temp);
-	
+
     return TRUE; // Ce return permet de dire à GTK qu'il continue à éxécuter la fonction normalement à l'intervalle désiré
 }

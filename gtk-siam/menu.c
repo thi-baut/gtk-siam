@@ -27,17 +27,17 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	gtk_window_set_resizable(GTK_WINDOW(pGame->pNewGameWindow), FALSE);
 
 	// Labels
-	pNewGameLabel[0] = gtk_label_new("Temps limité :");
-	pNewGameLabel[1] = gtk_label_new("Partie :");
+	pNewGameLabel[0] = gtk_label_new("Chronomètre :");
+	pNewGameLabel[1] = gtk_label_new("Type de partie :");
 	pNewGameLabel[2] = gtk_label_new("Nom du joueur 1 :");
 	pNewGameLabel[3] = gtk_label_new("Nom du joueur 2 :");
 	pNewGameLabel[4] = gtk_label_new("Surlignage des boutons :");
 
 	// Zones de saisie
 	pGame->pNewGameEntry[0] = gtk_entry_new_with_max_length(30);
-	gtk_entry_set_text(GTK_ENTRY(pGame->pNewGameEntry[0]), "Joueur_1");
+	gtk_entry_set_text(GTK_ENTRY(pGame->pNewGameEntry[0]), "Barney");
 	pGame->pNewGameEntry[1] = gtk_entry_new_with_max_length(30);
-	gtk_entry_set_text(GTK_ENTRY(pGame->pNewGameEntry[1]), "Joueur_2");
+	gtk_entry_set_text(GTK_ENTRY(pGame->pNewGameEntry[1]), "Ted");
 
 	// Listes déroulantes
 	pGame->pComboBoxTimer = gtk_combo_box_new_text();
@@ -63,12 +63,12 @@ void OnButtonNewGame(GtkWidget *pMenuItem, MainWindow *pGame) {
 	pNewGameHSeparator = gtk_hseparator_new();
 
 	// HBox
-	pNewGameHBox[0] = gtk_hbox_new(FALSE, 10);
-	pNewGameHBox[1] = gtk_hbox_new(FALSE, 10);
-	pNewGameHBox[2] = gtk_hbox_new(FALSE, 10);
-	pNewGameHBox[3] = gtk_hbox_new(FALSE, 10);
-	pNewGameHBox[4] = gtk_hbox_new(FALSE, 10);
-	pNewGameHBox[5] = gtk_hbox_new(FALSE, 10);
+	pNewGameHBox[0] = gtk_hbox_new(TRUE, 10);
+	pNewGameHBox[1] = gtk_hbox_new(TRUE, 10);
+	pNewGameHBox[2] = gtk_hbox_new(TRUE, 10);
+	pNewGameHBox[3] = gtk_hbox_new(TRUE, 10);
+	pNewGameHBox[4] = gtk_hbox_new(TRUE, 10);
+	pNewGameHBox[5] = gtk_hbox_new(TRUE, 10);
 	gtk_box_pack_start(GTK_BOX(pNewGameHBox[0]), pNewGameLabel[0], FALSE, FALSE, 10);
 	gtk_box_pack_start(GTK_BOX(pNewGameHBox[0]), pGame->pComboBoxTimer, TRUE, TRUE, 10);
 
