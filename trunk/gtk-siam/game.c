@@ -164,10 +164,10 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				else if(pGame->pBoardSquare[number]->piece == 'r' && number2 >= 25 && number2 < 30)
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Vous ne pouvez pas aller dans le camp adverse !");
 
-				 else if((number < 25 && ((pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x > 1) || (pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x < -1)) && (number < 25 && (number2 > 5 || number2 < 20))) || NUMBER_CENTER)
+				 else if((number < 25 && number2 < 25 && ((pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x > 1) || (pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x < -1)) && (number < 25 && (number2 > 5 || number2 < 20))) || NUMBER_CENTER)
                     gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement non autorisé !");
 
-                else if((number < 25 && ((pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y > 1) || (pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y < -1))) || NUMBER_CENTER)
+                else if((number < 25 && number2 < 25 && ((pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y > 1) || (pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y < -1))) || NUMBER_CENTER)
                     gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement non autorisé !");
 
 				else if((pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x == 1) && (pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y == 1) && number < 25)
@@ -175,6 +175,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 
 				else if((pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x == 1) && (pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y == -1) && number < 25)
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !");
+
 
 				else if((pGame->pBoardSquare[number2]->x - pGame->pBoardSquare[number]->x == -1) && (pGame->pBoardSquare[number2]->y - pGame->pBoardSquare[number]->y == 1) && number < 25)
 					gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Déplacement en diagonale interdit !");
@@ -190,16 +191,16 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 				else if (pGame->pBoardSquare[number2]->piece == 'n')  {
 
 					// C'est ici que l'on vérifie que le sens du pion est correctement enregistré pour permettre le déplacement
-					if((pGame->pBoardSquare[number]->x - pGame->pBoardSquare[number2]->x > 0) && (pGame->pBoardSquare[number]->direction != 'l') && pGame->pBoardSquare[number]->x != -1 && pGame->pBoardSquare[number]->x != 5)
+					if(number < 25 && number2 < 25 &&(pGame->pBoardSquare[number]->x - pGame->pBoardSquare[number2]->x > 0) && (pGame->pBoardSquare[number]->direction != 'l') && pGame->pBoardSquare[number]->x != -1 && pGame->pBoardSquare[number]->x != 5)
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
 
-					else if((pGame->pBoardSquare[number]->x - pGame->pBoardSquare[number2]->x < 0) && (pGame->pBoardSquare[number]->direction != 'r') && pGame->pBoardSquare[number]->x != -1 && pGame->pBoardSquare[number]->x != 5)
+					else if(number < 25 && number2 < 25 &&(pGame->pBoardSquare[number]->x - pGame->pBoardSquare[number2]->x < 0) && (pGame->pBoardSquare[number]->direction != 'r') && pGame->pBoardSquare[number]->x != -1 && pGame->pBoardSquare[number]->x != 5)
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
 
-					else if((pGame->pBoardSquare[number]->y - pGame->pBoardSquare[number2]->y > 0) && (pGame->pBoardSquare[number]->direction != 't') && pGame->pBoardSquare[number]->x != -1 && pGame->pBoardSquare[number]->x != 5)
+					else if(number < 25 && number2 < 25 &&(pGame->pBoardSquare[number]->y - pGame->pBoardSquare[number2]->y > 0) && (pGame->pBoardSquare[number]->direction != 't') && pGame->pBoardSquare[number]->x != -1 && pGame->pBoardSquare[number]->x != 5)
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
 
-					else if((pGame->pBoardSquare[number]->y - pGame->pBoardSquare[number2]->y < 0) && (pGame->pBoardSquare[number]->direction != 'b') && pGame->pBoardSquare[number]->x != -1 && pGame->pBoardSquare[number]->x != 5)
+					else if(number < 25 && number2 < 25 &&(pGame->pBoardSquare[number]->y - pGame->pBoardSquare[number2]->y < 0) && (pGame->pBoardSquare[number]->direction != 'b') && pGame->pBoardSquare[number]->x != -1 && pGame->pBoardSquare[number]->x != 5)
 						gtk_statusbar_push(GTK_STATUSBAR(pGame->pStatusBar), 0, "Le pion n'est pas correctement orienté pour ce déplacement !");
 
 					else {
@@ -220,6 +221,10 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 						pGame->pBoardSquare[number2]->r_bottom = pGame->pTempButton->r_bottom;
 						pGame->pBoardSquare[number2]->force = pGame->pTempButton->force;
 						pGame->pBoardSquare[number2]->direction = pGame->pTempButton->direction;
+
+						if(number2 >= 25) {
+                            pGame->pBoardSquare[number2]->direction = 'n';
+						}
 
 						// Si le pion vient des cases extérieures, on va l'orienter selon sa case d'arrivée
 						if(number >= 25) {
@@ -574,7 +579,7 @@ void ActionInGame(GtkWidget *pButton, MainWindow *pGame) {
 											}
 										}
 
-										if(i >= 0) {
+										if(i-5 >= 0) {
 											pGame->pBoardSquare[i]->piece = pGame->pBoardSquare[i-5]->piece;
 											pGame->pBoardSquare[i]->r_left = pGame->pBoardSquare[i-5]->r_left;
 											pGame->pBoardSquare[i]->r_right = pGame->pBoardSquare[i-5]->r_right;

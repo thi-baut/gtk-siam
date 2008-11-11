@@ -44,8 +44,8 @@ void CreateGameWindow(MainWindow *pGame){
 	gtk_window_set_resizable(GTK_WINDOW(pGame->pWindow), FALSE);
 
 	// Labels
-	pGame->pLabel[0] = gtk_label_new("Joueur 1 : ");
-	pGame->pLabel[4] = gtk_label_new("Joueur 2 : ");
+	pGame->pLabel[0] = gtk_label_new("Éléphants : ");
+	pGame->pLabel[4] = gtk_label_new("Rhinocéros : ");
 	pGame->pLabel[1] = gtk_label_new("Chrono : désactivseign�	pGame->pLabel[3] = gtk_label_new("Tour de jeu : pas de partie en cours");
 	pGame->pLabel[5] = gtk_label_new("Passer son tour : ");
 	pGame->pPlayerLabel[0] = gtk_label_new("non renseigné");
