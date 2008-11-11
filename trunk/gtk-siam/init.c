@@ -40,13 +40,12 @@ void CreateGameWindow(MainWindow *pGame){
 	pGame->pWindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_position(GTK_WINDOW(pGame->pWindow), GTK_WIN_POS_CENTER);
 	gtk_window_set_title(GTK_WINDOW(pGame->pWindow), "GTK Siam - Plateau");
-	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindo8, 1000, 80me);
+	gtk_window_set_default_size(GTK_WINDOW(pGame->pWindo926, 722);
 
 	// Labels
-	pGame->pLabel[0] = gtk_label_new("Nom du jo1 : ");
-	pGame->pLabel[4] = gtk_label_new("Nom du joueur 2 : igné");
-	pGame->pLabel[1] = gtk_label_new("Chronomètre : désactivé");
-	pGame->pLabel[2] = gtk_label_new("Mode : non renseign�	pGame->pLabel[3] = gtk_label_new("Tour de jeu : pas de partie en cours");
+	pGame->pLabel[0] = gtk_label_new("Joueur 1 : ");
+	pGame->pLabel[4] = gtk_label_new("Joueur 2 : ");
+	pGame->pLabel[1] = gtk_label_new("Chrono : désactivseign�	pGame->pLabel[3] = gtk_label_new("Tour de jeu : pas de partie en cours");
 	pGame->pLabel[5] = gtk_label_new("Passer son tour : ");
 	pGame->pPlayerLabel[0] = gtk_label_new("non renseigné");
 	pGame->pPlayerLabel[1] = gtk_label_new("non renseigné");
@@ -170,6 +169,7 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 
 	// On enregistre le choix du joueur concernant les pions
 	pGame->toggle_color = gtk_combo_box_get_active(GTK_COMBO_BOX(pGame->pComboBoxToggle));
+	printf("Toggle color %d", pGame->toggle_color);
 
 	// C'est le joueur 1 qui commence
 	pGame->turn = 1;
@@ -229,11 +229,11 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		gtk_container_remove(GTK_CONTAINER(pGame->pHBox), pGame->pStartImage);
 		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pVBox[0], FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pSeparator[0], FALSE, FALSE, 15);
-		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pTable, TRUE, TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pGame->pTable, FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pSeparator[1], FALSE, FALSE, 15);
-		gtk_box_pack_end(GTK_BOX(pGame->pHBox), pVBox[1], FALSE, FALSE, 0);
-		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
+		gtk_box_pack_start(GTK_BOX(pGame->pHBox), pVBox[1], FALSE, FALSE, 0);
 
+		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
 		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[0], "Nom du joueur 1", "Nom du joueur 1", -1);
 		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pPlayerLabel[0], "Nom du joueur 1", "Nom du joueur 1", -1);
 		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
@@ -241,8 +241,6 @@ void InitGame(GtkWidget *pButton, MainWindow *pGame) {
 		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pPlayerLabel[1], "Nom du joueur 1", "Nom du joueur 1", -1);
 		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
 		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[1], "Chronomètre", "Chronomètre", -1);
-		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
-		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[2], "Mode", "Mode", -1);
 		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
 		gtk_toolbar_insert_widget(GTK_TOOLBAR(pGame->pToolbar), pGame->pLabel[3], "Tour", "Tour", -1);
 		gtk_toolbar_append_space(GTK_TOOLBAR(pGame->pToolbar));
